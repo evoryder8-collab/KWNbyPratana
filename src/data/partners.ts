@@ -3,7 +3,7 @@
  *
  * IMPORTANT brand rule: Suriya Spa is an official partner location, not the
  * KWIIN brand and not "Pratana's spa". Keep every mention here subtle and
- * secondary — never in a hero headline, portal title, nav label, logo area,
+ * secondary, never in a hero headline, portal title, nav label, logo area,
  * or primary CTA. See LocationNote.astro and PartnerStrip.astro for where
  * this copy is rendered.
  */

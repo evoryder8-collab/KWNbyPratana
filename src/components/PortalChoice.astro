@@ -1,7 +1,7 @@
 ---
 /**
  * Cinematic split-screen portal for the homepage. Two equally-weighted
- * choice cards — KWIIN Signature Experience and Mobile Spa — react to the
+ * choice cards (KWIIN Signature Experience and Mobile Spa) react to the
  * cursor with a subtle 3D perspective tilt, layered parallax depth, a moving
  * specular sheen, and a gold edge-light that breathes near the pointer.
  *
@@ -23,7 +23,7 @@ const panels = [
     title: "KWIIN Signature Experience",
     description: "Champion-level Thai massage in a calm, dedicated studio setting.",
     side: "left" as const,
-    // A fixed location pin — Studio is a single, dedicated home base.
+    // A fixed location pin. Studio is a single, dedicated home base.
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8"><path d="M12 21s7-7.58 7-12a7 7 0 1 0-14 0c0 4.42 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>`,
   },
   {
@@ -32,7 +32,7 @@ const panels = [
     title: "KWIIN Mobile Spa",
     description: "Luxury Thai massage brought to your home, office, or hotel.",
     side: "right" as const,
-    // A car travelling toward a house — the experience comes to the client.
+    // A car travelling toward a house. The experience comes to the client.
     icon: `<svg viewBox="0 0 64 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-14"><path d="M3 22h3l2-5a2 2 0 0 1 1.8-1.2h6.4A2 2 0 0 1 18 17l2 5h3"/><path d="M3 22h20"/><circle cx="9" cy="23.5" r="1.8"/><circle cx="17" cy="23.5" r="1.8"/><path d="M28 18h4M28 22h6M28 26h4"/><path d="M42 18 50 11 58 18"/><path d="M44.5 18v9h11v-9"/><path d="M48 27v-5h4v5"/></svg>`,
   },
 ];
@@ -46,7 +46,7 @@ const panels = [
         class="kwiin-portal-panel group relative flex min-h-[44vh] flex-col items-center justify-center gap-4 overflow-hidden rounded-3xl border border-white/5 px-8 py-16 text-center md:min-h-[70vh]"
         data-side={panel.side}
         data-tilt
-        aria-label={`${panel.title} — ${panel.description}`}
+        aria-label={`${panel.title}. ${panel.description}`}
       >
         <span
           class="kwiin-portal-bg pointer-events-none absolute inset-0 bg-gradient-to-br from-kwiin-charcoal via-kwiin-black to-kwiin-black"
@@ -204,7 +204,7 @@ const panels = [
       if (card.dataset.tiltBound === "true") return;
       card.dataset.tiltBound = "true";
 
-      const MAX = 7; // degrees — "slight" by design
+      const MAX = 7; // degrees, "slight" by design
       const layers = Array.from(
         card.querySelectorAll<HTMLElement>("[data-depth]")
       );

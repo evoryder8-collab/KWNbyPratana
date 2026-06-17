@@ -19,9 +19,9 @@ import { WHATSAPP_MESSAGES } from "../utils/whatsapp";
 import { brandLine } from "../data/contact";
 import { withBase } from "../utils/base";
 
-const title = "About Pratana Halstrick — Founder of KWIIN";
+const title = "About Pratana Halstrick | Founder of KWIIN";
 const description =
-  "Meet Pratana Halstrick, founder of KWIIN — born in Bangkok, raised between Germany and Switzerland, and an award-winning Thai massage therapist.";
+  "Meet Pratana Halstrick, founder of KWIIN, born in Bangkok, raised between Germany and Switzerland, and an award-winning Thai massage therapist.";
 ---
 
 <BaseLayout title={title} description={description}>
@@ -35,13 +35,13 @@ const description =
           <h1 class="mt-4 font-display text-4xl text-kwiin-ivory sm:text-5xl">Pratana Halstrick</h1>
           <p class="mt-6 text-base leading-relaxed text-kwiin-soft-grey">
             Pratana's path into massage began at home. Born in Bangkok on October 1, 1990 and
-            raised between Thailand and Germany, she discovered her gift as a teenager — first
+            raised between Thailand and Germany, she discovered her gift as a teenager, first
             massaging her mother, then slowly realizing that her hands carried something rare: a
             natural sense for pressure, rhythm, and the body's need to release tension.
           </p>
           <p class="mt-4 text-base leading-relaxed text-kwiin-soft-grey">
             Years later, after building her craft across Germany and Switzerland, Pratana created
-            KWIIN — her personal brand built on discipline, tradition, and a refined sense of
+            KWIIN, her personal brand built on discipline, tradition, and a refined sense of
             luxury. Today, based in Switzerland, she welcomes clients in Dübendorf and travels to
             them through KWIIN Mobile Spa, bringing championship-level Thai massage to every
             session.
@@ -52,12 +52,18 @@ const description =
         </SectionReveal>
 
         <SectionReveal class="kwiin-card flex min-h-[22rem] items-center justify-center rounded-3xl p-8">
-          <img
-            src={withBase("/assets/pratana-portrait.png")}
-            alt="Pratana Halstrick, founder of KWIIN"
-            class="max-h-[28rem] w-auto object-contain"
-            loading="eager"
-          />
+          <picture class="flex items-center justify-center">
+            <source
+              srcset={withBase("/assets/Pratana%20Portrait%20transparent%20optimised.webp")}
+              type="image/webp"
+            />
+            <img
+              src={withBase("/assets/pratana-portrait.png")}
+              alt="Pratana Halstrick, founder of KWIIN"
+              class="max-h-[28rem] w-auto object-contain"
+              loading="eager"
+            />
+          </picture>
         </SectionReveal>
       </div>
     </section>

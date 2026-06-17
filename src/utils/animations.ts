@@ -6,7 +6,7 @@
  *
  * Everything here is a no-op (or safely skipped) when the user has
  * prefers-reduced-motion enabled, and never hides content that JS fails
- * to reach — initial opacity is only ever set right before animating in.
+ * to reach. Initial opacity is only ever set right before animating in.
  */
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";

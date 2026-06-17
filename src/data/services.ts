@@ -1,5 +1,5 @@
 /**
- * KWIIN service menu — final CHF pricing.
+ * KWIIN service menu, final CHF pricing.
  * Edit this file to update services, prices, or WhatsApp inquiry text.
  * No EUR. No strikethrough/discount pricing unless explicitly requested.
  */
@@ -30,7 +30,7 @@ export const services: Service[] = [
     category: "Signature",
     tagline: "Royal. Powerful. Deeply effective.",
     description:
-      "The KWIIN Massage is Pratana's signature treatment — an artful combination of traditional Thai massage, flowing stretches, and focused pressure-point work. Designed for clients who want something exceptional, it helps release deep tension, restore movement, and bring body and mind into a more balanced state.",
+      "The KWIIN Massage is Pratana's signature treatment, an artful combination of traditional Thai massage, flowing stretches, and focused pressure-point work. Designed for clients who want something exceptional, it helps release deep tension, restore movement, and bring body and mind into a more balanced state.",
     durations: [
       { minutes: 60, priceChf: 165 },
       { minutes: 90, priceChf: 240 },

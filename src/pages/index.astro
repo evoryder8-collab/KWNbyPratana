@@ -6,7 +6,7 @@ import PartnerStrip from "../components/PartnerStrip.astro";
 import HeroAura from "../components/HeroAura";
 import { withBase } from "../utils/base";
 
-const title = "KWIIN by Pratana Halstrick — Luxury Thai Massage in Switzerland";
+const title = "KWIIN by Pratana Halstrick | Luxury Thai Massage in Switzerland";
 const description =
   "KWIIN by Pratana Halstrick offers champion-level Thai massage in Dübendorf and Mobile Spa appointments across the Zürich region. Book via WhatsApp.";
 ---
@@ -29,13 +29,19 @@ const description =
         <div class="kwiin-portrait-stage relative mx-auto mt-4 flex w-full max-w-md justify-center sm:max-w-lg">
           <span class="kwiin-aura" aria-hidden="true"></span>
           <span class="kwiin-aura-ground" aria-hidden="true"></span>
-          <img
-            src={withBase("/assets/pratana-portrait.png")}
-            alt="Pratana Halstrick, founder of KWIIN"
-            class="kwiin-portrait relative z-10 w-auto"
-            decoding="async"
-            fetchpriority="high"
-          />
+          <picture class="relative z-10 flex justify-center">
+            <source
+              srcset={withBase("/assets/Pratana%20Portrait%20transparent%20optimised.webp")}
+              type="image/webp"
+            />
+            <img
+              src={withBase("/assets/pratana-portrait.png")}
+              alt="Pratana Halstrick, founder of KWIIN"
+              class="kwiin-portrait w-auto"
+              decoding="async"
+              fetchpriority="high"
+            />
+          </picture>
         </div>
 
         <p class="mx-auto -mt-2 max-w-xl text-center font-display text-lg italic text-kwiin-gold-bright/90 sm:text-xl">
@@ -47,7 +53,7 @@ const description =
         </div>
 
         <p class="mx-auto mt-10 max-w-xl text-center text-sm leading-relaxed text-kwiin-soft-grey">
-          Two ways to experience KWIIN — a dedicated studio setting in Dübendorf, or Pratana's
+          Two ways to experience KWIIN: a dedicated studio setting in Dübendorf, or Pratana's
           luxury Thai massage brought directly to your space.
         </p>
       </div>
