@@ -14,6 +14,8 @@ const panels = [
     title: "KWIIN Signature Experience",
     description: "Champion-level Thai massage in a calm, dedicated studio setting.",
     side: "left" as const,
+    // A fixed location pin — Studio is a single, dedicated home base.
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8"><path d="M12 21s7-7.58 7-12a7 7 0 1 0-14 0c0 4.42 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>`,
   },
   {
     href: "/mobile-spa",
@@ -21,6 +23,8 @@ const panels = [
     title: "KWIIN Mobile Spa",
     description: "Luxury Thai massage brought to your home, office, or hotel.",
     side: "right" as const,
+    // A car travelling toward a house — the experience comes to the client.
+    icon: `<svg viewBox="0 0 64 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-14"><path d="M3 22h3l2-5a2 2 0 0 1 1.8-1.2h6.4A2 2 0 0 1 18 17l2 5h3"/><path d="M3 22h20"/><circle cx="9" cy="23.5" r="1.8"/><circle cx="17" cy="23.5" r="1.8"/><path d="M28 18h4M28 22h6M28 26h4"/><path d="M42 18 50 11 58 18"/><path d="M44.5 18v9h11v-9"/><path d="M48 27v-5h4v5"/></svg>`,
   },
 ];
 ---
@@ -46,6 +50,10 @@ const panels = [
           aria-hidden="true"
         />
 
+        <span
+          class="relative z-10 flex h-9 items-center justify-center text-kwiin-gold-bright"
+          set:html={panel.icon}
+        />
         <p class="relative z-10 text-xs uppercase tracking-[0.2em] text-kwiin-gold-bright/80">
           {panel.eyebrow}
         </p>
@@ -68,10 +76,10 @@ const panels = [
   }
 
   <div
-    class="pointer-events-none absolute left-1/2 top-1/2 z-20 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1 px-4 text-center"
+    class="pointer-events-none absolute left-1/2 top-5 z-20 -translate-x-1/2 whitespace-nowrap rounded-full border border-white/10 bg-kwiin-black/70 px-4 py-1.5 text-center backdrop-blur-sm sm:top-6"
     aria-hidden="true"
   >
-    <span class="font-display text-2xl tracking-wide text-kwiin-ivory drop-shadow-lg sm:text-3xl">
+    <span class="font-display text-sm tracking-wide text-kwiin-ivory sm:text-base">
       KWIIN <span aria-hidden="true">🪷</span> <span class="text-kwiin-gold-bright">by Pratana Halstrick</span>
     </span>
   </div>
