@@ -1,9 +1,18 @@
 ---
 /**
  * Cinematic split-screen portal for the homepage. Two equally-weighted
- * panels — Studio Signature Experience and Mobile Spa — open like silk
- * curtains on hover/focus. Never label the left panel "Suriya Spa"; it is
- * always the KWIIN Signature Experience.
+ * choice cards — KWIIN Signature Experience and Mobile Spa — react to the
+ * cursor with a subtle 3D perspective tilt, layered parallax depth, a moving
+ * specular sheen, and a gold edge-light that breathes near the pointer.
+ *
+ * Never label the left panel "Suriya Spa"; it is always the KWIIN Signature
+ * Experience.
+ *
+ * Progressive enhancement & accessibility:
+ * - Works fully without JavaScript (the cards are plain links).
+ * - The 3D tilt only activates on fine-pointer (hover) devices and is fully
+ *   disabled for `prefers-reduced-motion`.
+ * - All decorative layers are aria-hidden and pointer-events:none.
  */
 import { withBase } from "../utils/base";
 
@@ -29,42 +38,53 @@ const panels = [
 ];
 ---
 
-<div
-  class="relative grid min-h-[70vh] overflow-hidden rounded-3xl border border-white/5 md:grid-cols-2"
-  data-portal
->
+<div class="kwiin-portal relative grid min-h-[70vh] gap-3 md:grid-cols-2" data-portal>
   {
     panels.map((panel) => (
       <a
         href={withBase(panel.href)}
-        class="kwiin-portal-panel group relative flex min-h-[42vh] flex-col items-center justify-center gap-4 overflow-hidden px-8 py-16 text-center transition-colors duration-500 md:min-h-[70vh]"
+        class="kwiin-portal-panel group relative flex min-h-[44vh] flex-col items-center justify-center gap-4 overflow-hidden rounded-3xl border border-white/5 px-8 py-16 text-center md:min-h-[70vh]"
         data-side={panel.side}
+        data-tilt
         aria-label={`${panel.title} — ${panel.description}`}
       >
         <span
-          class="pointer-events-none absolute inset-0 bg-gradient-to-br from-kwiin-charcoal via-kwiin-black to-kwiin-black transition-transform duration-700 ease-[var(--ease-silk)] group-hover:scale-105 group-focus-visible:scale-105"
+          class="kwiin-portal-bg pointer-events-none absolute inset-0 bg-gradient-to-br from-kwiin-charcoal via-kwiin-black to-kwiin-black"
           aria-hidden="true"
         />
         <span
-          class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(201,168,106,0.18),transparent_60%)] opacity-0 transition-opacity duration-700 group-hover:opacity-100 group-focus-visible:opacity-100"
+          class="kwiin-portal-glow pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_28%,rgba(201,168,106,0.20),transparent_62%)] opacity-0 transition-opacity duration-700 group-hover:opacity-100 group-focus-visible:opacity-100"
           aria-hidden="true"
         />
+        <span class="kwiin-portal-sheen pointer-events-none absolute inset-0 opacity-0" aria-hidden="true" />
+        <span class="kwiin-portal-ring pointer-events-none absolute inset-0 rounded-3xl" aria-hidden="true" />
 
         <span
-          class="relative z-10 flex h-9 items-center justify-center text-kwiin-gold-bright"
+          class="kwiin-portal-layer relative z-10 flex h-9 items-center justify-center text-kwiin-gold-bright"
+          data-depth="60"
           set:html={panel.icon}
         />
-        <p class="relative z-10 text-xs uppercase tracking-[0.2em] text-kwiin-gold-bright/80">
+        <p
+          class="kwiin-portal-layer relative z-10 text-xs uppercase tracking-[0.22em] text-kwiin-gold-bright/80"
+          data-depth="34"
+        >
           {panel.eyebrow}
         </p>
-        <h2 class="relative z-10 font-display text-3xl text-kwiin-ivory sm:text-4xl">
+        <h2
+          class="kwiin-portal-layer relative z-10 font-display text-3xl text-kwiin-ivory sm:text-4xl"
+          data-depth="46"
+        >
           {panel.title}
         </h2>
-        <p class="relative z-10 max-w-xs text-sm leading-relaxed text-kwiin-soft-grey">
+        <p
+          class="kwiin-portal-layer relative z-10 max-w-xs text-sm leading-relaxed text-kwiin-soft-grey"
+          data-depth="26"
+        >
           {panel.description}
         </p>
         <span
-          class="relative z-10 mt-2 inline-flex items-center gap-2 text-sm uppercase tracking-[0.1em] text-kwiin-gold-bright transition-transform duration-500 group-hover:translate-x-1"
+          class="kwiin-portal-layer kwiin-portal-enter relative z-10 mt-2 inline-flex items-center gap-2 rounded-full border border-kwiin-gold/30 px-5 py-2 text-sm uppercase tracking-[0.12em] text-kwiin-gold-bright transition-all duration-500 group-hover:border-kwiin-gold/60 group-hover:gap-3"
+          data-depth="54"
         >
           Enter
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-4 w-4">
@@ -76,23 +96,183 @@ const panels = [
   }
 
   <div
-    class="pointer-events-none absolute left-1/2 top-5 z-20 -translate-x-1/2 whitespace-nowrap rounded-full border border-white/10 bg-kwiin-black/70 px-4 py-1.5 text-center backdrop-blur-sm sm:top-6"
+    class="pointer-events-none absolute left-1/2 top-4 z-20 -translate-x-1/2 whitespace-nowrap rounded-full border border-white/10 bg-kwiin-black/70 px-4 py-1.5 text-center shadow-[0_8px_30px_rgba(0,0,0,0.5)] backdrop-blur-md sm:top-6"
     aria-hidden="true"
   >
     <span class="font-display text-sm tracking-wide text-kwiin-ivory sm:text-base">
       KWIIN <span aria-hidden="true">🪷</span> <span class="text-kwiin-gold-bright">by Pratana Halstrick</span>
     </span>
   </div>
-
-  <div
-    class="pointer-events-none absolute inset-y-0 left-1/2 hidden w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-kwiin-gold/40 to-transparent md:block"
-    aria-hidden="true"
-  />
 </div>
 
 <style>
+  .kwiin-portal {
+    perspective: 1200px;
+  }
+
+  .kwiin-portal-panel {
+    transform-style: preserve-3d;
+    transition:
+      transform 0.5s var(--ease-silk),
+      box-shadow 0.6s var(--ease-silk),
+      border-color 0.6s var(--ease-silk);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.04) inset,
+      0 30px 60px -30px rgba(0, 0, 0, 0.8);
+  }
+
+  .kwiin-portal-panel:hover,
+  .kwiin-portal-panel:focus-visible {
+    border-color: rgba(201, 168, 106, 0.28);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.06) inset,
+      0 40px 80px -28px rgba(0, 0, 0, 0.9),
+      0 0 60px -20px rgba(201, 168, 106, 0.35);
+  }
+
   .kwiin-portal-panel:focus-visible {
     outline: 2px solid var(--color-kwiin-gold-bright);
     outline-offset: -4px;
   }
+
+  .kwiin-portal-bg {
+    transition: transform 0.8s var(--ease-silk);
+  }
+  .kwiin-portal-panel:hover .kwiin-portal-bg,
+  .kwiin-portal-panel:focus-visible .kwiin-portal-bg {
+    transform: scale(1.06);
+  }
+
+  .kwiin-portal-layer {
+    transition: transform 0.5s var(--ease-silk);
+    transform: translateZ(0);
+  }
+
+  .kwiin-portal-sheen {
+    background: radial-gradient(
+      220px circle at var(--mx, 50%) var(--my, 30%),
+      rgba(246, 241, 233, 0.10),
+      transparent 60%
+    );
+    transition: opacity 0.5s var(--ease-silk);
+    mix-blend-mode: screen;
+  }
+  .kwiin-portal-panel:hover .kwiin-portal-sheen {
+    opacity: 1;
+  }
+
+  .kwiin-portal-ring {
+    padding: 1px;
+    background: radial-gradient(
+      300px circle at var(--mx, 50%) var(--my, 50%),
+      rgba(233, 200, 121, 0.55),
+      rgba(201, 168, 106, 0) 65%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.5s var(--ease-silk);
+  }
+  .kwiin-portal-panel:hover .kwiin-portal-ring,
+  .kwiin-portal-panel:focus-visible .kwiin-portal-ring {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kwiin-portal-panel,
+    .kwiin-portal-bg,
+    .kwiin-portal-layer {
+      transition: none !important;
+      transform: none !important;
+    }
+  }
 </style>
+
+<script>
+  // 3D cursor-perspective tilt for the portal choice cards.
+  // Buttery rAF lerp; only runs on fine-pointer, non-reduced-motion devices.
+  function initPortalTilt() {
+    const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!fine || reduce) return;
+
+    const cards = document.querySelectorAll<HTMLElement>("[data-tilt]");
+    cards.forEach((card) => {
+      if (card.dataset.tiltBound === "true") return;
+      card.dataset.tiltBound = "true";
+
+      const MAX = 7; // degrees — "slight" by design
+      const layers = Array.from(
+        card.querySelectorAll<HTMLElement>("[data-depth]")
+      );
+
+      let curRx = 0,
+        curRy = 0,
+        tgtRx = 0,
+        tgtRy = 0,
+        depth = 0,
+        tgtDepth = 0,
+        raf = 0;
+
+      function render() {
+        curRx += (tgtRx - curRx) * 0.12;
+        curRy += (tgtRy - curRy) * 0.12;
+        depth += (tgtDepth - depth) * 0.12;
+
+        card.style.transform =
+          `rotateX(${curRx.toFixed(2)}deg) rotateY(${curRy.toFixed(2)}deg)`;
+
+        for (const layer of layers) {
+          const d = Number(layer.dataset.depth || 0) * depth;
+          layer.style.transform = `translateZ(${d.toFixed(1)}px)`;
+        }
+
+        if (
+          Math.abs(tgtRx - curRx) > 0.01 ||
+          Math.abs(tgtRy - curRy) > 0.01 ||
+          Math.abs(tgtDepth - depth) > 0.001
+        ) {
+          raf = requestAnimationFrame(render);
+        } else {
+          raf = 0;
+        }
+      }
+
+      function kick() {
+        if (!raf) raf = requestAnimationFrame(render);
+      }
+
+      card.addEventListener("pointermove", (e) => {
+        const rect = card.getBoundingClientRect();
+        const px = (e.clientX - rect.left) / rect.width;
+        const py = (e.clientY - rect.top) / rect.height;
+
+        tgtRx = (py - 0.5) * 2 * MAX;
+        tgtRy = (0.5 - px) * 2 * MAX;
+        tgtDepth = 1;
+
+        card.style.setProperty("--mx", `${(px * 100).toFixed(1)}%`);
+        card.style.setProperty("--my", `${(py * 100).toFixed(1)}%`);
+        kick();
+      });
+
+      card.addEventListener("pointerenter", () => {
+        tgtDepth = 1;
+        kick();
+      });
+
+      card.addEventListener("pointerleave", () => {
+        tgtRx = 0;
+        tgtRy = 0;
+        tgtDepth = 0;
+        kick();
+      });
+    });
+  }
+
+  initPortalTilt();
+  document.addEventListener("astro:after-swap", initPortalTilt);
+</script>

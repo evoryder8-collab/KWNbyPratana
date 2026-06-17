@@ -8,14 +8,39 @@ import MobileMenu from "./MobileMenu.astro";
 const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 ---
 
-<header class="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-kwiin-black/70 backdrop-blur-md">
-  <nav class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 lg:px-8" aria-label="Main navigation">
-    <a href={withBase("/")} class="flex items-center gap-2 font-display text-lg tracking-wide text-kwiin-ivory">
-      <img src={withBase("/assets/kwiin-logo.png")} alt="KWIIN by Pratana Halstrick" class="h-9 w-auto" />
-      <span class="hidden sm:inline">KWIIN <span class="text-kwiin-gold-bright">by Pratana</span></span>
+<header
+  id="kwiin-nav"
+  data-scrolled="false"
+  class="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-kwiin-black/60 backdrop-blur-md transition-[background-color,backdrop-filter,border-color] duration-500"
+>
+  <div
+    id="kwiin-scroll-progress"
+    class="kwiin-scroll-progress pointer-events-none absolute inset-x-0 top-0 h-px"
+    aria-hidden="true"
+  >
+  </div>
+
+  <nav
+    class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 transition-[padding] duration-500 lg:px-8"
+    aria-label="Main navigation"
+  >
+    <a
+      href={withBase("/")}
+      class="group flex items-center gap-2.5 font-display text-lg tracking-wide text-kwiin-ivory"
+    >
+      <img
+        src={withBase("/assets/kwiin-logo.png")}
+        alt="KWIIN by Pratana Halstrick"
+        class="h-9 w-auto transition-transform duration-700 group-hover:rotate-[8deg]"
+      />
+      <span class="hidden items-baseline gap-1.5 sm:flex">
+        <span>KWIIN</span>
+        <span aria-hidden="true" class="text-kwiin-gold-bright/70">🪷</span>
+        <span class="text-kwiin-gold-bright">by Pratana</span>
+      </span>
     </a>
 
-    <ul class="hidden items-center gap-8 lg:flex">
+    <ul class="hidden items-center gap-9 lg:flex">
       {
         navItems.map((item) => {
           const active = currentPath === withBase(item.href).replace(/\/$/, "");
@@ -24,7 +49,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
               <a
                 href={withBase(item.href)}
                 aria-current={active ? "page" : undefined}
-                class={`text-sm uppercase tracking-[0.1em] transition-colors hover:text-kwiin-gold-bright ${
+                class={`kwiin-navlink text-sm uppercase tracking-[0.14em] transition-colors hover:text-kwiin-gold-bright ${
                   active ? "text-kwiin-gold-bright" : "text-kwiin-ivory/80"
                 }`}
               >
@@ -43,7 +68,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
     <button
       id="kwiin-menu-toggle"
       type="button"
-      class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-kwiin-ivory lg:hidden"
+      class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-kwiin-ivory transition-colors hover:border-kwiin-gold/40 lg:hidden"
       aria-expanded="false"
       aria-controls="kwiin-mobile-menu"
       aria-label="Open menu"
@@ -56,3 +81,59 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 
   <MobileMenu />
 </header>
+
+<style>
+  #kwiin-nav[data-scrolled="true"] {
+    background-color: rgba(10, 9, 8, 0.85);
+    border-color: rgba(201, 168, 106, 0.16);
+    box-shadow: 0 10px 40px -24px rgba(0, 0, 0, 0.9);
+  }
+  #kwiin-nav[data-scrolled="true"] nav {
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+  }
+</style>
+
+<script>
+  // Scroll-aware navbar: condenses on scroll and drives the progress hairline.
+  function initNavScroll() {
+    const nav = document.getElementById("kwiin-nav");
+    const bar = document.getElementById("kwiin-scroll-progress");
+    if (!nav) return;
+    if (nav.dataset.scrollBound === "true") return;
+    nav.dataset.scrollBound = "true";
+
+    let ticking = false;
+
+    function update() {
+      const y = window.scrollY || document.documentElement.scrollTop;
+      nav!.setAttribute("data-scrolled", y > 8 ? "true" : "false");
+
+      if (bar) {
+        const doc = document.documentElement;
+        const max = doc.scrollHeight - doc.clientHeight;
+        const pct = max > 0 ? y / max : 0;
+        bar.style.transform = `scaleX(${pct.toFixed(4)})`;
+      }
+      ticking = false;
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    update();
+  }
+
+  initNavScroll();
+  document.addEventListener("astro:after-swap", () => {
+    const nav = document.getElementById("kwiin-nav");
+    if (nav) nav.dataset.scrollBound = "";
+    initNavScroll();
+  });
+</script>

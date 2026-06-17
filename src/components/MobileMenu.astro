@@ -2,13 +2,14 @@
 import { navItems, navCtaLabel } from "../data/navigation";
 import { WHATSAPP_MESSAGES, whatsappUrl } from "../utils/whatsapp";
 import { withBase } from "../utils/base";
+import { brandLine, contact } from "../data/contact";
 
 const whatsappHref = whatsappUrl(WHATSAPP_MESSAGES.studioGeneric);
 ---
 
 <div
   id="kwiin-mobile-menu"
-  class="fixed inset-0 z-40 hidden flex-col bg-kwiin-black/98 px-6 pt-24 pb-10 backdrop-blur-xl lg:hidden"
+  class="fixed inset-0 z-40 hidden flex-col bg-kwiin-black/98 px-7 pt-24 pb-10 backdrop-blur-xl lg:hidden"
   role="dialog"
   aria-modal="true"
   aria-label="Mobile navigation"
@@ -16,7 +17,7 @@ const whatsappHref = whatsappUrl(WHATSAPP_MESSAGES.studioGeneric);
   <button
     id="kwiin-menu-close"
     type="button"
-    class="absolute right-5 top-5 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-kwiin-ivory"
+    class="absolute right-5 top-5 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-kwiin-ivory transition-colors hover:border-kwiin-gold/40"
     aria-label="Close menu"
   >
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-5 w-5">
@@ -24,26 +25,47 @@ const whatsappHref = whatsappUrl(WHATSAPP_MESSAGES.studioGeneric);
     </svg>
   </button>
 
-  <ul class="flex flex-1 flex-col items-center justify-center gap-6">
+  <p class="kwiin-menu-item mb-8 text-[0.65rem] uppercase tracking-[0.32em] text-kwiin-gold-bright/70 opacity-0">
+    KWIIN <span aria-hidden="true">🪷</span> by Pratana Halstrick
+  </p>
+
+  <ul class="flex flex-1 flex-col justify-center gap-5">
     {
-      navItems.map((item) => (
+      navItems.map((item, i) => (
         <li class="kwiin-menu-item opacity-0">
           <a
             href={withBase(item.href)}
-            class="font-display text-3xl text-kwiin-ivory transition-colors hover:text-kwiin-gold-bright"
+            class="group flex items-baseline gap-4 text-kwiin-ivory transition-colors hover:text-kwiin-gold-bright"
           >
-            {item.label}
+            <span class="font-body text-xs tracking-[0.2em] text-kwiin-gold/50 tabular-nums">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <span class="font-display text-4xl leading-none">{item.label}</span>
           </a>
         </li>
       ))
     }
   </ul>
 
+  <div class="kwiin-menu-item mt-8 opacity-0">
+    <p class="font-display text-xl italic text-kwiin-gold-bright text-balance">
+      &ldquo;{brandLine}&rdquo;
+    </p>
+    <a
+      href={contact.instagramUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="mt-3 inline-block text-xs uppercase tracking-[0.18em] text-kwiin-soft-grey transition-colors hover:text-kwiin-gold-bright"
+    >
+      {contact.instagramHandle}
+    </a>
+  </div>
+
   <a
     href={whatsappHref}
     target="_blank"
     rel="noopener noreferrer"
-    class="kwiin-menu-item mx-auto inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-kwiin-gold to-kwiin-gold-bright px-7 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-kwiin-black opacity-0"
+    class="kwiin-menu-item mt-7 inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-kwiin-gold to-kwiin-gold-bright px-7 py-3.5 text-sm font-semibold uppercase tracking-[0.08em] text-kwiin-black opacity-0"
   >
     {navCtaLabel}
   </a>
@@ -75,8 +97,8 @@ const whatsappHref = whatsappUrl(WHATSAPP_MESSAGES.studioGeneric);
       animate(menu!, { opacity: [0, 1] }, { duration: 0.35 });
       animate(
         items,
-        { opacity: [0, 1], y: [16, 0] },
-        { duration: 0.45, delay: (i: number) => 0.08 + i * 0.06 }
+        { opacity: [0, 1], y: [18, 0] },
+        { duration: 0.5, delay: (i: number) => 0.08 + i * 0.07 }
       );
     }
 
