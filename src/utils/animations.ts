@@ -1,7 +1,8 @@
 /**
- * Shared animation bootstrapping for GSAP/ScrollTrigger reveals and the
- * "magnetic" hover effect used on buttons. Initialized once globally from
- * BaseLayout and re-run after every Astro view transition swap.
+ * Shared animation bootstrapping for GSAP/ScrollTrigger reveals, the
+ * "magnetic" hover effect used on buttons, and cursor-perspective tilt on
+ * content cards. Initialized once globally from BaseLayout and re-run after
+ * every Astro view transition swap.
  *
  * Everything here is a no-op (or safely skipped) when the user has
  * prefers-reduced-motion enabled, and never hides content that JS fails
@@ -79,10 +80,62 @@ function initMagneticButtons(): void {
   });
 }
 
+// Cursor-perspective tilt for content cards (.kwiin-tilt). The whole card
+// leans toward the pointer; a CSS sheen layer tracks --mx/--my. Fine-pointer
+// devices only; the global reduced-motion guard skips this entirely.
+function initTiltCards(): void {
+  const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (!fine) return;
+
+  const cards = document.querySelectorAll<HTMLElement>(
+    ".kwiin-tilt:not([data-tilt-bound])"
+  );
+  cards.forEach((el) => {
+    el.dataset.tiltBound = "true";
+    const MAX = 6;
+    let cx = 0,
+      cy = 0,
+      tx = 0,
+      ty = 0,
+      raf = 0;
+
+    function render() {
+      cx += (tx - cx) * 0.14;
+      cy += (ty - cy) * 0.14;
+      el.style.transform = `perspective(900px) rotateX(${cx.toFixed(2)}deg) rotateY(${cy.toFixed(2)}deg)`;
+      if (Math.abs(tx - cx) > 0.01 || Math.abs(ty - cy) > 0.01) {
+        raf = requestAnimationFrame(render);
+      } else {
+        raf = 0;
+      }
+    }
+    function kick() {
+      if (!raf) raf = requestAnimationFrame(render);
+    }
+
+    el.addEventListener("pointermove", (e) => {
+      const r = el.getBoundingClientRect();
+      const px = ((e as PointerEvent).clientX - r.left) / r.width;
+      const py = ((e as PointerEvent).clientY - r.top) / r.height;
+      tx = (py - 0.5) * 2 * MAX;
+      ty = (0.5 - px) * 2 * MAX;
+      el.style.setProperty("--mx", `${(px * 100).toFixed(1)}%`);
+      el.style.setProperty("--my", `${(py * 100).toFixed(1)}%`);
+      kick();
+    });
+    el.addEventListener("pointerleave", () => {
+      tx = 0;
+      ty = 0;
+      kick();
+    });
+  });
+}
+
 export function initKwiinAnimations(): void {
   if (prefersReducedMotion()) return;
   initSectionReveals();
   initMagneticButtons();
+  initTiltCards();
 }
 
 export function refreshScrollTriggers(): void {

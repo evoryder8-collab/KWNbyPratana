@@ -8,10 +8,11 @@ const { testimonial } = Astro.props;
 ---
 
 <figure
-  class="reveal-up kwiin-card flex h-full flex-col justify-between gap-6 rounded-2xl p-8"
+  class="reveal-up kwiin-tilt kwiin-card relative flex h-full flex-col justify-between gap-6 rounded-2xl p-8"
 >
+  <span class="kwiin-tilt-sheen" aria-hidden="true"></span>
   <svg
-    class="h-6 w-6 text-kwiin-gold/70"
+    class="relative z-10 h-6 w-6 text-kwiin-gold/70"
     viewBox="0 0 24 24"
     fill="currentColor"
     aria-hidden="true"
@@ -20,10 +21,10 @@ const { testimonial } = Astro.props;
       d="M7.17 6C4.86 8.13 3 11.1 3 14.25c0 2.62 1.79 4.5 4.13 4.5 2.21 0 3.87-1.74 3.87-3.94 0-2.06-1.46-3.6-3.34-3.6-.34 0-.6.04-.6.04.28-1.88 2.07-4.13 3.7-5.13L7.17 6Zm9.83 0c-2.31 2.13-4.17 5.1-4.17 8.25 0 2.62 1.79 4.5 4.13 4.5 2.21 0 3.87-1.74 3.87-3.94 0-2.06-1.46-3.6-3.34-3.6-.34 0-.6.04-.6.04.28-1.88 2.07-4.13 3.7-5.13L17 6Z"
     ></path>
   </svg>
-  <blockquote class="font-display text-lg leading-relaxed text-kwiin-ivory text-balance">
+  <blockquote class="relative z-10 font-display text-lg leading-relaxed text-kwiin-ivory text-balance">
     “{testimonial.quote}”
   </blockquote>
-  <figcaption class="text-sm uppercase tracking-[0.12em] text-kwiin-soft-grey/70">
+  <figcaption class="relative z-10 text-sm uppercase tracking-[0.12em] text-kwiin-soft-grey/70">
     — {testimonial.name}
   </figcaption>
 </figure>

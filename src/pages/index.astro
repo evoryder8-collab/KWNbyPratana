@@ -4,6 +4,7 @@ import PageTransition from "../components/PageTransition.astro";
 import PortalChoice from "../components/PortalChoice.astro";
 import PartnerStrip from "../components/PartnerStrip.astro";
 import HeroAura from "../components/HeroAura";
+import { withBase } from "../utils/base";
 
 const title = "KWIIN by Pratana Halstrick — Luxury Thai Massage in Switzerland";
 const description =
@@ -12,23 +13,38 @@ const description =
 
 <BaseLayout title={title} description={description}>
   <PageTransition>
-    <section class="relative flex min-h-screen items-center overflow-hidden pt-28">
+    <section class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden pt-28 pb-16">
       <HeroAura client:visible />
 
       <div class="relative z-10 mx-auto w-full max-w-7xl px-5 lg:px-8">
-        <div class="mb-12 text-center">
+        <div class="text-center">
           <p class="text-[0.7rem] uppercase tracking-[0.32em] text-kwiin-gold-bright/80">
             Champion-level Thai massage · Switzerland
           </p>
           <h1 class="text-gold-gradient mx-auto mt-5 max-w-3xl font-display text-5xl leading-[1.05] text-balance sm:text-6xl lg:text-7xl">
             Choose your KWIIN journey
           </h1>
-          <p class="mx-auto mt-5 font-display text-lg italic text-kwiin-gold-bright/90 sm:text-xl">
-            Gratitude in the name of your health.
-          </p>
         </div>
 
-        <PortalChoice />
+        <div class="kwiin-portrait-stage relative mx-auto mt-4 flex w-full max-w-md justify-center sm:max-w-lg">
+          <span class="kwiin-aura" aria-hidden="true"></span>
+          <span class="kwiin-aura-ground" aria-hidden="true"></span>
+          <img
+            src={withBase("/assets/pratana-portrait.png")}
+            alt="Pratana Halstrick, founder of KWIIN"
+            class="kwiin-portrait relative z-10 w-auto"
+            decoding="async"
+            fetchpriority="high"
+          />
+        </div>
+
+        <p class="mx-auto -mt-2 max-w-xl text-center font-display text-lg italic text-kwiin-gold-bright/90 sm:text-xl">
+          Gratitude in the name of your health.
+        </p>
+
+        <div class="mt-10">
+          <PortalChoice />
+        </div>
 
         <p class="mx-auto mt-10 max-w-xl text-center text-sm leading-relaxed text-kwiin-soft-grey">
           Two ways to experience KWIIN — a dedicated studio setting in Dübendorf, or Pratana's
@@ -40,3 +56,62 @@ const description =
     <PartnerStrip />
   </PageTransition>
 </BaseLayout>
+
+<style>
+  .kwiin-portrait {
+    max-height: 56vh;
+    filter:
+      drop-shadow(0 30px 50px rgba(0, 0, 0, 0.6))
+      drop-shadow(0 0 60px rgba(201, 168, 106, 0.28));
+    -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+    animation: kwiin-float 7s ease-in-out infinite;
+  }
+
+  .kwiin-aura {
+    position: absolute;
+    left: 50%;
+    top: 46%;
+    width: min(90vw, 520px);
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(233, 200, 121, 0.30),
+      rgba(201, 168, 106, 0.13) 38%,
+      rgba(110, 79, 140, 0.12) 60%,
+      transparent 72%
+    );
+    filter: blur(22px);
+    animation: kwiin-breathe 6s ease-in-out infinite;
+    z-index: 0;
+  }
+
+  .kwiin-aura-ground {
+    position: absolute;
+    left: 50%;
+    bottom: 4%;
+    width: min(70vw, 360px);
+    height: 60px;
+    transform: translateX(-50%);
+    background: radial-gradient(ellipse, rgba(201, 168, 106, 0.22), transparent 70%);
+    filter: blur(10px);
+    z-index: 0;
+  }
+
+  @keyframes kwiin-breathe {
+    0%, 100% { opacity: 0.72; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
+  }
+
+  @keyframes kwiin-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kwiin-portrait,
+    .kwiin-aura { animation: none !important; }
+  }
+</style>

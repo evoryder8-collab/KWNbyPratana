@@ -14,14 +14,15 @@ const medalColor: Record<Award["medal"], string> = {
 ---
 
 <div
-  class="reveal-up kwiin-card flex flex-col items-center gap-3 rounded-2xl px-5 py-8 text-center"
+  class="reveal-up kwiin-tilt kwiin-card relative flex flex-col items-center gap-3 rounded-2xl px-5 py-8 text-center"
 >
+  <span class="kwiin-tilt-sheen" aria-hidden="true"></span>
   <span
-    class={`flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br ${medalColor[award.medal]} text-xs font-semibold uppercase tracking-wide shadow-lg`}
+    class={`relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br ${medalColor[award.medal]} text-xs font-semibold uppercase tracking-wide shadow-lg`}
     aria-hidden="true"
   >
     {award.medal[0]}
   </span>
-  <p class="text-sm uppercase tracking-[0.12em] text-kwiin-gold-bright">{award.medal}</p>
-  <p class="font-display text-lg text-kwiin-ivory">{award.category}</p>
+  <p class="relative z-10 text-sm uppercase tracking-[0.12em] text-kwiin-gold-bright">{award.medal}</p>
+  <p class="relative z-10 font-display text-lg text-kwiin-ivory">{award.category}</p>
 </div>

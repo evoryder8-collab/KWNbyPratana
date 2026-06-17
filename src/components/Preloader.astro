@@ -1,0 +1,113 @@
+---
+/**
+ * Cinematic first-load overlay. A gold lotus + KWIIN wordmark draw in and a
+ * thin gold line sweeps, then the whole curtain fades away.
+ *
+ * Robustness:
+ * - Shown once per browser session (sessionStorage), so internal navigation
+ *   never re-triggers it.
+ * - The fade-out is a pure CSS animation with `forwards` fill, so even with
+ *   JavaScript disabled the overlay always clears itself.
+ * - prefers-reduced-motion collapses every animation to ~instant via the
+ *   global reduced-motion rule, so it never lingers for those users.
+ */
+---
+
+<div id="kwiin-preloader" class="kwiin-preloader" role="presentation" aria-hidden="true">
+  <div class="kwiin-preloader-inner">
+    <span class="kwiin-pl-lotus">🪷</span>
+    <span class="kwiin-pl-word text-gold-gradient">KWIIN</span>
+    <span class="kwiin-pl-by">by Pratana Halstrick</span>
+    <span class="kwiin-pl-line" aria-hidden="true"></span>
+  </div>
+</div>
+
+<style>
+  .kwiin-preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    display: grid;
+    place-items: center;
+    background: radial-gradient(circle at 50% 42%, #15120f, #0a0908 70%);
+    animation: kwiin-pl-out 0.9s var(--ease-silk) 2s forwards;
+  }
+
+  .kwiin-preloader-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.55rem;
+  }
+
+  .kwiin-pl-lotus {
+    font-size: 2.4rem;
+    opacity: 0;
+    transform: scale(0.6);
+    animation: kwiin-pl-pop 1s var(--ease-silk) 0.1s forwards;
+  }
+
+  .kwiin-pl-word {
+    font-family: var(--font-display);
+    font-size: 2.6rem;
+    letter-spacing: 0.5em;
+    padding-left: 0.5em;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: kwiin-pl-rise 0.9s var(--ease-silk) 0.35s forwards;
+  }
+
+  .kwiin-pl-by {
+    font-family: var(--font-display);
+    font-style: italic;
+    color: var(--color-kwiin-gold-bright);
+    opacity: 0;
+    animation: kwiin-pl-fade 0.9s var(--ease-silk) 0.6s forwards;
+  }
+
+  .kwiin-pl-line {
+    margin-top: 0.4rem;
+    height: 1px;
+    width: 0;
+    background: linear-gradient(90deg, transparent, var(--color-kwiin-gold-bright), transparent);
+    animation: kwiin-pl-line 1.1s var(--ease-silk) 0.5s forwards;
+  }
+
+  @keyframes kwiin-pl-pop { to { opacity: 1; transform: scale(1); } }
+  @keyframes kwiin-pl-rise { to { opacity: 1; transform: translateY(0); } }
+  @keyframes kwiin-pl-fade { to { opacity: 0.85; } }
+  @keyframes kwiin-pl-line { to { width: 200px; } }
+  @keyframes kwiin-pl-out { to { opacity: 0; visibility: hidden; } }
+</style>
+
+<script>
+  function kwiinPreloader() {
+    const pre = document.getElementById("kwiin-preloader");
+    if (!pre) return;
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let done = false;
+    const remove = () => {
+      if (done) return;
+      done = true;
+      pre.remove();
+      try { sessionStorage.setItem("kwiin-pre", "1"); } catch (e) {}
+    };
+
+    try {
+      if (sessionStorage.getItem("kwiin-pre") === "1") {
+        pre.remove();
+        return;
+      }
+    } catch (e) {}
+
+    if (reduce) {
+      remove();
+      return;
+    }
+
+    window.setTimeout(remove, 3000);
+  }
+
+  kwiinPreloader();
+</script>
