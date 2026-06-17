@@ -9,7 +9,7 @@ const whatsappHref = whatsappUrl(WHATSAPP_MESSAGES.studioGeneric);
 
 <div
   id="kwiin-mobile-menu"
-  class="fixed inset-0 z-40 hidden flex-col bg-kwiin-black/98 px-7 pt-24 pb-10 backdrop-blur-xl lg:hidden"
+  class="fixed inset-0 z-40 hidden flex-col bg-kwiin-black px-7 pt-24 pb-10 backdrop-blur-xl lg:hidden"
   role="dialog"
   aria-modal="true"
   aria-label="Mobile navigation"
@@ -70,6 +70,14 @@ const whatsappHref = whatsappUrl(WHATSAPP_MESSAGES.studioGeneric);
     {navCtaLabel}
   </a>
 </div>
+
+<style>
+  /* Guaranteed-opaque background so page content never shows through the
+     open menu, regardless of which opacity utilities Tailwind emits. */
+  #kwiin-mobile-menu {
+    background-color: var(--color-kwiin-black, #0a0908);
+  }
+</style>
 
 <script>
   import { animate } from "motion";
