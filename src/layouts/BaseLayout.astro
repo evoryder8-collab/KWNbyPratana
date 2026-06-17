@@ -2,6 +2,7 @@
 import { ClientRouter } from "astro:transitions";
 import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
+import { withBase } from "../utils/base";
 import "../styles/global.css";
 
 export interface Props {
@@ -13,7 +14,7 @@ export interface Props {
 const {
   title,
   description,
-  ogImage = "/assets/kwiin-logo.png",
+  ogImage = withBase("/assets/kwiin-logo.png"),
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -24,7 +25,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/png" href="/assets/kwiin-logo.png" />
+    <link rel="icon" type="image/png" href={withBase("/assets/kwiin-logo.png")} />
     <link rel="canonical" href={canonicalURL} />
 
     <title>{title}</title>

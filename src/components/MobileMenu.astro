@@ -1,6 +1,7 @@
 ---
 import { navItems, navCtaLabel } from "../data/navigation";
 import { WHATSAPP_MESSAGES, whatsappUrl } from "../utils/whatsapp";
+import { withBase } from "../utils/base";
 
 const whatsappHref = whatsappUrl(WHATSAPP_MESSAGES.studioGeneric);
 ---
@@ -28,7 +29,7 @@ const whatsappHref = whatsappUrl(WHATSAPP_MESSAGES.studioGeneric);
       navItems.map((item) => (
         <li class="kwiin-menu-item opacity-0">
           <a
-            href={item.href}
+            href={withBase(item.href)}
             class="font-display text-3xl text-kwiin-ivory transition-colors hover:text-kwiin-gold-bright"
           >
             {item.label}

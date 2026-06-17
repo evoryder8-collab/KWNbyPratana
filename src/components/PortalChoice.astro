@@ -5,6 +5,8 @@
  * curtains on hover/focus. Never label the left panel "Suriya Spa"; it is
  * always the KWIIN Signature Experience.
  */
+import { withBase } from "../utils/base";
+
 const panels = [
   {
     href: "/studio",
@@ -30,7 +32,7 @@ const panels = [
   {
     panels.map((panel) => (
       <a
-        href={panel.href}
+        href={withBase(panel.href)}
         class="kwiin-portal-panel group relative flex min-h-[42vh] flex-col items-center justify-center gap-4 overflow-hidden px-8 py-16 text-center transition-colors duration-500 md:min-h-[70vh]"
         data-side={panel.side}
         aria-label={`${panel.title} — ${panel.description}`}

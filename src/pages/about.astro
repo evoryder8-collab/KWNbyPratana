@@ -17,6 +17,7 @@ import {
 import { testimonials } from "../data/testimonials";
 import { WHATSAPP_MESSAGES } from "../utils/whatsapp";
 import { brandLine } from "../data/contact";
+import { withBase } from "../utils/base";
 
 const title = "About Pratana Halstrick — Founder of KWIIN";
 const description =
@@ -52,7 +53,7 @@ const description =
 
         <SectionReveal class="kwiin-card flex min-h-[22rem] items-center justify-center rounded-3xl p-8">
           <img
-            src="/assets/pratana-portrait.png"
+            src={withBase("/assets/pratana-portrait.png")}
             alt="Pratana Halstrick, founder of KWIIN"
             class="max-h-[28rem] w-auto object-contain"
             loading="eager"

@@ -3,6 +3,7 @@ import { contact, brandLine } from "../data/contact";
 import { footerPartnerNote } from "../data/partners";
 import { navItems } from "../data/navigation";
 import { WHATSAPP_MESSAGES, whatsappUrl } from "../utils/whatsapp";
+import { withBase } from "../utils/base";
 
 const whatsappHref = whatsappUrl(WHATSAPP_MESSAGES.studioGeneric);
 const year = new Date().getFullYear();
@@ -11,8 +12,8 @@ const year = new Date().getFullYear();
 <footer class="border-t border-white/5 bg-kwiin-charcoal/40">
   <div class="mx-auto grid max-w-7xl gap-10 px-5 py-16 lg:grid-cols-4 lg:px-8">
     <div class="lg:col-span-2">
-      <a href="/" class="flex items-center gap-2 font-display text-xl text-kwiin-ivory">
-        <img src="/assets/kwiin-logo.png" alt="KWIIN by Pratana Halstrick" class="h-10 w-auto" />
+      <a href={withBase("/")} class="flex items-center gap-2 font-display text-xl text-kwiin-ivory">
+        <img src={withBase("/assets/kwiin-logo.png")} alt="KWIIN by Pratana Halstrick" class="h-10 w-auto" />
         KWIIN <span class="text-kwiin-gold-bright">by Pratana</span>
       </a>
       <p class="mt-4 max-w-sm text-sm leading-relaxed text-kwiin-soft-grey">{brandLine}</p>
@@ -32,7 +33,7 @@ const year = new Date().getFullYear();
         {
           navItems.map((item) => (
             <li>
-              <a href={item.href} class="transition-colors hover:text-kwiin-ivory">
+              <a href={withBase(item.href)} class="transition-colors hover:text-kwiin-ivory">
                 {item.label}
               </a>
             </li>
