@@ -1,0 +1,19 @@
+---
+/**
+ * Wraps a page's main content for Astro's View Transitions (ClientRouter,
+ * enabled globally in BaseLayout). Default is a soft cinematic fade/rise;
+ * pass variant="glide" for the Mobile Spa page's horizontal glide cue.
+ */
+import { fade, slide } from "astro:transitions";
+
+export interface Props {
+  variant?: "fade" | "glide";
+}
+const { variant = "fade" } = Astro.props;
+
+const animation = variant === "glide" ? slide({ duration: "0.5s" }) : fade({ duration: "0.45s" });
+---
+
+<div transition:animate={animation}>
+  <slot />
+</div>

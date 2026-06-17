@@ -1,0 +1,30 @@
+/**
+ * WhatsApp booking helper.
+ *
+ * All booking / inquiry CTAs across the site must route through WhatsApp —
+ * there is no calendar booking system, cart, or checkout. This is the
+ * single source of truth for building a correctly formatted wa.me link.
+ */
+
+// Primary booking number used by every "Book via WhatsApp" CTA on the site.
+// Stored without the leading "+" per the wa.me URL format.
+export const WHATSAPP_BOOKING_NUMBER = "41779669928";
+
+// General contact number — informational only, never used for booking CTAs.
+export const GENERAL_CONTACT_NUMBER = "+41 76 728 21 22";
+export const WHATSAPP_DISPLAY_NUMBER = "+41 77 966 99 28";
+
+/**
+ * Build a wa.me link that opens a chat with the KWIIN booking number and a
+ * prefilled, URL-encoded message.
+ */
+export function whatsappUrl(message: string): string {
+  return `https://wa.me/${WHATSAPP_BOOKING_NUMBER}?text=${encodeURIComponent(message)}`;
+}
+
+export const WHATSAPP_MESSAGES = {
+  studioGeneric:
+    "Hello Pratana, I would like to inquire about a KWIIN massage appointment in Dübendorf.",
+  mobileGeneric:
+    "Hello Pratana, I would like to inquire about a KWIIN Mobile Spa appointment at my home, office, hotel, or private space.",
+} as const;

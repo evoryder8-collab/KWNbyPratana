@@ -1,0 +1,88 @@
+---
+/**
+ * Cinematic split-screen portal for the homepage. Two equally-weighted
+ * panels — Studio Signature Experience and Mobile Spa — open like silk
+ * curtains on hover/focus. Never label the left panel "Suriya Spa"; it is
+ * always the KWIIN Signature Experience.
+ */
+const panels = [
+  {
+    href: "/studio",
+    eyebrow: "Studio-Based, Dübendorf",
+    title: "KWIIN Signature Experience",
+    description: "Champion-level Thai massage in a calm, dedicated studio setting.",
+    side: "left" as const,
+  },
+  {
+    href: "/mobile-spa",
+    eyebrow: "Wherever You Are",
+    title: "KWIIN Mobile Spa",
+    description: "Luxury Thai massage brought to your home, office, or hotel.",
+    side: "right" as const,
+  },
+];
+---
+
+<div
+  class="relative grid min-h-[70vh] overflow-hidden rounded-3xl border border-white/5 md:grid-cols-2"
+  data-portal
+>
+  {
+    panels.map((panel) => (
+      <a
+        href={panel.href}
+        class="kwiin-portal-panel group relative flex min-h-[42vh] flex-col items-center justify-center gap-4 overflow-hidden px-8 py-16 text-center transition-colors duration-500 md:min-h-[70vh]"
+        data-side={panel.side}
+        aria-label={`${panel.title} — ${panel.description}`}
+      >
+        <span
+          class="pointer-events-none absolute inset-0 bg-gradient-to-br from-kwiin-charcoal via-kwiin-black to-kwiin-black transition-transform duration-700 ease-[var(--ease-silk)] group-hover:scale-105 group-focus-visible:scale-105"
+          aria-hidden="true"
+        />
+        <span
+          class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(201,168,106,0.18),transparent_60%)] opacity-0 transition-opacity duration-700 group-hover:opacity-100 group-focus-visible:opacity-100"
+          aria-hidden="true"
+        />
+
+        <p class="relative z-10 text-xs uppercase tracking-[0.2em] text-kwiin-gold-bright/80">
+          {panel.eyebrow}
+        </p>
+        <h2 class="relative z-10 font-display text-3xl text-kwiin-ivory sm:text-4xl">
+          {panel.title}
+        </h2>
+        <p class="relative z-10 max-w-xs text-sm leading-relaxed text-kwiin-soft-grey">
+          {panel.description}
+        </p>
+        <span
+          class="relative z-10 mt-2 inline-flex items-center gap-2 text-sm uppercase tracking-[0.1em] text-kwiin-gold-bright transition-transform duration-500 group-hover:translate-x-1"
+        >
+          Enter
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-4 w-4">
+            <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </span>
+      </a>
+    ))
+  }
+
+  <div
+    class="pointer-events-none absolute left-1/2 top-1/2 z-20 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1 px-4 text-center"
+    aria-hidden="true"
+  >
+    <span class="font-display text-2xl tracking-wide text-kwiin-ivory drop-shadow-lg sm:text-3xl">
+      KWIIN <span aria-hidden="true">🪷</span> <span class="text-kwiin-gold-bright">by Pratana Halstrick</span>
+    </span>
+  </div>
+
+  <div
+    class="pointer-events-none absolute inset-y-0 left-1/2 hidden w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-kwiin-gold/40 to-transparent md:block"
+    aria-hidden="true"
+  />
+</div>
+
+<style>
+  .kwiin-portal-panel:focus-visible {
+    outline: 2px solid var(--color-kwiin-gold-bright);
+    outline-offset: -4px;
+  }
+</style>

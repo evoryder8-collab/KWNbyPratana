@@ -1,0 +1,98 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageTransition from "../components/PageTransition.astro";
+import SectionReveal from "../components/SectionReveal.astro";
+import WhatsAppButton from "../components/WhatsAppButton.astro";
+import MobileSpaFeature from "../components/MobileSpaFeature.astro";
+import ServiceCard from "../components/ServiceCard.astro";
+import { services, MOBILE_SPA_TRAVEL_FEE_NOTE } from "../data/services";
+import { WHATSAPP_MESSAGES } from "../utils/whatsapp";
+
+const title = "KWIIN Mobile Spa — Luxury Thai Massage at Your Location, Zürich Region";
+const description =
+  "KWIIN Mobile Spa brings Pratana Halstrick's champion-level Thai massage to your home, office, or hotel across the Zürich region. Ask via WhatsApp.";
+
+const mobileServices = services.filter((s) => s.mobileAvailable);
+---
+
+<BaseLayout title={title} description={description}>
+  <PageTransition variant="glide">
+    <section class="relative overflow-hidden pt-36 pb-20">
+      <div
+        class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(110,79,140,0.14),transparent_55%)]"
+        aria-hidden="true"
+      ></div>
+      <div class="relative mx-auto max-w-4xl px-5 text-center lg:px-8">
+        <p class="text-xs uppercase tracking-[0.2em] text-kwiin-gold-bright/80">KWIIN Mobile Spa</p>
+        <h1 class="mt-4 font-display text-4xl leading-tight text-kwiin-ivory text-balance sm:text-5xl lg:text-6xl">
+          Luxury Thai massage, brought to your space.
+        </h1>
+        <p class="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-kwiin-soft-grey">
+          Pratana brings the KWIIN experience directly to you — at home, in the office, or at
+          your hotel — wherever you need a moment of calm and renewal.
+        </p>
+        <div class="mt-8 flex justify-center">
+          <WhatsAppButton
+            message={WHATSAPP_MESSAGES.mobileGeneric}
+            label="Ask about Mobile Spa via WhatsApp"
+            size="lg"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-6xl px-5 pb-20 lg:px-8">
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <MobileSpaFeature
+          icon="home"
+          title="Private Home Massage"
+          description="A calm, comfortable massage in the privacy of your own home — ideal for a quiet evening or weekend reset."
+        />
+        <MobileSpaFeature
+          icon="office"
+          title="Office Wellness & Executive Recovery"
+          description="On-site sessions designed to ease tension from long hours at a desk, helping teams and executives feel restored."
+        />
+        <MobileSpaFeature
+          icon="hotel"
+          title="Hotel & Private Appointments"
+          description="Traveling through Zürich? Pratana brings the KWIIN experience to your hotel room or private suite."
+        />
+        <MobileSpaFeature
+          icon="prepare"
+          title="What to Prepare"
+          description="A quiet room, a massage table or firm flat surface if available, and a comfortable temperature — Pratana will guide you on anything else needed."
+        />
+        <MobileSpaFeature
+          icon="travel"
+          title="Travel Availability"
+          description="Mobile Spa is available across the greater Zürich region. Longer distances available by request — just ask via WhatsApp."
+        />
+      </div>
+
+      <p class="mt-8 text-center text-xs uppercase tracking-[0.1em] text-kwiin-soft-grey/60">
+        {MOBILE_SPA_TRAVEL_FEE_NOTE}
+      </p>
+    </section>
+
+    <section class="mx-auto max-w-7xl px-5 pb-20 lg:px-8">
+      <SectionReveal class="mb-10 text-center">
+        <p class="text-xs uppercase tracking-[0.2em] text-kwiin-gold-bright/80">Mobile Treatments</p>
+        <h2 class="mt-3 font-display text-3xl text-kwiin-ivory sm:text-4xl">
+          The Same KWIIN Standard, Wherever You Are
+        </h2>
+      </SectionReveal>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {mobileServices.map((service) => <ServiceCard service={service} context="mobile" />)}
+      </div>
+    </section>
+
+    <SectionReveal class="mx-auto max-w-3xl px-5 pb-24 text-center lg:px-8">
+      <WhatsAppButton
+        message={WHATSAPP_MESSAGES.mobileGeneric}
+        label="Ask about Mobile Spa via WhatsApp"
+        size="lg"
+      />
+    </SectionReveal>
+  </PageTransition>
+</BaseLayout>

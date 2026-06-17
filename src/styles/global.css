@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── KWIIN luxury wellness palette ──────────────────────────────── */
+  --color-kwiin-black: #0a0908;
+  --color-kwiin-charcoal: #1c1a18;
+  --color-kwiin-graphite: #2c2a27;
+  --color-kwiin-soft-grey: #b9b3ac;
+  --color-kwiin-ivory: #f6f1e9;
+  --color-kwiin-ivory-dim: #e7ddcd;
+  --color-kwiin-gold: #c8a04d;
+  --color-kwiin-gold-bright: #e9c879;
+  --color-kwiin-gold-dim: #8a702f;
+  --color-kwiin-purple: #6e4f8c;
+  --color-kwiin-purple-soft: #463054;
+
+  --font-display: "Cormorant Garamond", "Georgia", serif;
+  --font-body: "Inter", "system-ui", sans-serif;
+
+  --ease-silk: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: auto;
+    background-color: var(--color-kwiin-black);
+  }
+
+  body {
+    font-family: var(--font-body);
+    background-color: var(--color-kwiin-black);
+    color: var(--color-kwiin-ivory);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+
+  ::selection {
+    background-color: var(--color-kwiin-gold);
+    color: var(--color-kwiin-black);
+  }
+
+  a, button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* visible, elegant focus ring for keyboard users */
+  a:focus-visible,
+  button:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--color-kwiin-gold-bright);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .gold-line {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--color-kwiin-gold) 50%,
+      transparent 100%
+    );
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .kwiin-card {
+    background: linear-gradient(
+      160deg,
+      rgba(255, 255, 255, 0.035),
+      rgba(255, 255, 255, 0.01)
+    );
+    border: 1px solid rgba(201, 168, 106, 0.16);
+    backdrop-filter: blur(6px);
+  }
+}

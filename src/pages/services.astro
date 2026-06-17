@@ -1,0 +1,40 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageTransition from "../components/PageTransition.astro";
+import SectionReveal from "../components/SectionReveal.astro";
+import ServiceCard from "../components/ServiceCard.astro";
+import { services, MOBILE_SPA_TRAVEL_FEE_NOTE } from "../data/services";
+
+const title = "Treatment Menu — KWIIN by Pratana Halstrick";
+const description =
+  "Explore the full KWIIN treatment menu: signature Thai massage, sport recovery, lymph flow, back, head, and foot treatments. Pricing in CHF, studio and mobile.";
+---
+
+<BaseLayout title={title} description={description}>
+  <PageTransition>
+    <section class="pt-36 pb-12">
+      <div class="mx-auto max-w-4xl px-5 text-center lg:px-8">
+        <p class="text-xs uppercase tracking-[0.2em] text-kwiin-gold-bright/80">Treatment Menu</p>
+        <h1 class="mt-4 font-display text-4xl text-kwiin-ivory sm:text-5xl">
+          Crafted treatments, rooted in tradition.
+        </h1>
+        <p class="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-kwiin-soft-grey">
+          Every KWIIN treatment is available both studio-based in Dübendorf and through Mobile
+          Spa. All prices in Swiss Francs.
+        </p>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-7xl px-5 pb-16 lg:px-8">
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {services.map((service) => <ServiceCard service={service} context="all" />)}
+      </div>
+    </section>
+
+    <SectionReveal class="mx-auto max-w-2xl px-5 pb-24 text-center lg:px-8">
+      <p class="text-xs uppercase tracking-[0.1em] text-kwiin-soft-grey/60">
+        {MOBILE_SPA_TRAVEL_FEE_NOTE}
+      </p>
+    </SectionReveal>
+  </PageTransition>
+</BaseLayout>

@@ -1,0 +1,20 @@
+---
+import type { ServiceDuration } from "../data/services";
+
+export interface Props {
+  durations: ServiceDuration[];
+}
+const { durations } = Astro.props;
+---
+
+<ul class="flex flex-col gap-1.5" aria-label="Pricing">
+  {
+    durations.map((d) => (
+      <li class="flex items-baseline justify-between gap-4 text-sm">
+        <span class="text-kwiin-soft-grey">{d.minutes} min</span>
+        <span class="flex-1 border-b border-dotted border-white/10 translate-y-[-3px]" />
+        <span class="font-medium text-kwiin-ivory">{d.priceChf} CHF</span>
+      </li>
+    ))
+  }
+</ul>

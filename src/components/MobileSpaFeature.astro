@@ -1,0 +1,31 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  icon?: "home" | "office" | "hotel" | "prepare" | "travel";
+}
+const { title, description, icon = "home" } = Astro.props;
+
+const icons: Record<string, string> = {
+  home: "M3 11.5 12 4l9 7.5M5 10v9.5h14V10",
+  office: "M4 21V7l8-4 8 4v14M9 21v-6h6v6M9 11h.01M15 11h.01M9 15h.01M15 15h.01",
+  hotel: "M3 21h18M5 21V8l7-4 7 4v13M9 21v-5h6v5",
+  prepare: "M12 4.5v2m0 11v2m7.5-7.5h-2m-11 0h-2m13.5-5.5-1.4 1.4M6.4 17.6 5 19m13-13.4 1.4 1.4M6.4 6.4 5 5",
+  travel: "M3 13.5 21 4l-8.5 18-2-7.5-7.5-1z",
+};
+---
+
+<div class="reveal-up flex gap-4 rounded-2xl border border-white/5 bg-white/[0.02] p-6">
+  <span
+    class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-kwiin-charcoal text-kwiin-gold-bright"
+    aria-hidden="true"
+  >
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-5 w-5">
+      <path d={icons[icon]} stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+  </span>
+  <div>
+    <h3 class="font-display text-lg text-kwiin-ivory">{title}</h3>
+    <p class="mt-1 text-sm leading-relaxed text-kwiin-soft-grey">{description}</p>
+  </div>
+</div>

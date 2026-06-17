@@ -1,0 +1,32 @@
+---
+export interface Props {
+  studioAvailable: boolean;
+  mobileAvailable: boolean;
+}
+const { studioAvailable, mobileAvailable } = Astro.props;
+---
+
+<div class="flex flex-wrap gap-2" role="list" aria-label="Availability">
+  {
+    studioAvailable && (
+      <span
+        role="listitem"
+        class="inline-flex items-center gap-1.5 rounded-full bg-kwiin-charcoal px-3 py-1 text-[11px] uppercase tracking-[0.1em] text-kwiin-ivory/80 border border-white/10"
+      >
+        <span class="h-1.5 w-1.5 rounded-full bg-kwiin-gold-bright" aria-hidden="true" />
+        Studio
+      </span>
+    )
+  }
+  {
+    mobileAvailable && (
+      <span
+        role="listitem"
+        class="inline-flex items-center gap-1.5 rounded-full bg-kwiin-charcoal px-3 py-1 text-[11px] uppercase tracking-[0.1em] text-kwiin-ivory/80 border border-white/10"
+      >
+        <span class="h-1.5 w-1.5 rounded-full bg-kwiin-purple" aria-hidden="true" />
+        Mobile
+      </span>
+    )
+  }
+</div>

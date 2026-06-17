@@ -1,0 +1,79 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageTransition from "../components/PageTransition.astro";
+import SectionReveal from "../components/SectionReveal.astro";
+import WhatsAppButton from "../components/WhatsAppButton.astro";
+import LanguageBadge from "../components/LanguageBadge.astro";
+import LocationNote from "../components/LocationNote.astro";
+import { contact } from "../data/contact";
+import { WHATSAPP_MESSAGES } from "../utils/whatsapp";
+
+const title = "Contact KWIIN — Book via WhatsApp";
+const description =
+  "Get in touch with KWIIN by Pratana Halstrick. Book a studio appointment in Dübendorf or a Mobile Spa visit via WhatsApp.";
+---
+
+<BaseLayout title={title} description={description}>
+  <PageTransition>
+    <section class="pt-36 pb-24">
+      <div class="mx-auto max-w-3xl px-5 text-center lg:px-8">
+        <p class="text-xs uppercase tracking-[0.2em] text-kwiin-gold-bright/80">Get in Touch</p>
+        <h1 class="mt-4 font-display text-4xl text-kwiin-ivory sm:text-5xl">
+          Let's plan your KWIIN session.
+        </h1>
+        <p class="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-kwiin-soft-grey">
+          For both studio and Mobile Spa inquiries, the fastest way to reach Pratana is via
+          WhatsApp.
+        </p>
+
+        <SectionReveal class="mt-10 flex flex-col items-center gap-4">
+          <WhatsAppButton message={WHATSAPP_MESSAGES.studioGeneric} label="Book Studio via WhatsApp" size="lg" />
+          <WhatsAppButton
+            message={WHATSAPP_MESSAGES.mobileGeneric}
+            label="Ask about Mobile Spa via WhatsApp"
+            variant="secondary"
+            size="lg"
+          />
+        </SectionReveal>
+
+        <SectionReveal class="kwiin-card mt-14 grid gap-8 rounded-3xl p-8 text-left sm:grid-cols-2">
+          <div>
+            <h2 class="text-xs uppercase tracking-[0.14em] text-kwiin-gold-bright/80">Hours</h2>
+            <p class="mt-2 text-sm text-kwiin-soft-grey">{contact.hours}</p>
+
+            <h2 class="mt-6 text-xs uppercase tracking-[0.14em] text-kwiin-gold-bright/80">
+              Languages
+            </h2>
+            <div class="mt-2 flex flex-wrap gap-2">
+              {contact.languages.map((lang) => <LanguageBadge language={lang} />)}
+            </div>
+          </div>
+
+          <div>
+            <h2 class="text-xs uppercase tracking-[0.14em] text-kwiin-gold-bright/80">
+              General Contact
+            </h2>
+            <p class="mt-2 text-sm text-kwiin-soft-grey">{contact.generalContactNumber}</p>
+            <p class="text-xs text-kwiin-soft-grey/60">(Informational only — please use WhatsApp to book)</p>
+
+            <h2 class="mt-6 text-xs uppercase tracking-[0.14em] text-kwiin-gold-bright/80">
+              Instagram
+            </h2>
+            <a
+              href={contact.instagramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mt-2 inline-block text-sm text-kwiin-gold-bright hover:underline"
+            >
+              {contact.instagramHandle}
+            </a>
+          </div>
+        </SectionReveal>
+
+        <div class="mt-10">
+          <LocationNote variant="full" class="mx-auto" />
+        </div>
+      </div>
+    </section>
+  </PageTransition>
+</BaseLayout>

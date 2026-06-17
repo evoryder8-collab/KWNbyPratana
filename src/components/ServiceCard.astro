@@ -1,0 +1,59 @@
+---
+import type { Service } from "../data/services";
+import PriceList from "./PriceList.astro";
+import ServiceAvailabilityBadge from "./ServiceAvailabilityBadge.astro";
+import WhatsAppButton from "./WhatsAppButton.astro";
+
+export interface Props {
+  service: Service;
+  context?: "studio" | "mobile" | "all";
+}
+const { service, context = "all" } = Astro.props;
+
+const ctaLabel = context === "mobile" ? "Inquire via WhatsApp" : "Book via WhatsApp";
+---
+
+<article
+  class="reveal-up kwiin-card group relative flex h-full flex-col gap-5 rounded-2xl p-7"
+  data-service-card
+>
+  {
+    service.knownFor && (
+      <span
+        class="absolute -top-3 left-7 rounded-full bg-gradient-to-r from-kwiin-gold to-kwiin-gold-bright px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-kwiin-black shadow-md"
+      >
+        Known For
+      </span>
+    )
+  }
+
+  <div class="flex items-start justify-between gap-3">
+    <div>
+      <p class="text-xs uppercase tracking-[0.14em] text-kwiin-gold-bright/80">
+        {service.category}
+      </p>
+      <h3 class="font-display text-2xl text-kwiin-ivory">
+        {service.title}
+        {service.subtitle && <span class="text-kwiin-soft-grey"> — {service.subtitle}</span>}
+      </h3>
+    </div>
+  </div>
+
+  <p class="font-display text-base italic text-kwiin-gold-bright/90">{service.tagline}</p>
+
+  <p class="flex-1 text-sm leading-relaxed text-kwiin-soft-grey">{service.description}</p>
+
+  <ServiceAvailabilityBadge
+    studioAvailable={service.studioAvailable}
+    mobileAvailable={service.mobileAvailable}
+  />
+
+  <PriceList durations={service.durations} />
+
+  <WhatsAppButton message={service.whatsappText} label={ctaLabel} variant="secondary" class="mt-2 w-full justify-center" />
+
+  <span
+    class="pointer-events-none absolute inset-0 rounded-2xl border border-kwiin-gold/0 transition-colors duration-500 group-hover:border-kwiin-gold/40"
+    aria-hidden="true"
+  ></span>
+</article>

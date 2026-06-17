@@ -1,0 +1,34 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageTransition from "../components/PageTransition.astro";
+import PortalChoice from "../components/PortalChoice.astro";
+import PartnerStrip from "../components/PartnerStrip.astro";
+import HeroAura from "../components/HeroAura";
+
+const title = "KWIIN by Pratana Halstrick — Luxury Thai Massage in Switzerland";
+const description =
+  "KWIIN by Pratana Halstrick offers champion-level Thai massage in Dübendorf and Mobile Spa appointments across the Zürich region. Book via WhatsApp.";
+---
+
+<BaseLayout title={title} description={description}>
+  <PageTransition>
+    <section class="relative flex min-h-screen items-center overflow-hidden pt-28">
+      <HeroAura client:visible />
+
+      <div class="relative z-10 mx-auto w-full max-w-7xl px-5 lg:px-8">
+        <div class="mb-10 text-center">
+          <p class="text-xs uppercase tracking-[0.2em] text-kwiin-gold-bright/80">
+            Choose your KWIIN journey
+          </p>
+        </div>
+        <PortalChoice />
+        <p class="mx-auto mt-10 max-w-xl text-center text-sm leading-relaxed text-kwiin-soft-grey">
+          Two ways to experience KWIIN — a dedicated studio setting in Dübendorf, or Pratana's
+          luxury Thai massage brought directly to your space.
+        </p>
+      </div>
+    </section>
+
+    <PartnerStrip />
+  </PageTransition>
+</BaseLayout>
