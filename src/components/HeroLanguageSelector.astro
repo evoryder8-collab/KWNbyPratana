@@ -1,0 +1,705 @@
+---
+const languages = [
+  { code: "de", short: "DE", name: "Deutsch" },
+  { code: "en", short: "EN", name: "English" },
+  { code: "th", short: "TH", name: "ไทย" },
+  { code: "fr", short: "FR", name: "Français" },
+  { code: "es", short: "ES", name: "Español" },
+  { code: "it", short: "IT", name: "Italiano" },
+  { code: "ru", short: "RU", name: "Русский" },
+  { code: "pt", short: "PT", name: "Português" },
+] as const;
+---
+
+<div class="kwiin-hero-language" data-hero-language data-language="de">
+  <h1 class="kwiin-hero-title" data-hero-title lang="de">
+    <span data-hero-title-lead>Zurück zu </span><span
+      class="kwiin-hero-title__accent text-gold-gradient"
+      data-hero-title-accent>sich</span><span data-hero-title-end>.</span>
+  </h1>
+
+  <div class="kwiin-language-bridge">
+    <span class="kwiin-language-bridge__prompt" aria-hidden="true">
+      <i></i>
+      <span class="kwiin-language-prompt" data-language-prompt lang="de">
+        Wählen Sie Ihre Sprache
+      </span>
+    </span>
+
+    <details class="kwiin-language-menu" data-language-menu>
+      <summary aria-label="Sprache auswählen">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="8.4" stroke="currentColor" stroke-width="1.2"></circle>
+          <path d="M3.8 12h16.4M12 3.6c2.2 2.3 3.3 5.1 3.3 8.4S14.2 18.1 12 20.4M12 3.6C9.8 5.9 8.7 8.7 8.7 12s1.1 6.1 3.3 8.4" stroke="currentColor" stroke-width="1.05" stroke-linecap="round"></path>
+        </svg>
+        <span data-selected-language>Deutsch</span>
+        <small data-selected-code>DE</small>
+        <i class="kwiin-language-menu__chevron" aria-hidden="true"></i>
+      </summary>
+
+      <div class="kwiin-language-menu__panel" role="menu" aria-label="Verfügbare Sprachen">
+        <span class="kwiin-language-menu__eyebrow">Ihre Sprache</span>
+        <div class="kwiin-language-menu__grid">
+          {
+            languages.map((language) => (
+              <button
+                type="button"
+                role="menuitemradio"
+                aria-checked={language.code === "de" ? "true" : "false"}
+                data-language-option={language.code}
+                data-language-name={language.name}
+                data-language-short={language.short}
+                lang={language.code}
+              >
+                <small>{language.short}</small>
+                <span>{language.name}</span>
+                <i aria-hidden="true"></i>
+              </button>
+            ))
+          }
+        </div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<style>
+  .kwiin-hero-language {
+    position: relative;
+    z-index: 30;
+  }
+
+  .kwiin-hero-title {
+    max-width: 64rem;
+    margin: 1.45rem auto 0;
+    color: var(--color-kwiin-ivory);
+    font-family: var(--font-display);
+    font-size: clamp(3.2rem, 7vw, 5.35rem);
+    font-weight: 500;
+    letter-spacing: 0.005em;
+    line-height: 0.98;
+    text-wrap: balance;
+    transition:
+      opacity 0.36s var(--ease-silk),
+      filter 0.36s var(--ease-silk),
+      transform 0.48s var(--ease-silk);
+  }
+
+  .kwiin-hero-language.is-switching .kwiin-hero-title {
+    opacity: 0.16;
+    filter: blur(7px);
+    transform: translateY(-0.35rem) scale(0.985);
+  }
+
+  .kwiin-hero-title__accent {
+    font-style: italic;
+    font-weight: 500;
+  }
+
+  .kwiin-hero-title[lang="th"] {
+    font-family: "Noto Serif Thai", "Th Sarabun New", serif;
+    font-size: clamp(2.8rem, 6.2vw, 4.7rem);
+    line-height: 1.15;
+  }
+
+  .kwiin-hero-title[lang="th"] .kwiin-hero-title__accent {
+    font-style: normal;
+  }
+
+  .kwiin-language-prompt[lang="th"],
+  .kwiin-language-menu summary > span[lang="th"],
+  .kwiin-language-menu button[lang="th"] > span {
+    font-family: "Noto Serif Thai", "Th Sarabun New", serif;
+  }
+
+  .kwiin-language-bridge {
+    display: flex;
+    width: min(100%, 29rem);
+    min-height: 2.7rem;
+    margin: 1.15rem auto 0;
+    align-items: center;
+    justify-content: center;
+    gap: 0.85rem;
+  }
+
+  .kwiin-language-bridge__prompt {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.7rem;
+  }
+
+  .kwiin-language-bridge__prompt > i {
+    width: clamp(1.1rem, 4vw, 2.4rem);
+    height: 1px;
+    flex: none;
+    background: linear-gradient(90deg, transparent, rgba(236, 210, 155, 0.48));
+  }
+
+  .kwiin-language-prompt {
+    color: rgba(232, 221, 201, 0.64);
+    font-size: 0.57rem;
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    line-height: 1.35;
+    text-align: right;
+    text-transform: uppercase;
+    transition:
+      opacity 0.32s var(--ease-silk),
+      filter 0.32s var(--ease-silk),
+      transform 0.4s var(--ease-silk);
+  }
+
+  .kwiin-language-prompt.is-changing {
+    opacity: 0;
+    filter: blur(4px);
+    transform: translateY(-0.25rem);
+  }
+
+  .kwiin-language-menu {
+    position: relative;
+    flex: none;
+  }
+
+  .kwiin-language-menu summary {
+    display: flex;
+    min-width: 8.9rem;
+    height: 2.7rem;
+    align-items: center;
+    gap: 0.48rem;
+    padding: 0 0.72rem;
+    border: 1px solid rgba(236, 210, 155, 0.27);
+    border-radius: 999px;
+    background:
+      radial-gradient(circle at 20% 0%, rgba(236, 210, 155, 0.1), transparent 52%),
+      rgba(13, 10, 9, 0.76);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.05) inset,
+      0 12px 30px -18px rgba(0, 0, 0, 0.94),
+      0 0 28px -20px rgba(201, 163, 92, 0.7);
+    color: var(--color-kwiin-ivory-dim);
+    cursor: pointer;
+    list-style: none;
+    backdrop-filter: blur(12px);
+    transition:
+      border-color 0.4s var(--ease-silk),
+      box-shadow 0.4s var(--ease-silk),
+      background 0.4s var(--ease-silk);
+  }
+
+  .kwiin-language-menu summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .kwiin-language-menu summary:hover,
+  .kwiin-language-menu summary:focus-visible,
+  .kwiin-language-menu[open] summary {
+    border-color: rgba(236, 210, 155, 0.58);
+    background-color: rgba(22, 16, 12, 0.9);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.07) inset,
+      0 16px 36px -18px rgba(0, 0, 0, 0.95),
+      0 0 34px -18px rgba(201, 163, 92, 0.72);
+  }
+
+  .kwiin-language-menu summary > svg {
+    width: 1rem;
+    height: 1rem;
+    flex: none;
+    color: var(--color-kwiin-gold-bright);
+  }
+
+  .kwiin-language-menu summary > span {
+    overflow: hidden;
+    max-width: 4.5rem;
+    font-family: var(--font-display);
+    font-size: 0.79rem;
+    line-height: 1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .kwiin-language-menu summary > small {
+    color: rgba(186, 177, 164, 0.62);
+    font-size: 0.48rem;
+    letter-spacing: 0.14em;
+  }
+
+  .kwiin-language-menu__chevron {
+    width: 0.34rem;
+    height: 0.34rem;
+    margin-left: auto;
+    border-bottom: 1px solid currentColor;
+    border-right: 1px solid currentColor;
+    color: rgba(236, 210, 155, 0.68);
+    transform: translateY(-0.08rem) rotate(45deg);
+    transition: transform 0.4s var(--ease-silk);
+  }
+
+  .kwiin-language-menu[open] .kwiin-language-menu__chevron {
+    transform: translateY(0.08rem) rotate(225deg);
+  }
+
+  .kwiin-language-menu__panel {
+    position: absolute;
+    top: calc(100% + 0.7rem);
+    right: 0;
+    width: min(22rem, calc(100vw - 2.5rem));
+    padding: 1rem;
+    border: 1px solid rgba(236, 210, 155, 0.22);
+    border-radius: 1.15rem;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(124, 94, 163, 0.13), transparent 46%),
+      radial-gradient(circle at 0 0, rgba(201, 163, 92, 0.13), transparent 48%),
+      rgba(12, 9, 9, 0.965);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.05) inset,
+      0 30px 70px -24px rgba(0, 0, 0, 0.96),
+      0 0 60px -40px rgba(201, 163, 92, 0.8);
+    text-align: left;
+    transform-origin: 82% 0;
+    animation: kwiin-language-menu-arrive 0.48s var(--ease-silk) both;
+    backdrop-filter: blur(18px);
+  }
+
+  .kwiin-language-menu__eyebrow {
+    display: block;
+    margin: 0.05rem 0 0.72rem 0.25rem;
+    color: rgba(236, 210, 155, 0.62);
+    font-size: 0.5rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+  }
+
+  .kwiin-language-menu__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.42rem;
+  }
+
+  .kwiin-language-menu button {
+    position: relative;
+    display: grid;
+    min-width: 0;
+    grid-template-columns: 1.9rem 1fr 0.5rem;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.68rem 0.65rem;
+    border: 1px solid rgba(255, 255, 255, 0.045);
+    border-radius: 0.75rem;
+    background: rgba(255, 255, 255, 0.018);
+    color: rgba(232, 221, 201, 0.74);
+    text-align: left;
+    cursor: pointer;
+    transition:
+      color 0.35s var(--ease-silk),
+      border-color 0.35s var(--ease-silk),
+      background 0.35s var(--ease-silk),
+      transform 0.35s var(--ease-silk);
+  }
+
+  .kwiin-language-menu button:hover,
+  .kwiin-language-menu button:focus-visible {
+    border-color: rgba(236, 210, 155, 0.24);
+    background: rgba(236, 210, 155, 0.055);
+    color: var(--color-kwiin-ivory);
+    transform: translateY(-1px);
+  }
+
+  .kwiin-language-menu button[aria-checked="true"] {
+    border-color: rgba(236, 210, 155, 0.38);
+    background:
+      linear-gradient(110deg, rgba(201, 163, 92, 0.12), rgba(124, 94, 163, 0.08));
+    color: var(--color-kwiin-ivory);
+  }
+
+  .kwiin-language-menu button > small {
+    color: rgba(236, 210, 155, 0.62);
+    font-size: 0.48rem;
+    letter-spacing: 0.13em;
+  }
+
+  .kwiin-language-menu button > span {
+    overflow: hidden;
+    font-family: var(--font-display);
+    font-size: 0.86rem;
+    line-height: 1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .kwiin-language-menu button > i {
+    width: 0.38rem;
+    height: 0.38rem;
+    border: 1px solid rgba(236, 210, 155, 0.3);
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(236, 210, 155, 0);
+    transition:
+      background 0.35s var(--ease-silk),
+      box-shadow 0.35s var(--ease-silk);
+  }
+
+  .kwiin-language-menu button[aria-checked="true"] > i {
+    background: var(--color-kwiin-gold-bright);
+    box-shadow: 0 0 10px rgba(236, 210, 155, 0.72);
+  }
+
+  :global([data-hero-copy]) {
+    transition:
+      opacity 0.34s var(--ease-silk),
+      filter 0.34s var(--ease-silk),
+      transform 0.42s var(--ease-silk);
+  }
+
+  :global(.is-language-switching [data-hero-copy]) {
+    opacity: 0.18;
+    filter: blur(5px);
+    transform: translateY(0.2rem);
+  }
+
+  @keyframes kwiin-language-menu-arrive {
+    from { opacity: 0; transform: translateY(-0.45rem) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  @media (max-width: 23rem) {
+    .kwiin-hero-title {
+      font-size: 2.82rem;
+    }
+
+    .kwiin-language-bridge {
+      gap: 0.55rem;
+    }
+
+    .kwiin-language-bridge__prompt > i {
+      display: none;
+    }
+
+    .kwiin-language-prompt {
+      font-size: 0.5rem;
+      letter-spacing: 0.11em;
+    }
+
+    .kwiin-language-menu summary {
+      min-width: 8.2rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kwiin-hero-title,
+    .kwiin-language-prompt,
+    :global([data-hero-copy]) {
+      transition: none !important;
+    }
+
+    .kwiin-language-menu__panel {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  type HeroLanguageCode = "de" | "en" | "th" | "fr" | "es" | "it" | "ru" | "pt";
+
+  type HeroLocale = {
+    name: string;
+    short: string;
+    prompt: string;
+    eyebrow: string;
+    lead: string;
+    accent: string;
+    end: string;
+    intro: string;
+    cue: string;
+  };
+
+  const HERO_LANGUAGE_ORDER: HeroLanguageCode[] = ["de", "en", "th", "fr", "es", "it", "ru", "pt"];
+  const HERO_LOCALES: Record<HeroLanguageCode, HeroLocale> = {
+    de: {
+      name: "Deutsch",
+      short: "DE",
+      prompt: "Wählen Sie Ihre Sprache",
+      eyebrow: "Willkommen bei KWIIN",
+      lead: "Zurück zu ",
+      accent: "sich",
+      end: ".",
+      intro: "KWIIN ist mehr als ein Spa. Es ist ein Ort, an dem Berührung zur Kunst wird, Ruhe zur Kraft und Selbstfürsorge zu einem neuen Lebensgefühl.",
+      cue: "Wählen Sie Ihren Weg",
+    },
+    en: {
+      name: "English",
+      short: "EN",
+      prompt: "Choose your language",
+      eyebrow: "Welcome to KWIIN",
+      lead: "Return to ",
+      accent: "yourself",
+      end: ".",
+      intro: "KWIIN is more than a spa. It is a place where touch becomes an art, stillness becomes strength, and self-care becomes a new way of living.",
+      cue: "Choose your path",
+    },
+    th: {
+      name: "ไทย",
+      short: "TH",
+      prompt: "เลือกภาษาของคุณ",
+      eyebrow: "ยินดีต้อนรับสู่ KWIIN",
+      lead: "กลับคืนสู่",
+      accent: "ตัวคุณ",
+      end: "",
+      intro: "KWIIN เป็นมากกว่าสปา ที่นี่คือพื้นที่ที่สัมผัสกลายเป็นศิลปะ ความสงบกลายเป็นพลัง และการดูแลตัวเองกลายเป็นวิถีชีวิตใหม่",
+      cue: "เลือกเส้นทางของคุณ",
+    },
+    fr: {
+      name: "Français",
+      short: "FR",
+      prompt: "Choisissez votre langue",
+      eyebrow: "Bienvenue chez KWIIN",
+      lead: "Revenez à ",
+      accent: "vous",
+      end: ".",
+      intro: "KWIIN est bien plus qu’un spa. C’est un lieu où le toucher devient un art, le calme une force et le soin de soi une nouvelle façon de vivre.",
+      cue: "Choisissez votre voie",
+    },
+    es: {
+      name: "Español",
+      short: "ES",
+      prompt: "Elija su idioma",
+      eyebrow: "Le damos la bienvenida a KWIIN",
+      lead: "Vuelva a ",
+      accent: "encontrarse",
+      end: ".",
+      intro: "KWIIN es mucho más que un spa. Es un lugar donde el tacto se convierte en arte, la calma en fuerza y el cuidado de sí en una nueva forma de vivir.",
+      cue: "Elija su camino",
+    },
+    it: {
+      name: "Italiano",
+      short: "IT",
+      prompt: "Scelga la sua lingua",
+      eyebrow: "Benvenuti da KWIIN",
+      lead: "Tornare a ",
+      accent: "sé",
+      end: ".",
+      intro: "KWIIN è molto più di una spa. È un luogo dove il tocco diventa arte, la quiete diventa forza e la cura di sé diventa un nuovo modo di vivere.",
+      cue: "Scelga il suo percorso",
+    },
+    ru: {
+      name: "Русский",
+      short: "RU",
+      prompt: "Выберите язык",
+      eyebrow: "Добро пожаловать в KWIIN",
+      lead: "Вернитесь к ",
+      accent: "себе",
+      end: ".",
+      intro: "KWIIN — больше, чем спа. Это место, где прикосновение становится искусством, покой — силой, а забота о себе — новым образом жизни.",
+      cue: "Выберите свой путь",
+    },
+    pt: {
+      name: "Português",
+      short: "PT",
+      prompt: "Escolha o seu idioma",
+      eyebrow: "Boas-vindas à KWIIN",
+      lead: "Volte a ",
+      accent: "si",
+      end: ".",
+      intro: "A KWIIN é muito mais do que um spa. É um lugar onde o toque se torna arte, a serenidade se torna força e o cuidado de si se torna uma nova forma de viver.",
+      cue: "Escolha o seu caminho",
+    },
+  };
+
+  type HeroLanguageWindow = Window & {
+    __kwiinHeroLanguageCleanup?: () => void;
+  };
+
+  function initHeroLanguage() {
+    const root = document.querySelector<HTMLElement>("[data-hero-language]");
+    if (!root) return;
+
+    const appWindow = window as HeroLanguageWindow;
+    appWindow.__kwiinHeroLanguageCleanup?.();
+
+    const controller = new AbortController();
+    const signal = controller.signal;
+    const hero = root.closest<HTMLElement>("section");
+    const title = root.querySelector<HTMLElement>("[data-hero-title]");
+    const lead = root.querySelector<HTMLElement>("[data-hero-title-lead]");
+    const accent = root.querySelector<HTMLElement>("[data-hero-title-accent]");
+    const end = root.querySelector<HTMLElement>("[data-hero-title-end]");
+    const prompt = root.querySelector<HTMLElement>("[data-language-prompt]");
+    const menu = root.querySelector<HTMLDetailsElement>("[data-language-menu]");
+    const selectedName = root.querySelector<HTMLElement>("[data-selected-language]");
+    const selectedCode = root.querySelector<HTMLElement>("[data-selected-code]");
+    const eyebrow = hero?.querySelector<HTMLElement>("[data-hero-eyebrow]");
+    const intro = hero?.querySelector<HTMLElement>("[data-hero-intro]");
+    const cue = hero?.querySelector<HTMLElement>("[data-hero-cue]");
+    const options = Array.from(
+      root.querySelectorAll<HTMLButtonElement>("[data-language-option]")
+    );
+
+    if (!title || !lead || !accent || !end || !prompt || !menu || !selectedName || !selectedCode) return;
+
+    // Capture the guarded elements as non-null references for the delayed
+    // transition callbacks below. TypeScript deliberately does not preserve
+    // DOM-query narrowing across asynchronous closures.
+    const languageRoot = root;
+    const heroTitle = title;
+    const titleLead = lead;
+    const titleAccent = accent;
+    const titleEnd = end;
+    const languagePrompt = prompt;
+    const languageMenu = menu;
+    const selectedLanguageName = selectedName;
+    const selectedLanguageCode = selectedCode;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let activeLanguage: HeroLanguageCode = "de";
+    let promptIndex = 0;
+    let promptTimer = 0;
+    let promptFadeTimer = 0;
+    let copyTimer = 0;
+    let inView = true;
+
+    try {
+      const stored = window.localStorage.getItem("kwiin-hero-language") as HeroLanguageCode | null;
+      if (stored && HERO_LANGUAGE_ORDER.includes(stored)) activeLanguage = stored;
+    } catch {
+      // Storage can be unavailable in private browsing; the selector still works for this visit.
+    }
+
+    function applyLanguage(code: HeroLanguageCode, persist: boolean, animate: boolean) {
+      const locale = HERO_LOCALES[code];
+      activeLanguage = code;
+      promptIndex = HERO_LANGUAGE_ORDER.indexOf(code);
+
+      const commit = () => {
+        languageRoot.dataset.language = code;
+        heroTitle.lang = code;
+        titleLead.textContent = locale.lead;
+        titleAccent.textContent = locale.accent;
+        titleEnd.textContent = locale.end;
+        selectedLanguageName.textContent = locale.name;
+        selectedLanguageName.lang = code;
+        selectedLanguageCode.textContent = locale.short;
+
+        if (eyebrow) {
+          eyebrow.textContent = locale.eyebrow;
+          eyebrow.lang = code;
+        }
+        if (intro) {
+          intro.textContent = locale.intro;
+          intro.lang = code;
+        }
+        if (cue) {
+          cue.textContent = locale.cue;
+          cue.lang = code;
+        }
+
+        options.forEach((option) => {
+          option.setAttribute(
+            "aria-checked",
+            option.dataset.languageOption === code ? "true" : "false"
+          );
+        });
+
+        languagePrompt.textContent = locale.prompt;
+        languagePrompt.lang = code;
+        languageMenu.open = false;
+
+        if (persist) {
+          try {
+            window.localStorage.setItem("kwiin-hero-language", code);
+          } catch {
+            // The visible selection remains functional without persistence.
+          }
+        }
+
+        languageRoot.classList.remove("is-switching");
+        hero?.classList.remove("is-language-switching");
+      };
+
+      window.clearTimeout(copyTimer);
+      if (animate && !reduceMotion) {
+        languageRoot.classList.add("is-switching");
+        hero?.classList.add("is-language-switching");
+        copyTimer = window.setTimeout(commit, 230);
+      } else {
+        commit();
+      }
+    }
+
+    function stopPromptCycle() {
+      window.clearTimeout(promptTimer);
+      window.clearTimeout(promptFadeTimer);
+    }
+
+    function queuePromptCycle() {
+      stopPromptCycle();
+      if (reduceMotion || document.hidden || !inView || languageMenu.open) return;
+
+      promptTimer = window.setTimeout(() => {
+        languagePrompt.classList.add("is-changing");
+        promptFadeTimer = window.setTimeout(() => {
+          promptIndex = (promptIndex + 1) % HERO_LANGUAGE_ORDER.length;
+          const nextCode = HERO_LANGUAGE_ORDER[promptIndex];
+          languagePrompt.textContent = HERO_LOCALES[nextCode].prompt;
+          languagePrompt.lang = nextCode;
+          languagePrompt.classList.remove("is-changing");
+          queuePromptCycle();
+        }, 330);
+      }, 2350);
+    }
+
+    options.forEach((option) => {
+      option.addEventListener(
+        "click",
+        () => {
+          const code = option.dataset.languageOption as HeroLanguageCode;
+          if (!HERO_LOCALES[code]) return;
+          applyLanguage(code, true, code !== activeLanguage);
+          queuePromptCycle();
+        },
+        { signal }
+      );
+    });
+
+    languageMenu.addEventListener("toggle", queuePromptCycle, { signal });
+    document.addEventListener(
+      "pointerdown",
+      (event) => {
+        if (languageMenu.open && !languageMenu.contains(event.target as Node)) languageMenu.open = false;
+      },
+      { signal }
+    );
+    document.addEventListener(
+      "keydown",
+      (event) => {
+        if (event.key === "Escape") languageMenu.open = false;
+      },
+      { signal }
+    );
+    document.addEventListener("visibilitychange", queuePromptCycle, { signal });
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        inView = Boolean(entry?.isIntersecting);
+        queuePromptCycle();
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(languageRoot);
+
+    applyLanguage(activeLanguage, false, false);
+    queuePromptCycle();
+
+    appWindow.__kwiinHeroLanguageCleanup = () => {
+      controller.abort();
+      observer.disconnect();
+      stopPromptCycle();
+      window.clearTimeout(copyTimer);
+    };
+  }
+
+  initHeroLanguage();
+  document.addEventListener("astro:after-swap", initHeroLanguage);
+</script>

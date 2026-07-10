@@ -11,8 +11,8 @@ export const contact = {
   region: "Region Zürich, Schweiz",
 };
 
-/** English signature line — part of the brand identity, kept in English. */
-export const tagline = "Where Luxury meets Healing.";
+/** Short brand signature used across the preloader and footer. */
+export const tagline = "Zurück zu sich.";
 
 export const brandLine = "Gratitude in the name of your health.";
 

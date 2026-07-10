@@ -10,11 +10,12 @@ import GoldDust from "../components/GoldDust.astro";
 import TestimonialCard from "../components/TestimonialCard.astro";
 import WhatsAppButton from "../components/WhatsAppButton.astro";
 import HeroAura from "../components/HeroAura.astro";
+import HeroLanguageSelector from "../components/HeroLanguageSelector.astro";
 import { testimonials } from "../data/testimonials";
 import { WHATSAPP_MESSAGES } from "../utils/whatsapp";
 import { withBase } from "../utils/base";
 
-const title = "KWIIN by Pratana Halstrick | Where Luxury meets Healing";
+const title = "KWIIN by Pratana Halstrick | Zurück zu sich";
 const description =
   "KWIIN verbindet traditionelle thailändische Heilkunst mit modernem Luxus: preisgekrönte Thai-Massage im Studio in Dübendorf und als Mobile Spa in der ganzen Region Zürich.";
 ---
@@ -27,11 +28,8 @@ const description =
 
       <div class="relative z-10 mx-auto w-full max-w-7xl px-5 lg:px-8">
         <div class="text-center">
-          <p class="kwiin-eyebrow">Willkommen bei KWIIN</p>
-          <h1 class="mx-auto mt-6 max-w-4xl font-display text-5xl leading-[1.04] text-kwiin-ivory text-balance sm:text-6xl lg:text-7xl">
-            Where <span class="kwiin-accent text-gold-gradient">Luxury</span> meets
-            <span class="kwiin-accent text-gold-gradient">Healing</span>.
-          </h1>
+          <p class="kwiin-eyebrow" data-hero-eyebrow data-hero-copy>Willkommen bei KWIIN</p>
+          <HeroLanguageSelector />
         </div>
 
         <div class="kwiin-portrait-stage relative mx-auto mt-6 flex w-full max-w-md justify-center sm:max-w-lg">
@@ -54,13 +52,14 @@ const description =
 
         <p
           class="mx-auto mt-2 max-w-2xl text-center font-display text-lg leading-relaxed text-kwiin-ivory-dim sm:text-xl"
-          data-words
+          data-hero-intro
+          data-hero-copy
         >
           KWIIN ist mehr als ein Spa. Es ist ein Ort, an dem Berührung zur Kunst wird, Ruhe zur Kraft und Selbstfürsorge zu einem neuen Lebensgefühl.
         </p>
 
         <div class="mt-12 flex flex-col items-center gap-3" aria-hidden="true">
-          <span class="text-[0.62rem] uppercase tracking-[0.3em] text-kwiin-soft-grey/70">
+          <span class="text-[0.62rem] uppercase tracking-[0.3em] text-kwiin-soft-grey/70" data-hero-cue data-hero-copy>
             Wählen Sie Ihren Weg
           </span>
           <span class="kwiin-scroll-cue"></span>
