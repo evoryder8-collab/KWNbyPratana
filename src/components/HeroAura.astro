@@ -1,0 +1,429 @@
+---
+/**
+ * KWIIN Celestial Lotus
+ *
+ * A deliberately composed constellation that frames Pratana as a celestial
+ * lotus rather than drawing a generic polygon mesh across the page. The scene
+ * is pure SVG + CSS: four lightweight path signals on desktop, two on mobile,
+ * no fragment shader, no WebGL canvas, and no continuous JavaScript loop.
+ *
+ * IntersectionObserver and the Page Visibility API pause both SMIL and CSS
+ * animation whenever the hero is not visible. Reduced-motion users receive
+ * the same artwork as a still composition.
+ */
+---
+
+<div class="kwiin-celestial" data-celestial aria-hidden="true">
+  <span class="kwiin-celestial__silk"></span>
+  <span class="kwiin-celestial__aura"></span>
+
+  <svg
+    class="kwiin-celestial__svg kwiin-celestial__svg--desktop"
+    data-celestial-svg
+    viewBox="0 0 1600 900"
+    preserveAspectRatio="xMidYMid slice"
+  >
+    <defs>
+      <linearGradient id="celestial-desktop-line" x1="180" y1="450" x2="1420" y2="450" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#8a6f33" stop-opacity=".28"></stop>
+        <stop offset=".42" stop-color="#ecd29b" stop-opacity=".5"></stop>
+        <stop offset=".58" stop-color="#f7ead0" stop-opacity=".46"></stop>
+        <stop offset="1" stop-color="#9f78c2" stop-opacity=".3"></stop>
+      </linearGradient>
+      <radialGradient id="celestial-desktop-signal">
+        <stop stop-color="#fff9e9"></stop>
+        <stop offset=".38" stop-color="#ecd29b"></stop>
+        <stop offset="1" stop-color="#c9a35c" stop-opacity="0"></stop>
+      </radialGradient>
+      <symbol id="celestial-desktop-star" viewBox="-12 -12 24 24" overflow="visible">
+        <circle r="10" fill="currentColor" opacity=".08"></circle>
+        <circle r="2.1" fill="currentColor"></circle>
+        <path d="M0-8V8M-8 0H8" stroke="currentColor" stroke-width=".65" stroke-linecap="round" opacity=".72"></path>
+        <path d="m-4.8-4.8 9.6 9.6m0-9.6-9.6 9.6" stroke="currentColor" stroke-width=".35" stroke-linecap="round" opacity=".38"></path>
+      </symbol>
+
+      <path id="celestial-d-center" d="M800 785C684 635 690 418 800 278C910 418 916 635 800 785"></path>
+      <path id="celestial-d-left" d="M800 785C616 748 500 548 558 342C700 412 785 585 800 785"></path>
+      <path id="celestial-d-right" d="M800 785C984 748 1100 548 1042 342C900 412 815 585 800 785"></path>
+      <path id="celestial-d-left-outer" d="M800 785C505 792 304 640 330 390C560 423 733 588 800 785"></path>
+      <path id="celestial-d-right-outer" d="M800 785C1095 792 1296 640 1270 390C1040 423 867 588 800 785"></path>
+    </defs>
+
+    <g class="kwiin-celestial__geometry">
+      <path class="kwiin-celestial__path" d="M800 785C684 635 690 418 800 278C910 418 916 635 800 785"></path>
+      <path class="kwiin-celestial__path" d="M800 785C616 748 500 548 558 342C700 412 785 585 800 785"></path>
+      <path class="kwiin-celestial__path" d="M800 785C984 748 1100 548 1042 342C900 412 815 585 800 785"></path>
+      <path class="kwiin-celestial__path kwiin-celestial__path--soft" d="M800 785C505 792 304 640 330 390C560 423 733 588 800 785"></path>
+      <path class="kwiin-celestial__path kwiin-celestial__path--soft" d="M800 785C1095 792 1296 640 1270 390C1040 423 867 588 800 785"></path>
+      <path class="kwiin-celestial__path kwiin-celestial__path--whisper" d="M330 390C254 304 166 279 78 334M330 390C238 484 171 590 112 716"></path>
+      <path class="kwiin-celestial__path kwiin-celestial__path--whisper" d="M1270 390C1346 304 1434 279 1522 334M1270 390C1362 484 1429 590 1488 716"></path>
+      <path class="kwiin-celestial__path kwiin-celestial__path--whisper" d="M558 342C508 260 460 212 392 178M1042 342C1092 260 1140 212 1208 178"></path>
+      <path class="kwiin-celestial__path kwiin-celestial__path--base" d="M330 390C350 688 524 846 800 785C1076 846 1250 688 1270 390"></path>
+    </g>
+
+    <g class="kwiin-celestial__stars">
+      <use href="#celestial-desktop-star" x="800" y="278" width="24" height="24" class="kwiin-celestial__star kwiin-celestial__star--ivory"></use>
+      <use href="#celestial-desktop-star" x="558" y="342" width="24" height="24" class="kwiin-celestial__star kwiin-celestial__star--gold kwiin-celestial__star--delay-1"></use>
+      <use href="#celestial-desktop-star" x="1042" y="342" width="24" height="24" class="kwiin-celestial__star kwiin-celestial__star--violet kwiin-celestial__star--delay-2"></use>
+      <use href="#celestial-desktop-star" x="330" y="390" width="24" height="24" class="kwiin-celestial__star kwiin-celestial__star--gold kwiin-celestial__star--delay-3"></use>
+      <use href="#celestial-desktop-star" x="1270" y="390" width="24" height="24" class="kwiin-celestial__star kwiin-celestial__star--violet kwiin-celestial__star--delay-4"></use>
+      <use href="#celestial-desktop-star" x="800" y="785" width="24" height="24" class="kwiin-celestial__star kwiin-celestial__star--ivory kwiin-celestial__star--delay-2"></use>
+      <use href="#celestial-desktop-star" x="392" y="178" width="24" height="24" class="kwiin-celestial__star kwiin-celestial__star--gold kwiin-celestial__star--small"></use>
+      <use href="#celestial-desktop-star" x="1208" y="178" width="24" height="24" class="kwiin-celestial__star kwiin-celestial__star--violet kwiin-celestial__star--small"></use>
+      <use href="#celestial-desktop-star" x="112" y="716" width="24" height="24" class="kwiin-celestial__star kwiin-celestial__star--gold kwiin-celestial__star--small"></use>
+      <use href="#celestial-desktop-star" x="1488" y="716" width="24" height="24" class="kwiin-celestial__star kwiin-celestial__star--violet kwiin-celestial__star--small"></use>
+    </g>
+
+    <g class="kwiin-celestial__micro-stars">
+      <circle cx="214" cy="230" r="1.3"></circle><circle cx="274" cy="546" r="1"></circle>
+      <circle cx="446" cy="690" r="1.4"></circle><circle cx="510" cy="248" r=".9"></circle>
+      <circle cx="626" cy="186" r="1.2"></circle><circle cx="704" cy="722" r=".9"></circle>
+      <circle cx="918" cy="198" r="1"></circle><circle cx="975" cy="702" r="1.4"></circle>
+      <circle cx="1122" cy="238" r=".9"></circle><circle cx="1170" cy="674" r="1.1"></circle>
+      <circle cx="1352" cy="518" r="1.4"></circle><circle cx="1434" cy="244" r="1"></circle>
+    </g>
+
+    <g class="kwiin-celestial__signal kwiin-celestial__signal--gold">
+      <circle r="8" fill="url(#celestial-desktop-signal)" opacity=".28"></circle>
+      <circle r="2.2" fill="#fff7e3"></circle>
+      <animateMotion dur="8.4s" begin="-1.4s" repeatCount="indefinite" calcMode="paced">
+        <mpath href="#celestial-d-left-outer"></mpath>
+      </animateMotion>
+    </g>
+    <g class="kwiin-celestial__signal kwiin-celestial__signal--violet">
+      <circle r="8" fill="#caa5e8" opacity=".18"></circle>
+      <circle r="2.2" fill="#f1ddff"></circle>
+      <animateMotion dur="9.2s" begin="-5.1s" repeatCount="indefinite" calcMode="paced">
+        <mpath href="#celestial-d-right-outer"></mpath>
+      </animateMotion>
+    </g>
+    <g class="kwiin-celestial__signal kwiin-celestial__signal--secondary">
+      <circle r="7" fill="url(#celestial-desktop-signal)" opacity=".22"></circle>
+      <circle r="1.8" fill="#fff7e3"></circle>
+      <animateMotion dur="7.6s" begin="-3.2s" repeatCount="indefinite" calcMode="paced">
+        <mpath href="#celestial-d-center"></mpath>
+      </animateMotion>
+    </g>
+    <g class="kwiin-celestial__signal kwiin-celestial__signal--secondary kwiin-celestial__signal--violet">
+      <circle r="7" fill="#caa5e8" opacity=".16"></circle>
+      <circle r="1.8" fill="#f1ddff"></circle>
+      <animateMotion dur="8.8s" begin="-6.4s" repeatCount="indefinite" calcMode="paced">
+        <mpath href="#celestial-d-right"></mpath>
+      </animateMotion>
+    </g>
+  </svg>
+
+  <svg
+    class="kwiin-celestial__svg kwiin-celestial__svg--mobile"
+    data-celestial-svg
+    viewBox="0 0 900 1700"
+    preserveAspectRatio="xMidYMid slice"
+  >
+    <defs>
+      <linearGradient id="celestial-mobile-line" x1="80" y1="850" x2="820" y2="850" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#8a6f33" stop-opacity=".34"></stop>
+        <stop offset=".45" stop-color="#ecd29b" stop-opacity=".5"></stop>
+        <stop offset=".55" stop-color="#f7ead0" stop-opacity=".45"></stop>
+        <stop offset="1" stop-color="#9f78c2" stop-opacity=".34"></stop>
+      </linearGradient>
+      <radialGradient id="celestial-mobile-signal">
+        <stop stop-color="#fff9e9"></stop>
+        <stop offset=".38" stop-color="#ecd29b"></stop>
+        <stop offset="1" stop-color="#c9a35c" stop-opacity="0"></stop>
+      </radialGradient>
+      <symbol id="celestial-mobile-star" viewBox="-12 -12 24 24" overflow="visible">
+        <circle r="10" fill="currentColor" opacity=".08"></circle>
+        <circle r="2.2" fill="currentColor"></circle>
+        <path d="M0-8V8M-8 0H8" stroke="currentColor" stroke-width=".65" stroke-linecap="round" opacity=".72"></path>
+        <path d="m-4.8-4.8 9.6 9.6m0-9.6-9.6 9.6" stroke="currentColor" stroke-width=".35" stroke-linecap="round" opacity=".38"></path>
+      </symbol>
+
+      <path id="celestial-m-center" d="M450 1530C335 1230 338 825 450 545C562 825 565 1230 450 1530"></path>
+      <path id="celestial-m-left" d="M450 1530C260 1370 205 970 286 660C420 850 470 1170 450 1530"></path>
+      <path id="celestial-m-right" d="M450 1530C640 1370 695 970 614 660C480 850 430 1170 450 1530"></path>
+      <path id="celestial-m-left-outer" d="M450 1530C155 1430 75 1070 142 790C340 935 444 1188 450 1530"></path>
+      <path id="celestial-m-right-outer" d="M450 1530C745 1430 825 1070 758 790C560 935 456 1188 450 1530"></path>
+    </defs>
+
+    <g class="kwiin-celestial__geometry">
+      <path class="kwiin-celestial__path" d="M450 1530C335 1230 338 825 450 545C562 825 565 1230 450 1530"></path>
+      <path class="kwiin-celestial__path" d="M450 1530C260 1370 205 970 286 660C420 850 470 1170 450 1530"></path>
+      <path class="kwiin-celestial__path" d="M450 1530C640 1370 695 970 614 660C480 850 430 1170 450 1530"></path>
+      <path class="kwiin-celestial__path kwiin-celestial__path--soft" d="M450 1530C155 1430 75 1070 142 790C340 935 444 1188 450 1530"></path>
+      <path class="kwiin-celestial__path kwiin-celestial__path--soft" d="M450 1530C745 1430 825 1070 758 790C560 935 456 1188 450 1530"></path>
+      <path class="kwiin-celestial__path kwiin-celestial__path--whisper" d="M142 790C88 650 76 520 118 380C176 465 230 552 286 660"></path>
+      <path class="kwiin-celestial__path kwiin-celestial__path--whisper" d="M758 790C812 650 824 520 782 380C724 465 670 552 614 660"></path>
+      <path class="kwiin-celestial__path kwiin-celestial__path--whisper" d="M118 380C170 300 213 252 272 210M782 380C730 300 687 252 628 210"></path>
+      <path class="kwiin-celestial__path kwiin-celestial__path--base" d="M142 790C118 1260 230 1515 450 1530C670 1515 782 1260 758 790"></path>
+    </g>
+
+    <g class="kwiin-celestial__stars">
+      <use href="#celestial-mobile-star" x="450" y="545" width="24" height="24" class="kwiin-celestial__star kwiin-celestial__star--ivory"></use>
+      <use href="#celestial-mobile-star" x="286" y="660" width="24" height="24" class="kwiin-celestial__star kwiin-celestial__star--gold kwiin-celestial__star--delay-1"></use>
+      <use href="#celestial-mobile-star" x="614" y="660" width="24" height="24" class="kwiin-celestial__star kwiin-celestial__star--violet kwiin-celestial__star--delay-2"></use>
+      <use href="#celestial-mobile-star" x="142" y="790" width="24" height="24" class="kwiin-celestial__star kwiin-celestial__star--gold kwiin-celestial__star--delay-3"></use>
+      <use href="#celestial-mobile-star" x="758" y="790" width="24" height="24" class="kwiin-celestial__star kwiin-celestial__star--violet kwiin-celestial__star--delay-4"></use>
+      <use href="#celestial-mobile-star" x="450" y="1530" width="24" height="24" class="kwiin-celestial__star kwiin-celestial__star--ivory kwiin-celestial__star--delay-2"></use>
+      <use href="#celestial-mobile-star" x="118" y="380" width="24" height="24" class="kwiin-celestial__star kwiin-celestial__star--gold kwiin-celestial__star--small"></use>
+      <use href="#celestial-mobile-star" x="782" y="380" width="24" height="24" class="kwiin-celestial__star kwiin-celestial__star--violet kwiin-celestial__star--small"></use>
+      <use href="#celestial-mobile-star" x="272" y="210" width="24" height="24" class="kwiin-celestial__star kwiin-celestial__star--gold kwiin-celestial__star--small"></use>
+      <use href="#celestial-mobile-star" x="628" y="210" width="24" height="24" class="kwiin-celestial__star kwiin-celestial__star--violet kwiin-celestial__star--small"></use>
+    </g>
+
+    <g class="kwiin-celestial__micro-stars">
+      <circle cx="76" cy="520" r="1"></circle><circle cx="190" cy="930" r="1.3"></circle>
+      <circle cx="222" cy="1220" r=".9"></circle><circle cx="330" cy="420" r="1.2"></circle>
+      <circle cx="382" cy="1400" r="1"></circle><circle cx="506" cy="330" r=".9"></circle>
+      <circle cx="548" cy="1420" r="1.4"></circle><circle cx="682" cy="1140" r="1"></circle>
+      <circle cx="724" cy="510" r="1.3"></circle><circle cx="825" cy="1030" r=".9"></circle>
+    </g>
+
+    <g class="kwiin-celestial__signal kwiin-celestial__signal--gold">
+      <circle r="8" fill="url(#celestial-mobile-signal)" opacity=".28"></circle>
+      <circle r="2.2" fill="#fff7e3"></circle>
+      <animateMotion dur="9.4s" begin="-2.2s" repeatCount="indefinite" calcMode="paced">
+        <mpath href="#celestial-m-left-outer"></mpath>
+      </animateMotion>
+    </g>
+    <g class="kwiin-celestial__signal kwiin-celestial__signal--violet">
+      <circle r="8" fill="#caa5e8" opacity=".18"></circle>
+      <circle r="2.2" fill="#f1ddff"></circle>
+      <animateMotion dur="10.2s" begin="-6.1s" repeatCount="indefinite" calcMode="paced">
+        <mpath href="#celestial-m-right-outer"></mpath>
+      </animateMotion>
+    </g>
+    <g class="kwiin-celestial__signal kwiin-celestial__signal--secondary">
+      <circle r="7" fill="url(#celestial-mobile-signal)" opacity=".2"></circle>
+      <circle r="1.8" fill="#fff7e3"></circle>
+      <animateMotion dur="8.8s" begin="-4.2s" repeatCount="indefinite" calcMode="paced">
+        <mpath href="#celestial-m-center"></mpath>
+      </animateMotion>
+    </g>
+  </svg>
+</div>
+
+<style>
+  .kwiin-celestial {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background:
+      radial-gradient(70% 54% at 50% 43%, rgba(201, 163, 92, 0.18), transparent 64%),
+      radial-gradient(46% 52% at 78% 54%, rgba(124, 94, 163, 0.09), transparent 72%),
+      linear-gradient(180deg, #090807 0%, #15100b 54%, #0b0908 100%);
+    pointer-events: none;
+  }
+
+  .kwiin-celestial__silk {
+    position: absolute;
+    inset: 0;
+    opacity: 0.5;
+    background:
+      linear-gradient(115deg, transparent 22%, rgba(255, 241, 207, 0.035) 43%, transparent 62%),
+      linear-gradient(245deg, transparent 28%, rgba(124, 94, 163, 0.035) 51%, transparent 72%);
+  }
+
+  .kwiin-celestial__aura {
+    position: absolute;
+    left: 50%;
+    top: 52%;
+    width: min(84vw, 48rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(240, 211, 151, 0.2),
+      rgba(201, 163, 92, 0.08) 42%,
+      transparent 72%
+    );
+    opacity: 0.78;
+    transform: translate(-50%, -50%);
+    animation: kwiin-celestial-breathe 9s ease-in-out infinite;
+  }
+
+  .kwiin-celestial__svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .kwiin-celestial__svg--desktop {
+    display: none;
+  }
+
+  .kwiin-celestial__path {
+    fill: none;
+    stroke: url(#celestial-mobile-line);
+    stroke-width: 1.15;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+    opacity: 0.34;
+  }
+
+  .kwiin-celestial__path--soft {
+    opacity: 0.24;
+  }
+
+  .kwiin-celestial__path--whisper {
+    opacity: 0.15;
+  }
+
+  .kwiin-celestial__path--base {
+    stroke-dasharray: 2 9;
+    opacity: 0.16;
+  }
+
+  .kwiin-celestial__star {
+    color: var(--color-kwiin-gold-bright);
+    opacity: 0.88;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: kwiin-celestial-twinkle 6.8s ease-in-out infinite;
+  }
+
+  .kwiin-celestial__star--gold {
+    color: #e4c07a;
+  }
+
+  .kwiin-celestial__star--ivory {
+    color: #fff4d6;
+  }
+
+  .kwiin-celestial__star--violet {
+    color: #c6a2e2;
+  }
+
+  .kwiin-celestial__star--small {
+    opacity: 0.55;
+    transform: scale(0.7);
+  }
+
+  .kwiin-celestial__star--delay-1 { animation-delay: -1.4s; }
+  .kwiin-celestial__star--delay-2 { animation-delay: -3.2s; }
+  .kwiin-celestial__star--delay-3 { animation-delay: -4.7s; }
+  .kwiin-celestial__star--delay-4 { animation-delay: -5.8s; }
+
+  .kwiin-celestial__micro-stars {
+    fill: rgba(244, 220, 171, 0.5);
+  }
+
+  .kwiin-celestial__signal {
+    color: #fff1c9;
+  }
+
+  .kwiin-celestial__signal--violet {
+    color: #d8b9ef;
+  }
+
+  .kwiin-celestial.is-paused .kwiin-celestial__star,
+  .kwiin-celestial.is-paused .kwiin-celestial__aura {
+    animation-play-state: paused;
+  }
+
+  @media (min-width: 40rem) {
+    .kwiin-celestial__svg--mobile {
+      display: none;
+    }
+
+    .kwiin-celestial__svg--desktop {
+      display: block;
+    }
+
+    .kwiin-celestial__svg--desktop .kwiin-celestial__path {
+      stroke: url(#celestial-desktop-line);
+    }
+  }
+
+  @media (max-width: 39.999rem) {
+    .kwiin-celestial__signal--secondary {
+      display: none;
+    }
+
+    .kwiin-celestial__aura {
+      top: 49%;
+      width: min(126vw, 34rem);
+      opacity: 0.68;
+    }
+  }
+
+  @keyframes kwiin-celestial-twinkle {
+    0%, 100% { opacity: 0.5; transform: scale(0.82); }
+    48% { opacity: 1; transform: scale(1.08); }
+    62% { opacity: 0.7; transform: scale(0.96); }
+  }
+
+  @keyframes kwiin-celestial-breathe {
+    0%, 100% { opacity: 0.62; transform: translate(-50%, -50%) scale(0.96); }
+    50% { opacity: 0.82; transform: translate(-50%, -50%) scale(1.04); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kwiin-celestial__signal {
+      display: none;
+    }
+
+    .kwiin-celestial__star,
+    .kwiin-celestial__aura {
+      animation: none !important;
+    }
+  }
+</style>
+
+<script>
+  type CelestialWindow = Window & {
+    __kwiinCelestialCleanup?: () => void;
+  };
+
+  function initCelestialLotus() {
+    const root = document.querySelector<HTMLElement>("[data-celestial]");
+    if (!root) return;
+    const celestialRoot = root;
+
+    const appWindow = window as CelestialWindow;
+    appWindow.__kwiinCelestialCleanup?.();
+
+    const controller = new AbortController();
+    const svgs = Array.from(
+      root.querySelectorAll<SVGSVGElement>("[data-celestial-svg]")
+    );
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let inView = true;
+
+    function syncMotion() {
+      const shouldPause = reduceMotion || document.hidden || !inView;
+      celestialRoot.classList.toggle("is-paused", shouldPause);
+
+      svgs.forEach((svg) => {
+        if (shouldPause) {
+          svg.pauseAnimations?.();
+        } else {
+          svg.unpauseAnimations?.();
+        }
+      });
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        inView = Boolean(entry?.isIntersecting);
+        syncMotion();
+      },
+      { threshold: 0.02 }
+    );
+
+    observer.observe(celestialRoot);
+    document.addEventListener("visibilitychange", syncMotion, {
+      signal: controller.signal,
+    });
+    syncMotion();
+
+    appWindow.__kwiinCelestialCleanup = () => {
+      controller.abort();
+      observer.disconnect();
+    };
+  }
+
+  initCelestialLotus();
+  document.addEventListener("astro:after-swap", initCelestialLotus);
+</script>

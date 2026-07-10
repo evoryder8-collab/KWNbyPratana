@@ -9,7 +9,7 @@ import ValuesMarquee from "../components/ValuesMarquee.astro";
 import GoldDust from "../components/GoldDust.astro";
 import TestimonialCard from "../components/TestimonialCard.astro";
 import WhatsAppButton from "../components/WhatsAppButton.astro";
-import HeroAura from "../components/HeroAura";
+import HeroAura from "../components/HeroAura.astro";
 import { testimonials } from "../data/testimonials";
 import { WHATSAPP_MESSAGES } from "../utils/whatsapp";
 import { withBase } from "../utils/base";
@@ -23,7 +23,7 @@ const description =
   <PageTransition>
     {/* ── I. Hero: the arrival ─────────────────────────────────────── */}
     <section class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden pb-14 pt-28">
-      <HeroAura client:visible />
+      <HeroAura />
 
       <div class="relative z-10 mx-auto w-full max-w-7xl px-5 lg:px-8">
         <div class="text-center">

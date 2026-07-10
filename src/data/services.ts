@@ -23,6 +23,18 @@ export interface Service {
   whatsappText: string;
 }
 
+export interface MobileSpaTravelZone {
+  maxDistanceKm: number;
+  feeChf: number;
+}
+
+export const MOBILE_SPA_TRAVEL_ZONES: readonly MobileSpaTravelZone[] = [
+  { maxDistanceKm: 15, feeChf: 45 },
+  { maxDistanceKm: 30, feeChf: 100 },
+] as const;
+
+export const DEFAULT_MOBILE_SPA_TRAVEL_ZONE = MOBILE_SPA_TRAVEL_ZONES[0];
+
 export const services: Service[] = [
   {
     id: "kwiin-massage",
@@ -135,4 +147,4 @@ export const services: Service[] = [
 export const featuredService = services.find((s) => s.knownFor) ?? services[0];
 
 export const MOBILE_SPA_TRAVEL_FEE_NOTE =
-  "Mobile Spa Anfahrt: +45 CHF im Umkreis von 15 km. Weitere Distanzen auf Anfrage.";
+  "Mobile Spa Anfahrt: bis 15 km +45 CHF, bis 30 km +100 CHF. Weitere Distanzen auf Anfrage.";

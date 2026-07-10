@@ -4,6 +4,10 @@ import PriceList from "./PriceList.astro";
 import ServiceAvailabilityBadge from "./ServiceAvailabilityBadge.astro";
 import WhatsAppButton from "./WhatsAppButton.astro";
 import LotusMark from "./LotusMark.astro";
+import {
+  DEFAULT_MOBILE_SPA_TRAVEL_ZONE,
+} from "../data/services";
+import { whatsappUrl } from "../utils/whatsapp";
 
 export interface Props {
   service: Service;
@@ -11,12 +15,30 @@ export interface Props {
 }
 const { service, context = "all" } = Astro.props;
 
-const ctaLabel = context === "mobile" ? "Via WhatsApp anfragen" : "Via WhatsApp buchen";
+const initialMode = context === "mobile" ? "mobile" : "studio";
+const studioMessage = `${service.whatsappText} Ich wünsche einen Termin im Studio in Dübendorf.`;
+const mobileMessage = `${service.whatsappText} Ich wünsche einen Mobile-Spa-Termin bei mir.`;
+const studioWhatsapp = whatsappUrl(studioMessage);
+const mobileWhatsapp15 = whatsappUrl(
+  `${mobileMessage} Anfahrtszone: bis 15 km.`
+);
+const mobileWhatsapp30 = whatsappUrl(
+  `${mobileMessage} Anfahrtszone: bis 30 km.`
+);
+const initialMessage = initialMode === "mobile" ? mobileMessage : studioMessage;
+const ctaLabel = initialMode === "mobile"
+  ? "Mobil via WhatsApp anfragen"
+  : "Im Studio via WhatsApp buchen";
 ---
 
 <article
   class="reveal-up kwiin-tilt kwiin-panel group relative flex h-full flex-col gap-5 rounded-3xl p-8"
   data-service-card
+  data-service-id={service.id}
+  data-initial-price-mode={initialMode}
+  data-studio-whatsapp={studioWhatsapp}
+  data-mobile-whatsapp-15={mobileWhatsapp15}
+  data-mobile-whatsapp-30={mobileWhatsapp30}
 >
   {
     service.knownFor && (
@@ -50,14 +72,207 @@ const ctaLabel = context === "mobile" ? "Via WhatsApp anfragen" : "Via WhatsApp 
 
   <div class="relative z-10">
     <ServiceAvailabilityBadge
+      serviceId={service.id}
       studioAvailable={service.studioAvailable}
       mobileAvailable={service.mobileAvailable}
+      initialMode={initialMode}
     />
   </div>
 
   <div class="relative z-10">
-    <PriceList durations={service.durations} />
+    <PriceList
+      durations={service.durations}
+      initialMode={initialMode}
+      initialTravelFeeChf={DEFAULT_MOBILE_SPA_TRAVEL_ZONE.feeChf}
+      initialDistanceKm={DEFAULT_MOBILE_SPA_TRAVEL_ZONE.maxDistanceKm}
+    />
   </div>
 
-  <WhatsAppButton message={service.whatsappText} label={ctaLabel} variant="secondary" class="relative z-10 mt-2 w-full justify-center" />
+  <div class="relative z-10 mt-2" data-service-cta>
+    <WhatsAppButton message={initialMessage} label={ctaLabel} variant="secondary" class="w-full justify-center" />
+  </div>
 </article>
+
+<script>
+  type PriceMode = "studio" | "mobile";
+  type DistanceKm = "15" | "30";
+
+  const priceAnimations = new WeakMap<HTMLElement, number>();
+
+  function animatePrice(
+    element: HTMLElement,
+    from: number,
+    to: number,
+    shouldAnimate: boolean
+  ) {
+    const previousAnimation = priceAnimations.get(element);
+    if (previousAnimation) cancelAnimationFrame(previousAnimation);
+
+    if (!shouldAnimate || from === to) {
+      element.textContent = String(to);
+      return;
+    }
+
+    const total = element.closest<HTMLElement>("[data-price-total]");
+    const startedAt = performance.now();
+    const duration = 440;
+    total?.classList.remove("is-updating");
+    void total?.offsetWidth;
+    total?.classList.add("is-updating");
+
+    function frame(now: number) {
+      const progress = Math.min(1, (now - startedAt) / duration);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      element.textContent = String(Math.round(from + (to - from) * eased));
+
+      if (progress < 1) {
+        priceAnimations.set(element, requestAnimationFrame(frame));
+      } else {
+        priceAnimations.delete(element);
+        window.setTimeout(() => total?.classList.remove("is-updating"), 520);
+      }
+    }
+
+    priceAnimations.set(element, requestAnimationFrame(frame));
+  }
+
+  function updateCardPriceMode(
+    card: HTMLElement,
+    mode: PriceMode,
+    distanceKm: DistanceKm,
+    shouldAnimate: boolean
+  ) {
+    card.dataset.priceMode = mode;
+    card.dataset.mobileDistance = distanceKm;
+
+    const selector = card.querySelector<HTMLElement>("[data-price-selector]");
+    if (selector) selector.dataset.mode = mode;
+
+    card
+      .querySelectorAll<HTMLInputElement>("[data-price-mode-input]")
+      .forEach((input) => {
+        input.checked = input.value === mode;
+      });
+
+    const distancePanel = card.querySelector<HTMLElement>(
+      "[data-mobile-distance-panel]"
+    );
+    distancePanel?.setAttribute(
+      "aria-hidden",
+      mode === "mobile" ? "false" : "true"
+    );
+
+    const distanceSelect = card.querySelector<HTMLSelectElement>(
+      "[data-mobile-distance-select]"
+    );
+    if (distanceSelect) distanceSelect.value = distanceKm;
+
+    const selectedDistanceOption = distanceSelect?.selectedOptions[0];
+    const travelFee = Number(
+      selectedDistanceOption?.dataset.travelFee ||
+      (distanceKm === "30" ? 100 : 45)
+    );
+
+    card.querySelectorAll<HTMLElement>("[data-price-list]").forEach((list) => {
+      list.dataset.mode = mode;
+    });
+
+    card.querySelectorAll<HTMLElement>("[data-price-row]").forEach((row) => {
+      const studioPrice = Number(row.dataset.studioPrice || 0);
+      const nextPrice = mode === "mobile" ? studioPrice + travelFee : studioPrice;
+      const priceValue = row.querySelector<HTMLElement>("[data-price-value]");
+      const currentPrice = Number(priceValue?.textContent || studioPrice);
+      const breakdown = row.querySelector<HTMLElement>("[data-travel-breakdown]");
+      const minutes = row.dataset.minutes || "";
+
+      if (priceValue) {
+        animatePrice(priceValue, currentPrice, nextPrice, shouldAnimate);
+      }
+
+      if (breakdown) {
+        breakdown.textContent =
+          `(+ CHF ${travelFee} Anfahrtspauschale · bis ${distanceKm} km)`;
+        breakdown.dataset.visible = mode === "mobile" ? "true" : "false";
+        breakdown.setAttribute("aria-hidden", mode === "mobile" ? "false" : "true");
+      }
+
+      row.setAttribute(
+        "aria-label",
+        mode === "mobile"
+          ? `${minutes} Minuten, ${nextPrice} Schweizer Franken, inklusive ${travelFee} Schweizer Franken Anfahrtspauschale für bis zu ${distanceKm} Kilometer`
+          : `${minutes} Minuten, ${nextPrice} Schweizer Franken, Studiopreis`
+      );
+    });
+
+    const cta = card.querySelector<HTMLAnchorElement>("[data-service-cta] a");
+    const ctaLabel = cta?.querySelector<HTMLElement>("span");
+    if (cta) {
+      const href = mode === "mobile"
+        ? distanceKm === "30"
+          ? card.getAttribute("data-mobile-whatsapp-30")
+          : card.getAttribute("data-mobile-whatsapp-15")
+        : card.dataset.studioWhatsapp;
+      const label = mode === "mobile"
+        ? `Mobil bis ${distanceKm} km anfragen`
+        : "Im Studio via WhatsApp buchen";
+
+      if (href) cta.href = href;
+      cta.setAttribute("aria-label", label);
+      if (ctaLabel) ctaLabel.textContent = label;
+    }
+  }
+
+  function initServicePricing() {
+    const cards = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-service-card]")
+    );
+    if (!cards.length) return;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const initialMode = (cards[0].dataset.initialPriceMode || "studio") as PriceMode;
+    let activeDistance: DistanceKm = "15";
+
+    function updateAllCards(
+      mode: PriceMode,
+      distanceKm: DistanceKm,
+      shouldAnimate: boolean
+    ) {
+      activeDistance = distanceKm;
+      cards.forEach((card) =>
+        updateCardPriceMode(
+          card,
+          mode,
+          distanceKm,
+          shouldAnimate && !reduceMotion
+        )
+      );
+    }
+
+    cards.forEach((card) => {
+      if (card.dataset.pricingBound === "true") return;
+      card.dataset.pricingBound = "true";
+
+      card.addEventListener("change", (event) => {
+        const input = (event.target as HTMLElement).closest<HTMLInputElement>(
+          "[data-price-mode-input]"
+        );
+        if (input) {
+          updateAllCards(input.value as PriceMode, activeDistance, true);
+          return;
+        }
+
+        const distanceSelect = (event.target as HTMLElement).closest<HTMLSelectElement>(
+          "[data-mobile-distance-select]"
+        );
+        if (distanceSelect) {
+          updateAllCards("mobile", distanceSelect.value as DistanceKm, true);
+        }
+      });
+    });
+
+    updateAllCards(initialMode, activeDistance, false);
+  }
+
+  initServicePricing();
+  document.addEventListener("astro:after-swap", initServicePricing);
+</script>

@@ -2,8 +2,9 @@
 /**
  * A whisper of gold dust: tiny luminous particles drifting upward inside
  * whichever section hosts this component (the host must be positioned).
- * Canvas-based but deliberately frugal: ~36 particles, paused while
- * offscreen, skipped entirely under reduced motion or without JS.
+ * Canvas-based but deliberately frugal: a cached glow sprite, a capped
+ * mobile pixel ratio and 30 fps paint budget, paused while offscreen or in a
+ * hidden tab, and skipped entirely under reduced motion or without JS.
  */
 export interface Props {
   class?: string;
@@ -25,26 +26,48 @@ const { class: className = "" } = Astro.props;
     tw: number;
   }
 
-  function setupGoldDust(canvas: HTMLCanvasElement) {
-    if (canvas.dataset.dustBound === "true") return;
-    canvas.dataset.dustBound = "true";
+  type DustWindow = Window & {
+    __kwiinDustCleanups?: Array<() => void>;
+  };
 
+  function setupGoldDust(canvas: HTMLCanvasElement) {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) return;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const DPR = Math.min(window.devicePixelRatio || 1, 2);
+    const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
+    const DPR = Math.min(window.devicePixelRatio || 1, coarsePointer ? 1 : 1.5);
+    const FRAME_INTERVAL = 1000 / (coarsePointer ? 30 : 40);
+
+    // Paint the blurred mote once and reuse it. Per-particle shadowBlur on
+    // every frame is substantially more expensive on mobile Safari.
+    const glowSprite = document.createElement("canvas");
+    glowSprite.width = 28;
+    glowSprite.height = 28;
+    const glowCtx = glowSprite.getContext("2d");
+    if (!glowCtx) return;
+    const glow = glowCtx.createRadialGradient(14, 14, 0, 14, 14, 14);
+    glow.addColorStop(0, "rgba(255, 244, 212, 1)");
+    glow.addColorStop(0.2, "rgba(236, 210, 155, 0.82)");
+    glow.addColorStop(1, "rgba(236, 210, 155, 0)");
+    glowCtx.fillStyle = glow;
+    glowCtx.fillRect(0, 0, 28, 28);
+
     let width = 0;
     let height = 0;
     let motes: Mote[] = [];
     let raf = 0;
     let running = false;
+    let inView = false;
+    let lastPaint = 0;
     let t = 0;
 
     function seed() {
-      const count = Math.round(Math.min(44, Math.max(22, width / 34)));
+      const count = coarsePointer
+        ? Math.round(Math.min(18, Math.max(12, width / 42)))
+        : Math.round(Math.min(32, Math.max(18, width / 38)));
       motes = Array.from({ length: count }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
@@ -63,57 +86,78 @@ const { class: className = "" } = Astro.props;
       canvas.width = Math.round(width * DPR);
       canvas.height = Math.round(height * DPR);
       ctx!.setTransform(DPR, 0, 0, DPR, 0, 0);
-      if (!motes.length) seed();
+      seed();
     }
 
-    function frame() {
+    function frame(now: number) {
       if (!running) return;
-      t += 0.016;
+      raf = requestAnimationFrame(frame);
+
+      if (lastPaint && now - lastPaint < FRAME_INTERVAL) return;
+      const elapsed = lastPaint ? Math.min((now - lastPaint) / 1000, 0.05) : 1 / 30;
+      lastPaint = now;
+      t += elapsed;
       ctx!.clearRect(0, 0, width, height);
 
       for (const m of motes) {
-        m.y -= m.vy;
-        m.x += Math.sin(t * m.drift + m.phase) * 0.14;
+        m.y -= m.vy * elapsed * 60;
+        m.x += Math.sin(t * m.drift + m.phase) * 0.14 * elapsed * 60;
         if (m.y < -4) {
           m.y = height + 4;
           m.x = Math.random() * width;
         }
         const alpha = (0.25 + 0.55 * Math.abs(Math.sin(t * m.tw + m.phase))) * 0.8;
-        ctx!.beginPath();
-        ctx!.arc(m.x, m.y, m.r, 0, Math.PI * 2);
-        ctx!.fillStyle = `rgba(236, 210, 155, ${alpha.toFixed(3)})`;
-        ctx!.shadowColor = "rgba(236, 210, 155, 0.6)";
-        ctx!.shadowBlur = 6;
-        ctx!.fill();
-        ctx!.shadowBlur = 0;
+        const size = 5 + m.r * 5;
+        ctx!.globalAlpha = alpha;
+        ctx!.drawImage(glowSprite, m.x - size / 2, m.y - size / 2, size, size);
       }
-      raf = requestAnimationFrame(frame);
+      ctx!.globalAlpha = 1;
+    }
+
+    function syncRunning() {
+      const shouldRun = inView && !document.hidden;
+      if (shouldRun && !running) {
+        running = true;
+        lastPaint = 0;
+        raf = requestAnimationFrame(frame);
+      } else if (!shouldRun && running) {
+        running = false;
+        cancelAnimationFrame(raf);
+        raf = 0;
+      }
     }
 
     const io = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting && !running) {
-            running = true;
-            raf = requestAnimationFrame(frame);
-          } else if (!entry.isIntersecting && running) {
-            running = false;
-            cancelAnimationFrame(raf);
-          }
-        }
+      ([entry]) => {
+        inView = Boolean(entry?.isIntersecting);
+        syncRunning();
       },
       { threshold: 0.02 }
     );
 
+    const resizeObserver = new ResizeObserver(resize);
     resize();
     io.observe(canvas);
-    new ResizeObserver(resize).observe(canvas);
+    resizeObserver.observe(canvas);
+    document.addEventListener("visibilitychange", syncRunning);
+
+    return () => {
+      running = false;
+      cancelAnimationFrame(raf);
+      io.disconnect();
+      resizeObserver.disconnect();
+      document.removeEventListener("visibilitychange", syncRunning);
+    };
   }
 
   function initGoldDust() {
-    document
-      .querySelectorAll<HTMLCanvasElement>("canvas[data-gold-dust]")
-      .forEach(setupGoldDust);
+    const appWindow = window as DustWindow;
+    appWindow.__kwiinDustCleanups?.forEach((cleanup) => cleanup());
+    appWindow.__kwiinDustCleanups = Array.from(
+      document.querySelectorAll<HTMLCanvasElement>("canvas[data-gold-dust]")
+    )
+      .map(setupGoldDust)
+      .filter((cleanup): cleanup is () => void => Boolean(cleanup));
   }
 
   initGoldDust();

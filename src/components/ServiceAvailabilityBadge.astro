@@ -1,32 +1,502 @@
 ---
+import { MOBILE_SPA_TRAVEL_ZONES } from "../data/services";
+
 export interface Props {
+  serviceId: string;
   studioAvailable: boolean;
   mobileAvailable: boolean;
+  initialMode?: "studio" | "mobile";
 }
-const { studioAvailable, mobileAvailable } = Astro.props;
+
+const {
+  serviceId,
+  studioAvailable,
+  mobileAvailable,
+  initialMode = mobileAvailable && !studioAvailable ? "mobile" : "studio",
+} = Astro.props;
+
+const inputName = `price-mode-${serviceId}`;
+const hintId = `price-mode-hint-${serviceId}`;
 ---
 
-<div class="flex flex-wrap gap-2" role="list" aria-label="Verfügbarkeit">
-  {
-    studioAvailable && (
-      <span
-        role="listitem"
-        class="inline-flex items-center gap-1.5 rounded-full bg-kwiin-charcoal px-3 py-1 text-[11px] uppercase tracking-[0.1em] text-kwiin-ivory/80 border border-white/10"
-      >
-        <span class="h-1.5 w-1.5 rounded-full bg-kwiin-gold-bright" aria-hidden="true" />
-        Studio
+<fieldset
+  class="kwiin-price-selector"
+  data-price-selector={serviceId}
+  data-mode={initialMode}
+  aria-describedby={hintId}
+>
+  <legend class="sr-only">Preis nach Behandlungsort auswählen</legend>
+
+  <div class="kwiin-price-selector__intro">
+    <span>Preis anzeigen für</span>
+    <span class="kwiin-price-selector__action">
+      Antippen zum Wechseln
+      <svg viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <path d="M5.2 9h7.6M9.8 6l3 3-3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+    </span>
+  </div>
+
+  <div class="kwiin-price-selector__track">
+    <span class="kwiin-price-selector__indicator" aria-hidden="true"></span>
+
+    {
+      studioAvailable && (
+        <label class="kwiin-price-selector__option" data-price-mode-option="studio">
+          <input
+            class="sr-only"
+            type="radio"
+            name={inputName}
+            value="studio"
+            data-price-mode-input="studio"
+            checked={initialMode === "studio"}
+          />
+          <svg class="kwiin-price-selector__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4.5 20h15M6.5 20V8.5L12 4l5.5 4.5V20M9.2 20v-6h5.6v6" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+          <span class="kwiin-price-selector__copy">
+            <strong>Im Studio</strong>
+            <small>Dübendorf</small>
+          </span>
+          <span class="kwiin-price-selector__check" aria-hidden="true">
+            <svg viewBox="0 0 16 16" fill="none">
+              <path d="m4 8.3 2.4 2.4L12.2 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </span>
+        </label>
+      )
+    }
+
+    {
+      mobileAvailable && (
+        <label class="kwiin-price-selector__option" data-price-mode-option="mobile">
+          <input
+            class="sr-only"
+            type="radio"
+            name={inputName}
+            value="mobile"
+            data-price-mode-input="mobile"
+            checked={initialMode === "mobile"}
+          />
+          <svg class="kwiin-price-selector__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M3 17.5h11.5M13.5 7.2h3.2l2.8 4.1v6.2h-2.1M6.8 17.5h6.8M14.5 7.2v6h5M6.4 20a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM15.9 20a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+          <span class="kwiin-price-selector__copy">
+            <strong>Mobil</strong>
+            <small>bei Ihnen · inkl. Anfahrt</small>
+          </span>
+          <span class="kwiin-price-selector__check" aria-hidden="true">
+            <svg viewBox="0 0 16 16" fill="none">
+              <path d="m4 8.3 2.4 2.4L12.2 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </span>
+        </label>
+      )
+    }
+  </div>
+
+  <div
+    class="kwiin-distance-panel"
+    data-mobile-distance-panel
+    aria-hidden={initialMode === "mobile" ? "false" : "true"}
+  >
+    <div class="kwiin-distance-panel__heading">
+      <span class="kwiin-distance-panel__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"></path>
+          <circle cx="12" cy="10" r="2.1" stroke="currentColor" stroke-width="1.35"></circle>
+        </svg>
       </span>
-    )
-  }
-  {
-    mobileAvailable && (
-      <span
-        role="listitem"
-        class="inline-flex items-center gap-1.5 rounded-full bg-kwiin-charcoal px-3 py-1 text-[11px] uppercase tracking-[0.1em] text-kwiin-ivory/80 border border-white/10"
-      >
-        <span class="h-1.5 w-1.5 rounded-full bg-kwiin-purple" aria-hidden="true" />
-        Mobil
+      <span>
+        <strong>Anfahrtszone wählen</strong>
+        <small>Wird direkt im Gesamtpreis eingerechnet</small>
       </span>
-    )
+    </div>
+
+    <label class="kwiin-distance-panel__select-wrap">
+      <span class="sr-only">Maximale Entfernung für Mobile Spa</span>
+      <select data-mobile-distance-select aria-label="Anfahrtszone für Mobile Spa">
+        {
+          MOBILE_SPA_TRAVEL_ZONES.map((zone) => (
+            <option
+              value={zone.maxDistanceKm}
+              data-travel-fee={zone.feeChf}
+            >
+              Bis {zone.maxDistanceKm} km · + CHF {zone.feeChf}
+            </option>
+          ))
+        }
+      </select>
+      <svg viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <path d="m5 7 4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+    </label>
+  </div>
+
+  <p id={hintId} class="kwiin-price-selector__hint">
+    Die Auswahl gilt für alle Behandlungen auf dieser Seite.
+  </p>
+</fieldset>
+
+<style>
+  .kwiin-price-selector {
+    min-width: 0;
+    border: 0;
+    padding: 0;
   }
-</div>
+
+  .kwiin-price-selector__intro {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.55rem;
+    color: rgba(236, 210, 155, 0.72);
+    font-size: 0.58rem;
+    letter-spacing: 0.16em;
+    line-height: 1.3;
+    text-transform: uppercase;
+  }
+
+  .kwiin-price-selector__action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    color: rgba(186, 177, 164, 0.52);
+    letter-spacing: 0.08em;
+    text-align: right;
+  }
+
+  .kwiin-price-selector__action svg {
+    width: 0.85rem;
+    flex: none;
+    animation: kwiin-selector-nudge 2.4s ease-in-out infinite;
+  }
+
+  .kwiin-price-selector__track {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    padding: 4px;
+    overflow: hidden;
+    border: 1px solid rgba(236, 210, 155, 0.16);
+    border-radius: 1.15rem;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.035), transparent 45%),
+      rgba(8, 6, 6, 0.54);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.04) inset,
+      0 12px 28px -18px rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(12px);
+  }
+
+  .kwiin-price-selector__indicator {
+    position: absolute;
+    inset-block: 4px;
+    left: 4px;
+    width: calc(50% - 4px);
+    border: 1px solid rgba(236, 210, 155, 0.34);
+    border-radius: 0.9rem;
+    background:
+      radial-gradient(circle at 22% 20%, rgba(255, 246, 220, 0.13), transparent 45%),
+      linear-gradient(135deg, rgba(201, 163, 92, 0.2), rgba(126, 91, 35, 0.08));
+    box-shadow:
+      0 0 24px -10px rgba(236, 210, 155, 0.65),
+      0 1px 0 rgba(255, 255, 255, 0.06) inset;
+    transform: translateX(0);
+    transition:
+      transform 0.58s var(--ease-silk),
+      border-color 0.58s var(--ease-silk),
+      background 0.58s var(--ease-silk),
+      box-shadow 0.58s var(--ease-silk);
+  }
+
+  .kwiin-price-selector[data-mode="mobile"] .kwiin-price-selector__indicator {
+    border-color: rgba(183, 146, 219, 0.38);
+    background:
+      radial-gradient(circle at 78% 20%, rgba(236, 217, 255, 0.12), transparent 45%),
+      linear-gradient(135deg, rgba(124, 94, 163, 0.2), rgba(74, 49, 104, 0.1));
+    box-shadow:
+      0 0 25px -10px rgba(178, 135, 218, 0.72),
+      0 1px 0 rgba(255, 255, 255, 0.06) inset;
+    transform: translateX(100%);
+  }
+
+  .kwiin-price-selector__option {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    min-width: 0;
+    min-height: 3.65rem;
+    align-items: center;
+    gap: 0.52rem;
+    border-radius: 0.9rem;
+    padding: 0.55rem 0.62rem;
+    color: rgba(186, 177, 164, 0.62);
+    cursor: pointer;
+    user-select: none;
+    transition:
+      color 0.45s var(--ease-silk),
+      transform 0.25s var(--ease-silk);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .kwiin-price-selector__option:active {
+    transform: scale(0.975);
+  }
+
+  .kwiin-price-selector__option:has(input:focus-visible) {
+    outline: 1px solid var(--color-kwiin-gold-bright);
+    outline-offset: -2px;
+  }
+
+  .kwiin-price-selector[data-mode="studio"] [data-price-mode-option="studio"],
+  .kwiin-price-selector[data-mode="mobile"] [data-price-mode-option="mobile"] {
+    color: var(--color-kwiin-ivory);
+  }
+
+  .kwiin-price-selector__icon {
+    width: 1.12rem;
+    flex: none;
+    color: currentColor;
+    opacity: 0.75;
+    transition: opacity 0.45s var(--ease-silk), filter 0.45s var(--ease-silk);
+  }
+
+  .kwiin-price-selector[data-mode="studio"] [data-price-mode-option="studio"] .kwiin-price-selector__icon {
+    color: var(--color-kwiin-gold-bright);
+    opacity: 1;
+    filter: drop-shadow(0 0 6px rgba(236, 210, 155, 0.45));
+  }
+
+  .kwiin-price-selector[data-mode="mobile"] [data-price-mode-option="mobile"] .kwiin-price-selector__icon {
+    color: #d8b8f2;
+    opacity: 1;
+    filter: drop-shadow(0 0 6px rgba(178, 135, 218, 0.5));
+  }
+
+  .kwiin-price-selector__copy {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0.16rem;
+    text-align: left;
+  }
+
+  .kwiin-price-selector__copy strong {
+    overflow: hidden;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    line-height: 1.15;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .kwiin-price-selector__copy small {
+    overflow: hidden;
+    font-size: 0.54rem;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    opacity: 0.62;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .kwiin-price-selector__check {
+    display: grid;
+    width: 1rem;
+    aspect-ratio: 1;
+    place-items: center;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(0.6);
+    transition: opacity 0.4s var(--ease-silk), transform 0.4s var(--ease-silk);
+  }
+
+  .kwiin-price-selector__check svg {
+    width: 0.7rem;
+  }
+
+  .kwiin-price-selector[data-mode="studio"] [data-price-mode-option="studio"] .kwiin-price-selector__check,
+  .kwiin-price-selector[data-mode="mobile"] [data-price-mode-option="mobile"] .kwiin-price-selector__check {
+    opacity: 0.72;
+    transform: scale(1);
+  }
+
+  .kwiin-price-selector__hint {
+    margin-top: 0.48rem;
+    text-align: center;
+    color: rgba(186, 177, 164, 0.42);
+    font-size: 0.52rem;
+    letter-spacing: 0.06em;
+    line-height: 1.4;
+  }
+
+  .kwiin-distance-panel {
+    display: block;
+    max-height: 0;
+    margin-top: 0;
+    overflow: hidden;
+    border: 1px solid transparent;
+    border-radius: 1rem;
+    background: rgba(16, 10, 21, 0);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-0.45rem) scale(0.985);
+    transition:
+      max-height 0.58s var(--ease-silk),
+      margin-top 0.58s var(--ease-silk),
+      padding 0.58s var(--ease-silk),
+      border-color 0.58s var(--ease-silk),
+      background 0.58s var(--ease-silk),
+      opacity 0.45s var(--ease-silk),
+      transform 0.58s var(--ease-silk);
+  }
+
+  .kwiin-price-selector[data-mode="mobile"] .kwiin-distance-panel {
+    max-height: 9rem;
+    margin-top: 0.65rem;
+    padding: 0.72rem;
+    border-color: rgba(175, 137, 211, 0.22);
+    background:
+      radial-gradient(circle at 0 0, rgba(124, 94, 163, 0.14), transparent 55%),
+      rgba(14, 10, 18, 0.72);
+    box-shadow: 0 14px 30px -22px rgba(124, 94, 163, 0.7);
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+  }
+
+  .kwiin-distance-panel__heading {
+    display: flex;
+    min-height: 0;
+    align-items: center;
+    gap: 0.55rem;
+    overflow: hidden;
+  }
+
+  .kwiin-distance-panel__heading > span:last-child {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.13rem;
+  }
+
+  .kwiin-distance-panel__heading strong {
+    color: rgba(232, 217, 244, 0.86);
+    font-size: 0.58rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .kwiin-distance-panel__heading small {
+    color: rgba(186, 177, 164, 0.48);
+    font-size: 0.5rem;
+    line-height: 1.35;
+  }
+
+  .kwiin-distance-panel__icon {
+    display: grid;
+    width: 1.8rem;
+    aspect-ratio: 1;
+    flex: none;
+    place-items: center;
+    border: 1px solid rgba(180, 145, 215, 0.2);
+    border-radius: 50%;
+    color: #d2b3e9;
+    background: rgba(124, 94, 163, 0.08);
+  }
+
+  .kwiin-distance-panel__icon svg {
+    width: 0.9rem;
+  }
+
+  .kwiin-distance-panel__select-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: 0.62rem;
+    overflow: hidden;
+    border: 1px solid rgba(202, 172, 229, 0.25);
+    border-radius: 0.75rem;
+    background:
+      linear-gradient(135deg, rgba(124, 94, 163, 0.16), rgba(201, 163, 92, 0.05)),
+      rgba(7, 5, 8, 0.64);
+    color: var(--color-kwiin-ivory);
+    transition: border-color 0.35s var(--ease-silk), box-shadow 0.35s var(--ease-silk);
+  }
+
+  .kwiin-distance-panel__select-wrap:focus-within {
+    border-color: rgba(224, 199, 244, 0.58);
+    box-shadow: 0 0 0 3px rgba(124, 94, 163, 0.12);
+  }
+
+  .kwiin-distance-panel__select-wrap select {
+    width: 100%;
+    appearance: none;
+    border: 0;
+    outline: 0;
+    padding: 0.68rem 2.2rem 0.68rem 0.78rem;
+    color: inherit;
+    background: transparent;
+    font: inherit;
+    font-size: 0.66rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+  }
+
+  .kwiin-distance-panel__select-wrap > svg {
+    position: absolute;
+    right: 0.68rem;
+    width: 0.9rem;
+    color: #d2b3e9;
+    pointer-events: none;
+  }
+
+  @keyframes kwiin-selector-nudge {
+    0%, 100% { transform: translateX(0); opacity: 0.46; }
+    50% { transform: translateX(0.18rem); opacity: 0.9; }
+  }
+
+  @media (max-width: 23rem) {
+    .kwiin-price-selector__action {
+      font-size: 0;
+    }
+
+    .kwiin-price-selector__option {
+      gap: 0.35rem;
+      padding-inline: 0.42rem;
+    }
+
+    .kwiin-price-selector__copy strong {
+      font-size: 0.58rem;
+    }
+
+    .kwiin-price-selector__copy small {
+      font-size: 0.49rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kwiin-price-selector__action svg {
+      animation: none;
+    }
+
+    .kwiin-price-selector__indicator,
+    .kwiin-price-selector__option,
+    .kwiin-price-selector__check,
+    .kwiin-distance-panel {
+      transition: none;
+    }
+  }
+</style>

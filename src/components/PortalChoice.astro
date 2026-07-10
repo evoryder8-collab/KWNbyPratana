@@ -199,6 +199,14 @@ import { withBase } from "../utils/base";
     padding-block: 0.35rem 0.85rem;
   }
 
+  /* Preserve the living portal while it is on-screen, but stop all of its
+     perpetual compositing work once it is well outside the viewport. */
+  .kwiin-portal.is-dormant *,
+  .kwiin-portal.is-dormant *::before,
+  .kwiin-portal.is-dormant *::after {
+    animation-play-state: paused !important;
+  }
+
   .kwiin-portal-shell {
     position: relative;
     display: grid;
@@ -1051,6 +1059,26 @@ import { withBase } from "../utils/base";
       );
       const thresholdSeal = portal.querySelector<HTMLElement>(".kwiin-threshold-seal");
       let launching = false;
+      let portalInView = true;
+
+      function syncPortalActivity() {
+        portal.classList.toggle(
+          "is-dormant",
+          document.hidden || !portalInView
+        );
+      }
+
+      const activityObserver = new IntersectionObserver(
+        ([entry]) => {
+          portalInView = Boolean(entry?.isIntersecting);
+          syncPortalActivity();
+        },
+        { rootMargin: "180px 0px", threshold: 0 }
+      );
+
+      activityObserver.observe(portal);
+      document.addEventListener("visibilitychange", syncPortalActivity, { signal });
+      syncPortalActivity();
 
       gsap.set(worlds, {
         transformPerspective: 1300,
@@ -1198,6 +1226,7 @@ import { withBase } from "../utils/base";
 
       portal.__kwiinPortalCleanup = () => {
         controller.abort();
+        activityObserver.disconnect();
         gsap.killTweensOf(worlds);
         if (thresholdSeal) gsap.killTweensOf(thresholdSeal);
       };

@@ -1,5 +1,4 @@
 import { defineConfig } from "astro/config";
-import react from "@astrojs/react";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
@@ -7,7 +6,6 @@ export default defineConfig({
   // custom domain is ready, update `site` to it and remove `base`.
   site: "https://evoryder8-collab.github.io",
   base: "/KWNbyPratana",
-  integrations: [react()],
   vite: {
     plugins: [tailwindcss()],
   },

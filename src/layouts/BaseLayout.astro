@@ -87,9 +87,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <Footer />
 
     <script>
-      // Lenis smooth scroll, disabled automatically when the user prefers
-      // reduced motion, since native scroll is the most predictable option
-      // for those users.
+      // Lenis smooth scroll is a desktop enhancement. iOS and other
+      // coarse-pointer devices keep native momentum scrolling so there is no
+      // permanent requestAnimationFrame loop competing with touch input.
       import Lenis from "lenis";
       import { initKwiinAnimations, resetKwiinAnimations, refreshScrollTriggers } from "../utils/animations";
 
@@ -100,12 +100,17 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         // multiple smooth-scroll loops
         if (w.__kwiinLenisRaf) cancelAnimationFrame(w.__kwiinLenisRaf);
         if (w.__kwiinLenis?.destroy) w.__kwiinLenis.destroy();
+        w.__kwiinLenisRaf = 0;
+        w.__kwiinLenis = undefined;
 
         const prefersReducedMotion = window.matchMedia(
           "(prefers-reduced-motion: reduce)"
         ).matches;
+        const prefersNativeTouchScroll = window.matchMedia(
+          "(hover: none), (pointer: coarse)"
+        ).matches;
 
-        if (prefersReducedMotion) return;
+        if (prefersReducedMotion || prefersNativeTouchScroll) return;
 
         const lenis = new Lenis({
           duration: 1.1,
