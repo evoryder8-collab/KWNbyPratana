@@ -1,18 +1,20 @@
 @import "tailwindcss";
 
 @theme {
-  /* ── KWIIN luxury wellness palette ──────────────────────────────── */
-  --color-kwiin-black: #0a0908;
-  --color-kwiin-charcoal: #1c1a18;
-  --color-kwiin-graphite: #2c2a27;
-  --color-kwiin-soft-grey: #b9b3ac;
-  --color-kwiin-ivory: #f6f1e9;
-  --color-kwiin-ivory-dim: #e7ddcd;
-  --color-kwiin-gold: #c8a04d;
-  --color-kwiin-gold-bright: #e9c879;
-  --color-kwiin-gold-dim: #8a702f;
-  --color-kwiin-purple: #6e4f8c;
-  --color-kwiin-purple-soft: #463054;
+  /* ── KWIIN palette: candlelit black, champagne gold, royal amethyst ── */
+  --color-kwiin-black: #0b0908;
+  --color-kwiin-espresso: #120e0b;
+  --color-kwiin-charcoal: #1b1613;
+  --color-kwiin-graphite: #2b2620;
+  --color-kwiin-soft-grey: #bab1a4;
+  --color-kwiin-ivory: #f7f2e8;
+  --color-kwiin-ivory-dim: #e8ddc9;
+  --color-kwiin-gold: #c9a35c;
+  --color-kwiin-gold-bright: #ecd29b;
+  --color-kwiin-gold-dim: #8a6f33;
+  --color-kwiin-purple: #7c5ea3;
+  --color-kwiin-purple-soft: #43325a;
+  --color-kwiin-purple-deep: #221a30;
 
   --font-display: "Cormorant Garamond", "Georgia", serif;
   --font-body: "Inter", "system-ui", sans-serif;
@@ -21,7 +23,7 @@
   --ease-silk: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --shadow-luxe: 0 40px 80px -30px rgba(0, 0, 0, 0.85);
-  --shadow-gold: 0 0 60px -20px rgba(201, 168, 106, 0.4);
+  --shadow-gold: 0 0 60px -20px rgba(201, 163, 92, 0.4);
 }
 
 @layer base {
@@ -36,6 +38,7 @@
     color: var(--color-kwiin-ivory);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    overflow-x: clip;
   }
 
   h1, h2, h3, h4 {
@@ -68,7 +71,7 @@
     inset: 0;
     z-index: 9999;
     pointer-events: none;
-    opacity: 0.04;
+    opacity: 0.05;
     mix-blend-mode: overlay;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
@@ -98,6 +101,31 @@
     text-wrap: balance;
   }
 
+  /* ── editorial section eyebrow: rule + tracked caps + rule ────────── */
+  .kwiin-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.34em;
+    color: color-mix(in srgb, var(--color-kwiin-gold-bright) 85%, transparent);
+  }
+  .kwiin-eyebrow::before,
+  .kwiin-eyebrow::after {
+    content: "";
+    height: 1px;
+    width: 2.4rem;
+    background: linear-gradient(90deg, transparent, var(--color-kwiin-gold));
+  }
+  .kwiin-eyebrow::after {
+    background: linear-gradient(90deg, var(--color-kwiin-gold), transparent);
+  }
+  .kwiin-eyebrow--bare::before,
+  .kwiin-eyebrow--bare::after {
+    display: none;
+  }
+
   /* ── animated gold-leaf gradient type ───────────────────────────── */
   .text-gold-gradient {
     background: linear-gradient(
@@ -123,15 +151,42 @@
     .text-gold-gradient { animation: none; }
   }
 
+  /* italic gold accent inside display headlines */
+  .kwiin-accent {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--color-kwiin-gold-bright);
+  }
+
   .kwiin-card {
     background: linear-gradient(
       160deg,
       rgba(255, 255, 255, 0.035),
       rgba(255, 255, 255, 0.01)
     );
-    border: 1px solid rgba(201, 168, 106, 0.16);
+    border: 1px solid rgba(201, 163, 92, 0.16);
     backdrop-filter: blur(6px);
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05) inset;
+  }
+
+  /* ── luxury panel: card with fine double-frame + corner accents ──── */
+  .kwiin-panel {
+    position: relative;
+    background:
+      linear-gradient(165deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.008) 55%),
+      radial-gradient(120% 90% at 50% 0%, rgba(201, 163, 92, 0.07), transparent 60%);
+    border: 1px solid rgba(201, 163, 92, 0.18);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.05) inset,
+      0 30px 60px -34px rgba(0, 0, 0, 0.9);
+  }
+  .kwiin-panel::before {
+    content: "";
+    position: absolute;
+    inset: 9px;
+    border: 1px solid rgba(201, 163, 92, 0.1);
+    border-radius: inherit;
+    pointer-events: none;
   }
 
   /* ── top-of-page scroll progress hairline ───────────────────────── */
@@ -171,5 +226,128 @@
   .kwiin-navlink:hover::after,
   .kwiin-navlink[aria-current="page"]::after {
     transform: scaleX(1);
+  }
+
+  /* ── values marquee: slow, endless, silk ────────────────────────── */
+  .kwiin-marquee {
+    display: flex;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  }
+  .kwiin-marquee-track {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    min-width: 100%;
+    animation: kwiin-marquee 46s linear infinite;
+  }
+  @keyframes kwiin-marquee {
+    to { transform: translateX(-100%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .kwiin-marquee-track { animation: none; }
+  }
+
+  /* ── word-by-word manifesto reveal (JS splits [data-words]) ─────── */
+  .kwiin-word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.55em);
+    filter: blur(6px);
+  }
+
+  /* ── slow breathing halo used behind emblems ────────────────────── */
+  @keyframes kwiin-breathe-soft {
+    0%, 100% { opacity: 0.55; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.07); }
+  }
+
+  /* ── specular sheen tracked by the tilt cards' --mx/--my ────────── */
+  .kwiin-tilt {
+    position: relative;
+  }
+  .kwiin-tilt-sheen {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(
+      260px circle at var(--mx, 50%) var(--my, 40%),
+      rgba(247, 242, 232, 0.07),
+      transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 0.45s var(--ease-silk);
+  }
+  .kwiin-tilt:hover .kwiin-tilt-sheen {
+    opacity: 1;
+  }
+
+  /* ── gold-outlined display letterforms (values marquee) ─────────── */
+  .kwiin-outline-text {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(201, 163, 92, 0.6);
+  }
+
+  /* ── hero scroll cue: a slow gold droplet running down a hairline ── */
+  .kwiin-scroll-cue {
+    position: relative;
+    width: 1px;
+    height: 64px;
+    overflow: hidden;
+    background: rgba(201, 163, 92, 0.22);
+  }
+  .kwiin-scroll-cue::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: -40%;
+    height: 40%;
+    width: 100%;
+    background: linear-gradient(180deg, transparent, var(--color-kwiin-gold-bright));
+    animation: kwiin-cue-drop 2.4s var(--ease-silk) infinite;
+  }
+  @keyframes kwiin-cue-drop {
+    0% { top: -40%; }
+    70%, 100% { top: 110%; }
+  }
+
+  /* ── custom gold cursor (fine pointers, JS-activated) ───────────── */
+  @media (hover: hover) and (pointer: fine) {
+    body.kwiin-cursor-on,
+    body.kwiin-cursor-on * {
+      cursor: none !important;
+    }
+  }
+  .kwiin-cursor-dot,
+  .kwiin-cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99999;
+    pointer-events: none;
+    border-radius: 50%;
+    opacity: 0;
+    will-change: transform;
+  }
+  .kwiin-cursor-dot {
+    width: 5px;
+    height: 5px;
+    background: var(--color-kwiin-gold-bright);
+    box-shadow: 0 0 12px rgba(236, 210, 155, 0.8);
+  }
+  .kwiin-cursor-ring {
+    width: 34px;
+    height: 34px;
+    border: 1px solid rgba(201, 163, 92, 0.55);
+    transition: width 0.35s var(--ease-silk), height 0.35s var(--ease-silk),
+      border-color 0.35s var(--ease-silk), background-color 0.35s var(--ease-silk);
+  }
+  body.kwiin-cursor-hover .kwiin-cursor-ring {
+    width: 56px;
+    height: 56px;
+    border-color: rgba(236, 210, 155, 0.9);
+    background-color: rgba(201, 163, 92, 0.08);
   }
 }

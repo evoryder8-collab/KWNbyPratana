@@ -3,6 +3,7 @@ import type { Service } from "../data/services";
 import PriceList from "./PriceList.astro";
 import ServiceAvailabilityBadge from "./ServiceAvailabilityBadge.astro";
 import WhatsAppButton from "./WhatsAppButton.astro";
+import LotusMark from "./LotusMark.astro";
 
 export interface Props {
   service: Service;
@@ -10,35 +11,37 @@ export interface Props {
 }
 const { service, context = "all" } = Astro.props;
 
-const ctaLabel = context === "mobile" ? "Inquire via WhatsApp" : "Book via WhatsApp";
+const ctaLabel = context === "mobile" ? "Via WhatsApp anfragen" : "Via WhatsApp buchen";
 ---
 
 <article
-  class="reveal-up kwiin-tilt kwiin-card group relative flex h-full flex-col gap-5 rounded-2xl p-7"
+  class="reveal-up kwiin-tilt kwiin-panel group relative flex h-full flex-col gap-5 rounded-3xl p-8"
   data-service-card
 >
   {
     service.knownFor && (
       <span
-        class="absolute -top-3 left-7 z-10 rounded-full bg-gradient-to-r from-kwiin-gold to-kwiin-gold-bright px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-kwiin-black shadow-md"
+        class="absolute -top-3 left-8 z-10 rounded-full bg-gradient-to-r from-kwiin-gold to-kwiin-gold-bright px-3.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-kwiin-black shadow-md"
       >
-        Known For
+        Signature
       </span>
     )
   }
 
   <span class="kwiin-tilt-sheen" aria-hidden="true"></span>
+  <LotusMark
+    class="pointer-events-none absolute right-6 top-6 h-6 w-auto text-kwiin-gold/25 transition-colors duration-500 group-hover:text-kwiin-gold/60"
+    strokeWidth={2}
+  />
 
-  <div class="relative z-10 flex items-start justify-between gap-3">
-    <div>
-      <p class="text-xs uppercase tracking-[0.14em] text-kwiin-gold-bright/80">
-        {service.category}
-      </p>
-      <h3 class="font-display text-2xl text-kwiin-ivory">
-        {service.title}
-        {service.subtitle && <span class="text-kwiin-soft-grey"> · {service.subtitle}</span>}
-      </h3>
-    </div>
+  <div class="relative z-10">
+    <p class="text-[0.65rem] uppercase tracking-[0.22em] text-kwiin-gold-bright/75">
+      {service.category}
+    </p>
+    <h3 class="mt-2 font-display text-[1.7rem] leading-tight text-kwiin-ivory">
+      {service.title}
+      {service.subtitle && <span class="italic text-kwiin-soft-grey"> · {service.subtitle}</span>}
+    </h3>
   </div>
 
   <p class="relative z-10 font-display text-base italic text-kwiin-gold-bright/90">{service.tagline}</p>
@@ -57,9 +60,4 @@ const ctaLabel = context === "mobile" ? "Inquire via WhatsApp" : "Book via Whats
   </div>
 
   <WhatsAppButton message={service.whatsappText} label={ctaLabel} variant="secondary" class="relative z-10 mt-2 w-full justify-center" />
-
-  <span
-    class="pointer-events-none absolute inset-0 rounded-2xl border border-kwiin-gold/0 transition-colors duration-500 group-hover:border-kwiin-gold/40"
-    aria-hidden="true"
-  ></span>
 </article>

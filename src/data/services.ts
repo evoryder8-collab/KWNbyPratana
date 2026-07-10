@@ -28,9 +28,9 @@ export const services: Service[] = [
     id: "kwiin-massage",
     title: "KWIIN Massage",
     category: "Signature",
-    tagline: "Royal. Powerful. Deeply effective.",
+    tagline: "Königlich. Kraftvoll. Tiefgehend wirksam.",
     description:
-      "The KWIIN Massage is Pratana's signature treatment, an artful combination of traditional Thai massage, flowing stretches, and focused pressure-point work. Designed for clients who want something exceptional, it helps release deep tension, restore movement, and bring body and mind into a more balanced state.",
+      "Die KWIIN Massage ist Pratanas Signature-Behandlung. Eine kunstvolle Verbindung aus traditioneller Thai-Massage, fliessenden Dehnungen und gezielter Druckpunktarbeit. Für alle, die etwas Aussergewöhnliches suchen: Sie löst tiefe Verspannungen, schenkt neue Beweglichkeit und bringt Körper und Geist in Balance.",
     durations: [
       { minutes: 60, priceChf: 165 },
       { minutes: 90, priceChf: 240 },
@@ -39,16 +39,16 @@ export const services: Service[] = [
     studioAvailable: true,
     mobileAvailable: true,
     knownFor: true,
-    whatsappText: "Hello Pratana, I would like to inquire about the KWIIN Massage.",
+    whatsappText: "Hallo Pratana, ich interessiere mich für die KWIIN Massage.",
   },
   {
     id: "booster-muscles-sport",
     title: "Booster Muscles",
     subtitle: "Sport",
-    category: "Recovery",
-    tagline: "Power for active bodies.",
+    category: "Regeneration",
+    tagline: "Kraft für aktive Körper.",
     description:
-      "Targeted deep tissue work for active clients, athletes, and anyone carrying muscular tension. This treatment is designed to support recovery, loosen tight muscles, and improve the feeling of mobility after stress, training, or physical load.",
+      "Gezielte Tiefengewebsarbeit für aktive Menschen, Sportlerinnen und Sportler und alle, die muskuläre Anspannung mit sich tragen. Diese Behandlung unterstützt die Regeneration, lockert verhärtete Muskulatur und schenkt neue Beweglichkeit nach Training, Belastung oder Stress.",
     durations: [
       { minutes: 60, priceChf: 155 },
       { minutes: 90, priceChf: 225 },
@@ -57,16 +57,16 @@ export const services: Service[] = [
     studioAvailable: true,
     mobileAvailable: true,
     knownFor: false,
-    whatsappText: "Hello Pratana, I would like to inquire about Booster Muscles Sport Massage.",
+    whatsappText: "Hallo Pratana, ich interessiere mich für die Booster Muscles Sportmassage.",
   },
   {
     id: "flow-essence-lymph",
     title: "Flow Essence",
     subtitle: "Lymph",
     category: "Flow",
-    tagline: "Lightness for your system.",
+    tagline: "Leichtigkeit für Ihr System.",
     description:
-      "A gentle, rhythmic massage inspired by lymphatic flow techniques. Designed to encourage lightness, calm, and a softer feeling in the body, this treatment is ideal for clients seeking a slow, soothing, and deeply relaxing experience.",
+      "Eine sanfte, rhythmische Massage, inspiriert von Techniken des Lymphflusses. Sie schenkt Leichtigkeit, Ruhe und ein weiches Körpergefühl. Ideal für alle, die eine langsame, umhüllende und tief entspannende Erfahrung suchen.",
     durations: [
       { minutes: 60, priceChf: 150 },
       { minutes: 90, priceChf: 210 },
@@ -75,15 +75,15 @@ export const services: Service[] = [
     studioAvailable: true,
     mobileAvailable: true,
     knownFor: false,
-    whatsappText: "Hello Pratana, I would like to inquire about Flow Essence Lymph Massage.",
+    whatsappText: "Hallo Pratana, ich interessiere mich für die Flow Essence Lymphmassage.",
   },
   {
     id: "back-serenity",
     title: "Back Serenity",
-    category: "Targeted Relief",
-    tagline: "Deep relaxation for back and shoulders.",
+    category: "Gezielte Entlastung",
+    tagline: "Tiefe Entspannung für Rücken und Schultern.",
     description:
-      "A focused massage for tension in the back, neck, and shoulder area. Ideal for clients affected by stress, office posture, or physical strain, this treatment is designed to release tightness and restore a calmer, lighter feeling.",
+      "Eine fokussierte Behandlung für Verspannungen in Rücken, Nacken und Schultern. Ideal bei Stress, Bürohaltung oder körperlicher Belastung. Sie löst Verhärtungen und schenkt ein ruhigeres, leichteres Körpergefühl.",
     durations: [
       { minutes: 30, priceChf: 85 },
       { minutes: 60, priceChf: 140 },
@@ -92,16 +92,16 @@ export const services: Service[] = [
     studioAvailable: true,
     mobileAvailable: true,
     knownFor: false,
-    whatsappText: "Hello Pratana, I would like to inquire about Back Serenity.",
+    whatsappText: "Hallo Pratana, ich interessiere mich für Back Serenity.",
   },
   {
     id: "crown-serenity-head",
     title: "Crown Serenity",
     subtitle: "Head",
-    category: "Calm",
-    tagline: "Clear mind. Deep calm.",
+    category: "Ruhe",
+    tagline: "Klarer Kopf. Tiefe Ruhe.",
     description:
-      "A soothing head massage using gentle techniques to encourage mental relaxation, better rest, and a feeling of lightness. Ideal as a calming standalone treatment or as an elegant addition to another massage.",
+      "Eine wohltuende Kopfmassage mit sanften Techniken für mentale Entspannung, erholsameren Schlaf und ein Gefühl von Leichtigkeit. Wunderbar als eigenständige Auszeit oder als elegante Ergänzung zu jeder anderen Behandlung.",
     durations: [
       { minutes: 30, priceChf: 85 },
       { minutes: 60, priceChf: 140 },
@@ -110,16 +110,16 @@ export const services: Service[] = [
     studioAvailable: true,
     mobileAvailable: true,
     knownFor: false,
-    whatsappText: "Hello Pratana, I would like to inquire about Crown Serenity Head Massage.",
+    whatsappText: "Hallo Pratana, ich interessiere mich für die Crown Serenity Kopfmassage.",
   },
   {
     id: "bata-flow-foot",
     title: "Bata Flow",
     subtitle: "Foot",
-    category: "Grounding",
-    tagline: "Comfort from head to toe.",
+    category: "Erdung",
+    tagline: "Wohlgefühl von Kopf bis Fuss.",
     description:
-      "A relaxing foot massage inspired by pressure-point techniques, designed to support grounding, inner balance, and a deep sense of ease from head to toe.",
+      "Eine entspannende Fussmassage, inspiriert von Druckpunkttechniken. Sie unterstützt Erdung, inneres Gleichgewicht und ein tiefes Gefühl von Ruhe, von Kopf bis Fuss.",
     durations: [
       { minutes: 30, priceChf: 85 },
       { minutes: 60, priceChf: 140 },
@@ -128,11 +128,11 @@ export const services: Service[] = [
     studioAvailable: true,
     mobileAvailable: true,
     knownFor: false,
-    whatsappText: "Hello Pratana, I would like to inquire about Bata Flow Foot Massage.",
+    whatsappText: "Hallo Pratana, ich interessiere mich für die Bata Flow Fussmassage.",
   },
 ];
 
 export const featuredService = services.find((s) => s.knownFor) ?? services[0];
 
 export const MOBILE_SPA_TRAVEL_FEE_NOTE =
-  "Mobile Spa travel fee: +45 CHF within a 15 km radius. Longer distances by request.";
+  "Mobile Spa Anfahrt: +45 CHF im Umkreis von 15 km. Weitere Distanzen auf Anfrage.";

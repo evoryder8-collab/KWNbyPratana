@@ -4,18 +4,25 @@ export interface Award {
 }
 
 export const championshipName = "Nordic Nuad-Thai Massage Championship 2026";
-export const championshipLocation = "Finland";
-export const championshipDates = "13–14 June 2026";
+export const championshipLocation = "Finnland";
+export const championshipDates = "13.–14. Juni 2026";
 
 export const awards: Award[] = [
-  { medal: "Gold", category: "Thai Massage" },
-  { medal: "Gold", category: "Sport Massage" },
+  { medal: "Gold", category: "Thai-Massage" },
+  { medal: "Gold", category: "Sportmassage" },
   { medal: "Silver", category: "Freestyle" },
   { medal: "Bronze", category: "Wellness" },
 ];
 
+/** German display label per medal key. */
+export const medalLabels: Record<Award["medal"], string> = {
+  Gold: "Gold",
+  Silver: "Silber",
+  Bronze: "Bronze",
+};
+
 export const awardsSectionTitle =
-  "Award-winning hands. Rooted in tradition. Refined through discipline.";
+  "Preisgekrönte Hände. Verwurzelt in Tradition. Verfeinert durch Disziplin.";
 
 export const awardsSectionCopy =
-  "In 2026, Pratana received four medals at the Nordic Nuad-Thai Massage Championship in Finland, including Gold in both Thai Massage and Sport Massage. These awards reflect her discipline, precision, and deep respect for the healing traditions behind her work.";
+  "2026 wurde Pratana an der Nordic Nuad-Thai Massage Championship in Finnland mit vier Medaillen ausgezeichnet, darunter Gold in Thai-Massage und Sportmassage. Diese Auszeichnungen stehen für Disziplin, Präzision und tiefen Respekt vor der Heilkunst hinter ihrer Arbeit.";

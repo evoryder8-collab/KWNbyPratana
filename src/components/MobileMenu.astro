@@ -2,34 +2,48 @@
 import { navItems, navCtaLabel } from "../data/navigation";
 import { WHATSAPP_MESSAGES, whatsappUrl } from "../utils/whatsapp";
 import { withBase } from "../utils/base";
-import { brandLine, contact } from "../data/contact";
+import { tagline, contact } from "../data/contact";
+import LotusMark from "./LotusMark.astro";
 
 const whatsappHref = whatsappUrl(WHATSAPP_MESSAGES.studioGeneric);
 ---
 
+{/*
+  Fullscreen mobile navigation. Rendered OUTSIDE the header (see
+  Navbar.astro) so no ancestor with backdrop-filter/transform can turn its
+  fixed positioning into an overlap bug, and layered above the navbar
+  (z-80 > header z-50) with a guaranteed-opaque, self-contained backdrop.
+*/}
 <div
   id="kwiin-mobile-menu"
-  class="fixed inset-0 z-40 hidden flex-col bg-kwiin-black px-7 pt-24 pb-10 backdrop-blur-xl lg:hidden"
+  class="fixed inset-0 z-[80] hidden flex-col overflow-y-auto px-7 pb-10 pt-24 lg:hidden"
   role="dialog"
   aria-modal="true"
-  aria-label="Mobile navigation"
+  aria-label="Mobile Navigation"
 >
+  <div class="kwiin-menu-backdrop" aria-hidden="true">
+    <span class="kwiin-menu-glow-gold"></span>
+    <span class="kwiin-menu-glow-purple"></span>
+    <LotusMark class="kwiin-menu-watermark" strokeWidth={0.8} />
+  </div>
+
   <button
     id="kwiin-menu-close"
     type="button"
-    class="absolute right-5 top-5 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-kwiin-ivory transition-colors hover:border-kwiin-gold/40"
-    aria-label="Close menu"
+    class="absolute right-5 top-5 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-kwiin-ivory transition-colors hover:border-kwiin-gold/40"
+    aria-label="Menü schliessen"
   >
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-5 w-5">
       <path d="M6 6l12 12M18 6 6 18" stroke-linecap="round"></path>
     </svg>
   </button>
 
-  <p class="kwiin-menu-item mb-8 text-[0.65rem] uppercase tracking-[0.32em] text-kwiin-gold-bright/70 opacity-0">
-    KWIIN <span aria-hidden="true">🪷</span> by Pratana Halstrick
+  <p class="kwiin-menu-item relative z-10 mb-8 flex items-center gap-3 text-[0.65rem] uppercase tracking-[0.32em] text-kwiin-gold-bright/70 opacity-0">
+    <LotusMark class="h-4 w-auto text-kwiin-gold" strokeWidth={2.4} />
+    KWIIN by Pratana Halstrick
   </p>
 
-  <ul class="flex flex-1 flex-col justify-center gap-5">
+  <ul class="relative z-10 flex flex-1 flex-col justify-center gap-5">
     {
       navItems.map((item, i) => (
         <li class="kwiin-menu-item opacity-0">
@@ -47,10 +61,8 @@ const whatsappHref = whatsappUrl(WHATSAPP_MESSAGES.studioGeneric);
     }
   </ul>
 
-  <div class="kwiin-menu-item mt-8 opacity-0">
-    <p class="font-display text-xl italic text-kwiin-gold-bright text-balance">
-      &ldquo;{brandLine}&rdquo;
-    </p>
+  <div class="kwiin-menu-item relative z-10 mt-8 opacity-0">
+    <p class="font-display text-xl italic text-kwiin-gold-bright text-balance">{tagline}</p>
     <a
       href={contact.instagramUrl}
       target="_blank"
@@ -65,17 +77,52 @@ const whatsappHref = whatsappUrl(WHATSAPP_MESSAGES.studioGeneric);
     href={whatsappHref}
     target="_blank"
     rel="noopener noreferrer"
-    class="kwiin-menu-item mt-7 inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-kwiin-gold to-kwiin-gold-bright px-7 py-3.5 text-sm font-semibold uppercase tracking-[0.08em] text-kwiin-black opacity-0"
+    class="kwiin-menu-item relative z-10 mt-7 inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-kwiin-gold to-kwiin-gold-bright px-7 py-3.5 text-sm font-semibold uppercase tracking-[0.08em] text-kwiin-black opacity-0"
   >
     {navCtaLabel}
   </a>
 </div>
 
 <style>
-  /* Guaranteed-opaque background so page content never shows through the
-     open menu, regardless of which opacity utilities Tailwind emits. */
+  /* Guaranteed-opaque, atmospheric backdrop: page content can never show
+     through the open menu, regardless of which utilities Tailwind emits. */
   #kwiin-mobile-menu {
-    background-color: var(--color-kwiin-black, #0a0908);
+    background-color: var(--color-kwiin-black, #0b0908);
+  }
+  .kwiin-menu-backdrop {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .kwiin-menu-glow-gold {
+    position: absolute;
+    left: -30%;
+    top: -12%;
+    width: 90vmin;
+    height: 90vmin;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201, 163, 92, 0.14), transparent 62%);
+  }
+  .kwiin-menu-glow-purple {
+    position: absolute;
+    right: -34%;
+    bottom: -16%;
+    width: 90vmin;
+    height: 90vmin;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(124, 94, 163, 0.14), transparent 62%);
+  }
+  /* :global because the svg lives inside the LotusMark child component,
+     out of reach of this component's scoped selectors */
+  :global(.kwiin-menu-watermark) {
+    position: absolute;
+    right: -14%;
+    top: 50%;
+    height: 70vmin;
+    width: auto;
+    transform: translateY(-50%) rotate(8deg);
+    color: rgba(201, 163, 92, 0.07);
   }
 </style>
 
@@ -87,6 +134,8 @@ const whatsappHref = whatsappUrl(WHATSAPP_MESSAGES.studioGeneric);
     const closeBtn = document.getElementById("kwiin-menu-close");
     const menu = document.getElementById("kwiin-mobile-menu");
     if (!toggle || !menu || !closeBtn) return;
+    if (menu.dataset.menuBound === "true") return;
+    menu.dataset.menuBound = "true";
 
     const items = menu.querySelectorAll(".kwiin-menu-item");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -96,6 +145,7 @@ const whatsappHref = whatsappUrl(WHATSAPP_MESSAGES.studioGeneric);
       menu!.classList.add("flex");
       toggle!.setAttribute("aria-expanded", "true");
       document.body.style.overflow = "hidden";
+      closeBtn!.focus({ preventScroll: true });
 
       if (reduceMotion) {
         items.forEach((el) => ((el as HTMLElement).style.opacity = "1"));
@@ -116,6 +166,7 @@ const whatsappHref = whatsappUrl(WHATSAPP_MESSAGES.studioGeneric);
         menu!.classList.remove("flex");
         toggle!.setAttribute("aria-expanded", "false");
         document.body.style.overflow = "";
+        toggle!.focus({ preventScroll: true });
       };
       if (reduceMotion) {
         finish();
@@ -137,5 +188,10 @@ const whatsappHref = whatsappUrl(WHATSAPP_MESSAGES.studioGeneric);
   }
 
   setup();
-  document.addEventListener("astro:after-swap", setup);
+  document.addEventListener("astro:after-swap", () => {
+    // a navigation can interrupt the close animation; never leave the new
+    // page with a locked scroll
+    document.body.style.overflow = "";
+    setup();
+  });
 </script>

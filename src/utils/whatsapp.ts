@@ -6,7 +6,7 @@
  * single source of truth for building a correctly formatted wa.me link.
  */
 
-// Primary booking number used by every "Book via WhatsApp" CTA on the site.
+// Primary booking number used by every "Termin via WhatsApp" CTA on the site.
 // Stored without the leading "+" per the wa.me URL format.
 export const WHATSAPP_BOOKING_NUMBER = "41779669928";
 
@@ -24,7 +24,7 @@ export function whatsappUrl(message: string): string {
 
 export const WHATSAPP_MESSAGES = {
   studioGeneric:
-    "Hello Pratana, I would like to inquire about a KWIIN massage appointment in Dübendorf.",
+    "Hallo Pratana, ich möchte gerne einen Termin für eine KWIIN Massage in Dübendorf anfragen.",
   mobileGeneric:
-    "Hello Pratana, I would like to inquire about a KWIIN Mobile Spa appointment at my home, office, hotel, or private space.",
+    "Hallo Pratana, ich möchte gerne einen KWIIN Mobile Spa Termin bei mir zuhause, im Büro oder im Hotel anfragen.",
 } as const;

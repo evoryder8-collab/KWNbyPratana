@@ -120,10 +120,10 @@ function AuraPlane({ reduced }: { reduced: boolean }) {
       uTime: { value: 0 },
       uMouse: { value: new THREE.Vector2(0, 0) },
       uResolution: { value: new THREE.Vector2(size.width, size.height) },
-      uColorBlack: { value: new THREE.Color("#0a0908") },
-      uColorCharcoal: { value: new THREE.Color("#1c1a18") },
-      uColorGold: { value: new THREE.Color("#c8a04d") },
-      uColorPurple: { value: new THREE.Color("#6e4f8c") },
+      uColorBlack: { value: new THREE.Color("#0b0908") },
+      uColorCharcoal: { value: new THREE.Color("#1b1613") },
+      uColorGold: { value: new THREE.Color("#c9a35c") },
+      uColorPurple: { value: new THREE.Color("#7c5ea3") },
     }),
     []
   );

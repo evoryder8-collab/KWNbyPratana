@@ -19,15 +19,15 @@ export const secondaryPartner = {
 };
 
 export const subtleLocationLine =
-  "Studio-based appointments currently take place in Dübendorf at a selected partner wellness location.";
+  "Studio-Termine finden derzeit in Dübendorf in einer ausgewählten Partner-Wellnesslocation statt.";
 
 export const fullLocationLine =
-  "KWIIN is Pratana Halstrick's personal massage brand. Studio-based appointments currently take place in Dübendorf at Suriya Spa, an official partner location where Pratana welcomes clients in a calm professional wellness setting.";
+  "KWIIN ist die persönliche Massage-Marke von Pratana Halstrick. Studio-Termine finden derzeit in Dübendorf im Suriya Spa statt, einer offiziellen Partnerlocation, in der Pratana ihre Gäste in ruhiger, professioneller Wellness-Atmosphäre empfängt.";
 
-export const officialPartnerLine = "Official partner location: Suriya Spa, Dübendorf.";
+export const officialPartnerLine = "Offizielle Partnerlocation: Suriya Spa, Dübendorf.";
 
 export const connectedPartnersLine =
-  "KWIIN is proudly connected with selected wellness partners, including Suriya Spa in Dübendorf and Thai Warrior Massage with Momo.";
+  "KWIIN ist stolz verbunden mit ausgewählten Wellness-Partnern, darunter Suriya Spa in Dübendorf und Thai Warrior Massage mit Momo.";
 
 export const footerPartnerNote =
-  "Studio-based appointments currently take place in Dübendorf at an official partner wellness location. Official partner location: Suriya Spa.";
+  "Studio-Termine finden derzeit in Dübendorf in einer offiziellen Partner-Wellnesslocation statt. Offizielle Partnerlocation: Suriya Spa.";

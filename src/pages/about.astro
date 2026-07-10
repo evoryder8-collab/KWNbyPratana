@@ -2,10 +2,12 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageTransition from "../components/PageTransition.astro";
 import SectionReveal from "../components/SectionReveal.astro";
+import OrnamentDivider from "../components/OrnamentDivider.astro";
+import GoldDust from "../components/GoldDust.astro";
 import AwardCard from "../components/AwardCard.astro";
-import TestimonialCard from "../components/TestimonialCard.astro";
 import LocationNote from "../components/LocationNote.astro";
 import WhatsAppButton from "../components/WhatsAppButton.astro";
+import LotusMark from "../components/LotusMark.astro";
 import {
   awards,
   awardsSectionTitle,
@@ -14,91 +16,249 @@ import {
   championshipLocation,
   championshipDates,
 } from "../data/awards";
-import { testimonials } from "../data/testimonials";
 import { WHATSAPP_MESSAGES } from "../utils/whatsapp";
 import { brandLine } from "../data/contact";
 import { withBase } from "../utils/base";
 
-const title = "About Pratana Halstrick | Founder of KWIIN";
+const title = "Über KWIIN | Die Geschichte, Philosophie und Gründerin";
 const description =
-  "Meet Pratana Halstrick, founder of KWIIN, born in Bangkok, raised between Germany and Switzerland, and an award-winning Thai massage therapist.";
+  "Die Geschichte von KWIIN: King, Queen, Win. Erfahren Sie mehr über unsere Philosophie, unsere Vision und Pratana Halstrick, die preisgekrönte Gründerin von KWIIN.";
+
+const pillars = [
+  { word: "Selbstliebe", note: "Der Anfang jeder Heilung." },
+  { word: "Respekt", note: "Vor jedem Menschen, ohne Unterschied." },
+  { word: "Mitgefühl", note: "Die Sprache der Hände." },
+  { word: "Stärke", note: "Die Ruhe, bei sich zu bleiben." },
+];
+
+const values = [
+  { word: "Eleganz", note: "Weniger ist mehr." },
+  { word: "Qualität", note: "Nicht Quantität entscheidet." },
+  { word: "Achtsamkeit", note: "Jeder Mensch verdient Zeit." },
+  { word: "Respekt", note: "Jeder Gast wird mit derselben Wertschätzung empfangen." },
+  { word: "Authentizität", note: "Tradition bewahren. Innovation leben." },
+];
 ---
 
 <BaseLayout title={title} description={description}>
   <PageTransition>
-    <section class="pt-36 pb-16">
+    {/* ── 1. Die Geschichte von KWIIN ──────────────────────────────── */}
+    <section class="relative overflow-hidden pb-20 pt-40">
+      <div
+        class="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_50%_at_50%_0%,rgba(201,163,92,0.12),transparent_60%)]"
+        aria-hidden="true"
+      >
+      </div>
+      <GoldDust />
+      <div class="relative mx-auto max-w-4xl px-5 text-center lg:px-8">
+        <p class="kwiin-eyebrow">Über KWIIN</p>
+        <h1 class="mt-6 font-display text-5xl leading-[1.05] text-kwiin-ivory text-balance sm:text-6xl">
+          Die Geschichte von <span class="kwiin-accent text-gold-gradient">KWIIN</span>
+        </h1>
+        <p class="mx-auto mt-8 max-w-2xl font-display text-xl leading-relaxed text-kwiin-ivory-dim" data-words>
+          Was in Bangkok als Gabe begann, wurde zwischen Thailand, Deutschland und der Schweiz zu einer Berufung.
+        </p>
+        <p class="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-kwiin-soft-grey">
+          KWIIN ist das Ergebnis dieses Weges: eine persönliche Marke, entstanden aus Disziplin,
+          Tradition und einem verfeinerten Sinn für Luxus. Jede Behandlung entsteht aus der
+          Verbindung traditioneller thailändischer Heilkunst mit modernem Luxus und höchster
+          Qualität.
+        </p>
+      </div>
+    </section>
+
+    {/* ── 2. King · Queen · Win ────────────────────────────────────── */}
+    <section class="relative border-y border-kwiin-gold/10 py-24">
+      <div
+        class="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_80%_at_50%_100%,rgba(124,94,163,0.08),transparent_60%)]"
+        aria-hidden="true"
+      >
+      </div>
+      <div class="relative mx-auto max-w-5xl px-5 text-center lg:px-8">
+        <SectionReveal>
+          <svg viewBox="0 0 48 26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mx-auto h-8 w-auto text-kwiin-gold" aria-hidden="true">
+            <path d="M6 20 L4 7 L14 13 L24 4 L34 13 L44 7 L42 20 Z"></path>
+            <path d="M8 24 h32"></path>
+          </svg>
+        </SectionReveal>
+
+        <SectionReveal stagger={true} class="mt-10 flex flex-col items-center justify-center gap-2 font-display sm:flex-row sm:gap-8">
+          <span data-reveal-child class="text-5xl text-kwiin-ivory sm:text-6xl">King<span class="text-kwiin-gold">.</span></span>
+          <span data-reveal-child class="text-5xl italic text-kwiin-gold-bright sm:text-6xl">Queen<span class="text-kwiin-gold">.</span></span>
+          <span data-reveal-child class="text-5xl text-kwiin-ivory sm:text-6xl">Win<span class="text-kwiin-gold">.</span></span>
+        </SectionReveal>
+
+        <SectionReveal class="mx-auto mt-10 max-w-2xl">
+          <p class="font-display text-xl leading-relaxed text-kwiin-ivory-dim" data-words>
+            Aus diesen drei Worten entstand KWIIN. Nicht als Symbol für Status, sondern als Erinnerung daran, dass jeder Mensch Würde verdient.
+          </p>
+          <p class="mt-5 text-base leading-relaxed text-kwiin-soft-grey">
+            Unabhängig davon, wer wir sind oder woher wir kommen.
+          </p>
+        </SectionReveal>
+      </div>
+    </section>
+
+    {/* ── 3. Unsere Philosophie ────────────────────────────────────── */}
+    <section class="mx-auto max-w-6xl px-5 py-24 lg:px-8">
+      <SectionReveal class="text-center">
+        <p class="kwiin-eyebrow">Unsere Philosophie</p>
+        <h2 class="mx-auto mt-6 max-w-3xl font-display text-4xl leading-tight text-kwiin-ivory text-balance sm:text-5xl">
+          Jeder Mensch trägt bereits alles in sich,
+          <span class="kwiin-accent">was wirklich wertvoll ist.</span>
+        </h2>
+      </SectionReveal>
+
+      <SectionReveal stagger={true} class="mx-auto mt-14 grid max-w-4xl gap-px overflow-hidden rounded-3xl border border-kwiin-gold/15 bg-kwiin-gold/15 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          pillars.map((pillar) => (
+            <div data-reveal-child class="bg-kwiin-black px-6 py-10 text-center">
+              <LotusMark class="mx-auto h-5 w-auto text-kwiin-gold/70" strokeWidth={2} />
+              <p class="mt-4 font-display text-2xl text-kwiin-ivory">{pillar.word}</p>
+              <p class="mt-2 text-xs leading-relaxed text-kwiin-soft-grey">{pillar.note}</p>
+            </div>
+          ))
+        }
+      </SectionReveal>
+
+      <SectionReveal class="mx-auto mt-14 max-w-2xl text-center">
+        <p class="text-base leading-relaxed text-kwiin-soft-grey">
+          Wir glauben daran, dass Heilung dort beginnt, wo wir beginnen, uns selbst denselben
+          Wert zu schenken, den wir so oft anderen geben.
+        </p>
+        <p class="mt-8 font-display text-2xl italic leading-relaxed text-kwiin-gold-bright" data-words>
+          KWIIN erinnert dich daran. Bei jeder Berührung. Bei jedem Atemzug. Bei jedem Besuch.
+        </p>
+      </SectionReveal>
+    </section>
+
+    {/* ── 4. Unsere Vision ─────────────────────────────────────────── */}
+    <section class="relative overflow-hidden border-y border-white/5 py-24">
+      <div
+        class="pointer-events-none absolute inset-0 bg-[radial-gradient(80%_60%_at_50%_50%,rgba(201,163,92,0.06),transparent_70%)]"
+        aria-hidden="true"
+      >
+      </div>
+      <div class="relative mx-auto max-w-6xl px-5 lg:px-8">
+        <SectionReveal class="mx-auto max-w-3xl text-center">
+          <p class="kwiin-eyebrow">Unsere Vision</p>
+          <h2 class="mt-6 font-display text-4xl leading-tight text-kwiin-ivory text-balance sm:text-5xl">
+            Ein Ort, an dem Zeit
+            <span class="kwiin-accent">wieder Ihnen gehört.</span>
+          </h2>
+          <p class="mt-6 text-base leading-relaxed text-kwiin-soft-grey">
+            Wir möchten daran erinnern, dass Ruhe Kraft ist und Selbstfürsorge keine
+            Verwöhnung, sondern eine Haltung. Ein Besuch bei KWIIN soll sich anfühlen wie
+            Ankommen: bei sich selbst.
+          </p>
+        </SectionReveal>
+
+        <SectionReveal stagger={true} class="mx-auto mt-14 grid max-w-5xl gap-6 sm:grid-cols-2 lg:grid-cols-5">
+          {
+            values.map((value) => (
+              <div data-reveal-child class="rounded-2xl border border-white/5 bg-white/[0.02] px-5 py-7 text-center transition-colors duration-500 hover:border-kwiin-gold/30">
+                <p class="font-display text-xl text-kwiin-gold-bright">{value.word}</p>
+                <p class="mt-2 text-xs leading-relaxed text-kwiin-soft-grey">{value.note}</p>
+              </div>
+            ))
+          }
+        </SectionReveal>
+      </div>
+    </section>
+
+    {/* ── 5. Die Gründerin ─────────────────────────────────────────── */}
+    <section class="pt-24">
       <div class="mx-auto grid max-w-6xl gap-12 px-5 lg:grid-cols-2 lg:items-center lg:px-8">
         <SectionReveal>
-          <p class="text-xs uppercase tracking-[0.2em] text-kwiin-gold-bright/80">
-            The Founder of KWIIN
-          </p>
-          <h1 class="mt-4 font-display text-4xl text-kwiin-ivory sm:text-5xl">Pratana Halstrick</h1>
+          <p class="kwiin-eyebrow kwiin-eyebrow--bare">Die Gründerin</p>
+          <h2 class="mt-4 font-display text-4xl text-kwiin-ivory sm:text-5xl">
+            Pratana <span class="kwiin-accent">Halstrick</span>
+          </h2>
           <p class="mt-6 text-base leading-relaxed text-kwiin-soft-grey">
-            Pratana's path into massage began at home. Born in Bangkok on October 1, 1990 and
-            raised between Thailand and Germany, she discovered her gift as a teenager, first
-            massaging her mother, then slowly realizing that her hands carried something rare: a
-            natural sense for pressure, rhythm, and the body's need to release tension.
+            Pratanas Weg zur Massage begann zuhause. Geboren am 1. Oktober 1990 in Bangkok und
+            aufgewachsen zwischen Thailand und Deutschland, entdeckte sie ihre Gabe als
+            Teenager: Zuerst massierte sie ihre Mutter, dann wuchs die Gewissheit, dass ihre
+            Hände etwas Seltenes tragen. Ein natürliches Gespür für Druck, Rhythmus und das
+            Bedürfnis des Körpers, Spannung loszulassen.
           </p>
           <p class="mt-4 text-base leading-relaxed text-kwiin-soft-grey">
-            Years later, after building her craft across Germany and Switzerland, Pratana created
-            KWIIN, her personal brand built on discipline, tradition, and a refined sense of
-            luxury. Today, based in Switzerland, she welcomes clients in Dübendorf and travels to
-            them through KWIIN Mobile Spa, bringing championship-level Thai massage to every
-            session.
+            Jahre später, nachdem sie ihr Handwerk in Deutschland und der Schweiz verfeinert
+            hatte, gründete Pratana KWIIN: ihre persönliche Marke, gebaut auf Disziplin,
+            Tradition und einem verfeinerten Sinn für Luxus. Heute empfängt sie ihre Gäste in
+            Dübendorf und bringt die KWIIN Erfahrung mit dem Mobile Spa direkt zu ihnen.
           </p>
           <div class="mt-8">
-            <WhatsAppButton message={WHATSAPP_MESSAGES.studioGeneric} label="Book via WhatsApp" />
+            <WhatsAppButton message={WHATSAPP_MESSAGES.studioGeneric} label="Termin via WhatsApp" />
           </div>
         </SectionReveal>
 
-        <SectionReveal class="kwiin-card flex min-h-[22rem] items-center justify-center rounded-3xl p-8">
-          <picture class="flex items-center justify-center">
+        <SectionReveal class="relative flex min-h-[22rem] items-center justify-center">
+          <span
+            class="pointer-events-none absolute left-1/2 top-1/2 h-[420px] w-[420px] max-w-full -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(201,163,92,0.18),transparent_65%)] blur-2xl"
+            aria-hidden="true"
+          >
+          </span>
+          <picture class="relative flex items-center justify-center">
             <source
               srcset={withBase("/assets/Pratana%20Portrait%20transparent%20optimised.webp")}
               type="image/webp"
             />
             <img
               src={withBase("/assets/pratana-portrait.png")}
-              alt="Pratana Halstrick, founder of KWIIN"
-              class="max-h-[28rem] w-auto object-contain"
+              alt="Pratana Halstrick, Gründerin von KWIIN"
+              class="max-h-[30rem] w-auto object-contain drop-shadow-[0_30px_50px_rgba(0,0,0,0.6)]"
               loading="eager"
             />
           </picture>
         </SectionReveal>
       </div>
-    </section>
 
-    <SectionReveal class="mx-auto max-w-5xl px-5 pb-20 text-center lg:px-8">
-      <p class="text-xs uppercase tracking-[0.2em] text-kwiin-gold-bright/80">
-        {championshipName} &middot; {championshipLocation} &middot; {championshipDates}
-      </p>
-      <h2 class="mx-auto mt-4 max-w-3xl font-display text-3xl text-kwiin-ivory text-balance sm:text-4xl">
-        {awardsSectionTitle}
-      </h2>
-      <p class="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-kwiin-soft-grey">
-        {awardsSectionCopy}
-      </p>
-      <div class="mx-auto mt-10 grid max-w-3xl grid-cols-2 gap-5 sm:grid-cols-4">
-        {awards.map((award) => <AwardCard award={award} />)}
-      </div>
-    </SectionReveal>
-
-    <section class="mx-auto max-w-7xl px-5 pb-20 lg:px-8">
-      <SectionReveal>
-        <h2 class="mb-10 text-center font-display text-3xl text-kwiin-ivory sm:text-4xl">
-          What Clients Feel
-        </h2>
+      <SectionReveal class="mx-auto max-w-5xl px-5 pb-4 pt-20 text-center lg:px-8">
+        <p class="text-xs uppercase tracking-[0.2em] text-kwiin-gold-bright/80">
+          {championshipName} &middot; {championshipLocation} &middot; {championshipDates}
+        </p>
+        <h3 class="mx-auto mt-4 max-w-3xl font-display text-3xl text-kwiin-ivory text-balance sm:text-4xl">
+          {awardsSectionTitle}
+        </h3>
+        <p class="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-kwiin-soft-grey">
+          {awardsSectionCopy}
+        </p>
+        <div class="mx-auto mt-10 grid max-w-3xl grid-cols-2 gap-5 sm:grid-cols-4">
+          {awards.map((award) => <AwardCard award={award} />)}
+        </div>
       </SectionReveal>
-      <div class="grid gap-6 md:grid-cols-3">
-        {testimonials.map((t) => <TestimonialCard testimonial={t} />)}
-      </div>
     </section>
 
-    <SectionReveal class="mx-auto max-w-3xl px-5 pb-24 text-center lg:px-8">
-      <p class="font-display text-2xl italic text-kwiin-gold-bright text-balance">“{brandLine}”</p>
-      <div class="mt-8 flex justify-center">
-        <LocationNote variant="full" />
+    {/* ── 6. Unsere Einladung ──────────────────────────────────────── */}
+    <section class="relative overflow-hidden py-28">
+      <div
+        class="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_80%_at_50%_100%,rgba(201,163,92,0.1),transparent_65%)]"
+        aria-hidden="true"
+      >
       </div>
-    </SectionReveal>
+      <SectionReveal class="relative mx-auto max-w-3xl px-5 text-center lg:px-8">
+        <p class="kwiin-eyebrow">Unsere Einladung</p>
+        <h2 class="mt-6 font-display text-4xl leading-tight text-kwiin-ivory text-balance sm:text-5xl">
+          Ruhe bewusst erleben.
+        </h2>
+        <p class="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-kwiin-soft-grey">
+          Bei KWIIN begegnen wir jedem Menschen mit Aufmerksamkeit, Respekt und aufrichtiger
+          Gastfreundschaft. Jede Behandlung beginnt mit dem Zuhören und wird achtsam auf Ihre
+          persönlichen Bedürfnisse abgestimmt. Wir laden Sie ein, Ihrem Körper neue
+          Aufmerksamkeit zu schenken und sich selbst den Raum zu geben, den Sie verdienen.
+        </p>
+        <div class="mt-10">
+          <WhatsAppButton message={WHATSAPP_MESSAGES.studioGeneric} label="Termin via WhatsApp" size="lg" />
+        </div>
+        <OrnamentDivider class="mt-14" />
+        <p class="mt-10 font-display text-2xl italic text-kwiin-gold-bright text-balance" data-words>
+          Willkommen bei KWIIN. Willkommen bei sich selbst.
+        </p>
+        <p class="mt-8 font-display text-base italic text-kwiin-soft-grey">“{brandLine}”</p>
+        <div class="mt-10 flex justify-center">
+          <LocationNote variant="full" />
+        </div>
+      </SectionReveal>
+    </section>
   </PageTransition>
 </BaseLayout>

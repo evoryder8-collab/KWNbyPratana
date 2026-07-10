@@ -5,10 +5,15 @@ export const contact = {
   generalContactNumber: GENERAL_CONTACT_NUMBER,
   instagramUrl: "https://www.instagram.com/kwiinspa/",
   instagramHandle: "@kwiinspa",
-  hours: "Monday to Saturday, 09:00–18:00",
-  languages: ["German", "English", "Thai"],
+  hours: "Montag bis Samstag, 09:00–18:00 Uhr",
+  languages: ["Deutsch", "Englisch", "Thai"],
   city: "Dübendorf",
-  region: "Zürich region, Switzerland",
+  region: "Region Zürich, Schweiz",
 };
 
+/** English signature line — part of the brand identity, kept in English. */
+export const tagline = "Where Luxury meets Healing.";
+
 export const brandLine = "Gratitude in the name of your health.";
+
+export const closingLines = ["Willkommen bei KWIIN.", "Willkommen bei sich selbst."];

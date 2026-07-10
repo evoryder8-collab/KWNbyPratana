@@ -1,0 +1,38 @@
+---
+/**
+ * Slow, endless marquee of the five KWIIN values in monumental serif type,
+ * alternating solid ivory and gold-outlined letterforms. The moving strip
+ * is decorative (aria-hidden); a visually hidden sentence carries the
+ * content for assistive tech.
+ */
+import LotusMark from "./LotusMark.astro";
+
+const values = ["Eleganz", "Qualität", "Achtsamkeit", "Respekt", "Authentizität"];
+---
+
+<section class="border-y border-white/5 py-10 sm:py-14">
+  <p class="sr-only">
+    Unsere Werte: {values.join(", ")}.
+  </p>
+
+  <div class="kwiin-marquee" aria-hidden="true">
+    {
+      [0, 1].map(() => (
+        <div class="kwiin-marquee-track">
+          {values.map((value, i) => (
+            <span class="flex shrink-0 items-center">
+              <span
+                class={`whitespace-nowrap px-8 font-display text-5xl sm:px-12 sm:text-7xl ${
+                  i % 2 === 0 ? "text-kwiin-ivory/90" : "kwiin-outline-text"
+                }`}
+              >
+                {value}
+              </span>
+              <LotusMark class="h-6 w-auto shrink-0 text-kwiin-gold/60" strokeWidth={2.2} />
+            </span>
+          ))}
+        </div>
+      ))
+    }
+  </div>
+</section>

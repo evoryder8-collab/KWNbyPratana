@@ -1,0 +1,73 @@
+---
+/**
+ * Site-wide candlelit atmosphere: a fixed layer of slowly drifting,
+ * pre-blurred light pools (champagne gold above, amethyst below) that sits
+ * behind all page content. Pure CSS transforms, so it costs almost nothing;
+ * the global reduced-motion rule freezes the drift automatically.
+ */
+---
+
+<div class="kwiin-ambient" aria-hidden="true">
+  <span class="kwiin-ambient-glow"></span>
+  <span class="kwiin-ambient-blob kwiin-ambient-gold"></span>
+  <span class="kwiin-ambient-blob kwiin-ambient-purple"></span>
+</div>
+
+<style>
+  .kwiin-ambient {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  /* steady candle glow resting at the top of every page */
+  .kwiin-ambient-glow {
+    position: absolute;
+    left: 50%;
+    top: -20%;
+    width: 130vmax;
+    height: 70vmax;
+    transform: translateX(-50%);
+    background: radial-gradient(
+      ellipse at center,
+      rgba(201, 163, 92, 0.07),
+      transparent 55%
+    );
+  }
+
+  .kwiin-ambient-blob {
+    position: absolute;
+    border-radius: 50%;
+    will-change: transform;
+  }
+
+  .kwiin-ambient-gold {
+    width: 70vmax;
+    height: 70vmax;
+    left: -22vmax;
+    top: 12%;
+    background: radial-gradient(circle, rgba(201, 163, 92, 0.055), transparent 62%);
+    animation: kwiin-drift-a 44s ease-in-out infinite alternate;
+  }
+
+  .kwiin-ambient-purple {
+    width: 66vmax;
+    height: 66vmax;
+    right: -26vmax;
+    bottom: -14%;
+    background: radial-gradient(circle, rgba(124, 94, 163, 0.06), transparent 60%);
+    animation: kwiin-drift-b 56s ease-in-out infinite alternate;
+  }
+
+  @keyframes kwiin-drift-a {
+    from { transform: translate3d(0, 0, 0) scale(1); }
+    to { transform: translate3d(9vmax, -6vmax, 0) scale(1.12); }
+  }
+
+  @keyframes kwiin-drift-b {
+    from { transform: translate3d(0, 0, 0) scale(1.08); }
+    to { transform: translate3d(-8vmax, -8vmax, 0) scale(0.98); }
+  }
+</style>

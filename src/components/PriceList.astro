@@ -7,13 +7,17 @@ export interface Props {
 const { durations } = Astro.props;
 ---
 
-<ul class="flex flex-col gap-1.5" aria-label="Pricing">
+<ul class="flex flex-col gap-2" aria-label="Preise">
   {
     durations.map((d) => (
       <li class="flex items-baseline justify-between gap-4 text-sm">
-        <span class="text-kwiin-soft-grey">{d.minutes} min</span>
-        <span class="flex-1 border-b border-dotted border-white/10 translate-y-[-3px]" />
-        <span class="font-medium text-kwiin-ivory">{d.priceChf} CHF</span>
+        <span class="text-[0.72rem] uppercase tracking-[0.16em] text-kwiin-soft-grey">
+          {d.minutes} Min.
+        </span>
+        <span class="flex-1 translate-y-[-3px] border-b border-dotted border-kwiin-gold/25" />
+        <span class="font-display text-lg text-kwiin-ivory">
+          <span class="mr-1 text-[0.62rem] uppercase tracking-[0.12em] text-kwiin-gold-bright/80">CHF</span>{d.priceChf}
+        </span>
       </li>
     ))
   }

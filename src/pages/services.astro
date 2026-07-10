@@ -3,24 +3,32 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import PageTransition from "../components/PageTransition.astro";
 import SectionReveal from "../components/SectionReveal.astro";
 import ServiceCard from "../components/ServiceCard.astro";
+import OrnamentDivider from "../components/OrnamentDivider.astro";
 import { services, MOBILE_SPA_TRAVEL_FEE_NOTE } from "../data/services";
 
-const title = "Treatment Menu | KWIIN by Pratana Halstrick";
+const title = "Behandlungen | KWIIN by Pratana Halstrick";
 const description =
-  "Explore the full KWIIN treatment menu: signature Thai massage, sport recovery, lymph flow, back, head, and foot treatments. Pricing in CHF, studio and mobile.";
+  "Das komplette KWIIN Behandlungsmenü: Signature Thai-Massage, Sport-Regeneration, Lymphfluss, Rücken-, Kopf- und Fussbehandlungen. Preise in CHF, im Studio und mobil.";
 ---
 
 <BaseLayout title={title} description={description}>
   <PageTransition>
-    <section class="pt-36 pb-12">
-      <div class="mx-auto max-w-4xl px-5 text-center lg:px-8">
-        <p class="text-xs uppercase tracking-[0.2em] text-kwiin-gold-bright/80">Treatment Menu</p>
-        <h1 class="mt-4 font-display text-4xl text-kwiin-ivory sm:text-5xl">
-          Crafted treatments, rooted in tradition.
+    <section class="relative overflow-hidden pb-14 pt-40">
+      <div
+        class="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_50%_at_50%_0%,rgba(201,163,92,0.1),transparent_60%)]"
+        aria-hidden="true"
+      >
+      </div>
+      <div class="relative mx-auto max-w-4xl px-5 text-center lg:px-8">
+        <p class="kwiin-eyebrow">Behandlungen</p>
+        <h1 class="mt-6 font-display text-4xl leading-tight text-kwiin-ivory text-balance sm:text-5xl">
+          Handwerk, verwurzelt in
+          <span class="kwiin-accent text-gold-gradient">Tradition.</span>
         </h1>
-        <p class="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-kwiin-soft-grey">
-          Every KWIIN treatment is available both studio-based in Dübendorf and through Mobile
-          Spa. All prices in Swiss Francs.
+        <p class="mx-auto mt-6 max-w-2xl text-sm leading-relaxed text-kwiin-soft-grey">
+          Jede KWIIN Behandlung ist im Studio in Dübendorf und als Mobile Spa verfügbar. Jede
+          wird individuell auf Ihre Bedürfnisse abgestimmt: mit hochwertigen Ölen, edlen
+          Materialien und der Zeit, die Sie verdienen. Alle Preise in Schweizer Franken.
         </p>
       </div>
     </section>
@@ -32,7 +40,8 @@ const description =
     </section>
 
     <SectionReveal class="mx-auto max-w-2xl px-5 pb-24 text-center lg:px-8">
-      <p class="text-xs uppercase tracking-[0.1em] text-kwiin-soft-grey/60">
+      <OrnamentDivider class="mb-8" />
+      <p class="text-xs uppercase tracking-[0.12em] text-kwiin-soft-grey/60">
         {MOBILE_SPA_TRAVEL_FEE_NOTE}
       </p>
     </SectionReveal>

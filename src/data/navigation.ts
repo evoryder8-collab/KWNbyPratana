@@ -6,9 +6,9 @@ export interface NavItem {
 export const navItems: NavItem[] = [
   { label: "Signature", href: "/studio" },
   { label: "Mobile Spa", href: "/mobile-spa" },
-  { label: "Services", href: "/services" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
+  { label: "Behandlungen", href: "/services" },
+  { label: "Über KWIIN", href: "/about" },
+  { label: "Kontakt", href: "/contact" },
 ];
 
-export const navCtaLabel = "Book via WhatsApp";
+export const navCtaLabel = "Termin via WhatsApp";

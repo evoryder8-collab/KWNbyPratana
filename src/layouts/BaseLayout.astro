@@ -3,6 +3,8 @@ import { ClientRouter } from "astro:transitions";
 import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
 import Preloader from "../components/Preloader.astro";
+import AmbientBackdrop from "../components/AmbientBackdrop.astro";
+import CursorGlow from "../components/CursorGlow.astro";
 import { withBase } from "../utils/base";
 import "../styles/global.css";
 
@@ -22,7 +24,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="de">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -38,7 +40,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(ogImage, Astro.site)} />
     <meta property="og:url" content={canonicalURL} />
-    <meta property="og:locale" content="en_CH" />
+    <meta property="og:locale" content="de_CH" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -46,7 +48,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />
 
-    <meta name="theme-color" content="#0a0908" />
+    <meta name="theme-color" content="#0b0908" />
 
     <link
       rel="preconnect"
@@ -58,7 +60,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       crossorigin
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@300;400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
 
@@ -66,17 +68,19 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   </head>
   <body class="bg-kwiin-black text-kwiin-ivory min-h-screen flex flex-col">
     <Preloader />
+    <AmbientBackdrop />
+    <CursorGlow />
 
     <a
       href="#main-content"
       class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-kwiin-gold focus:text-kwiin-black focus:px-4 focus:py-2 focus:rounded"
     >
-      Skip to content
+      Zum Inhalt springen
     </a>
 
     <Navbar />
 
-    <main id="main-content" class="flex-1">
+    <main id="main-content" class="relative z-10 flex-1">
       <slot />
     </main>
 
@@ -90,6 +94,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       import { initKwiinAnimations, resetKwiinAnimations, refreshScrollTriggers } from "../utils/animations";
 
       function initLenis() {
+        const w = window as any;
+
+        // tear down the previous instance so view transitions never stack
+        // multiple smooth-scroll loops
+        if (w.__kwiinLenisRaf) cancelAnimationFrame(w.__kwiinLenisRaf);
+        if (w.__kwiinLenis?.destroy) w.__kwiinLenis.destroy();
+
         const prefersReducedMotion = window.matchMedia(
           "(prefers-reduced-motion: reduce)"
         ).matches;
@@ -104,12 +115,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
         function raf(time: number) {
           lenis.raf(time);
-          requestAnimationFrame(raf);
+          w.__kwiinLenisRaf = requestAnimationFrame(raf);
         }
-        requestAnimationFrame(raf);
+        w.__kwiinLenisRaf = requestAnimationFrame(raf);
 
         // expose so GSAP ScrollTrigger can sync with it on each page
-        (window as any).__kwiinLenis = lenis;
+        w.__kwiinLenis = lenis;
         window.dispatchEvent(new CustomEvent("kwiin:lenis-ready"));
       }
 

@@ -15,17 +15,18 @@ const icons: Record<string, string> = {
 };
 ---
 
-<div class="reveal-up flex gap-4 rounded-2xl border border-white/5 bg-white/[0.02] p-6">
+<div class="reveal-up kwiin-tilt group relative flex gap-5 rounded-3xl border border-white/5 bg-white/[0.02] p-7 transition-colors duration-500 hover:border-kwiin-gold/30">
+  <span class="kwiin-tilt-sheen" aria-hidden="true"></span>
   <span
-    class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-kwiin-charcoal text-kwiin-gold-bright"
+    class="relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-kwiin-gold/30 bg-kwiin-charcoal text-kwiin-gold-bright shadow-[0_0_24px_-6px_rgba(201,163,92,0.45)]"
     aria-hidden="true"
   >
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-5 w-5">
       <path d={icons[icon]} stroke-linecap="round" stroke-linejoin="round"></path>
     </svg>
   </span>
-  <div>
-    <h3 class="font-display text-lg text-kwiin-ivory">{title}</h3>
-    <p class="mt-1 text-sm leading-relaxed text-kwiin-soft-grey">{description}</p>
+  <div class="relative z-10">
+    <h3 class="font-display text-xl text-kwiin-ivory">{title}</h3>
+    <p class="mt-1.5 text-sm leading-relaxed text-kwiin-soft-grey">{description}</p>
   </div>
 </div>

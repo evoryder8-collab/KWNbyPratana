@@ -1,9 +1,14 @@
 ---
 /**
- * Cinematic split-screen portal for the homepage. Two equally-weighted
- * choice cards (KWIIN Signature Experience and Mobile Spa) react to the
- * cursor with a subtle 3D perspective tilt, layered parallax depth, a moving
- * specular sheen, and a gold edge-light that breathes near the pointer.
+ * The KWIIN portal: a cinematic split-screen choice between the two worlds.
+ *
+ * Left, the Signature Experience: a lotus mandala emblem with slowly
+ * counter-rotating orbit rings and a breathing halo, resting in champagne
+ * gold light. Right, the Mobile Spa: a gold light travelling a silk path
+ * toward a minimal pavilion, wrapped in amethyst light. Both panels carry
+ * expanding meditation ripples, fine double corner frames, a cursor-tracked
+ * specular sheen, layered 3D parallax tilt, and an edge-light that breathes
+ * near the pointer. A rotating gold medallion seals the seam between them.
  *
  * Never label the left panel "Suriya Spa"; it is always the KWIIN Signature
  * Experience.
@@ -11,97 +16,175 @@
  * Progressive enhancement & accessibility:
  * - Works fully without JavaScript (the cards are plain links).
  * - The 3D tilt only activates on fine-pointer (hover) devices and is fully
- *   disabled for `prefers-reduced-motion`.
+ *   disabled for `prefers-reduced-motion` (SMIL orbs are removed by JS).
  * - All decorative layers are aria-hidden and pointer-events:none.
  */
 import { withBase } from "../utils/base";
-
-const panels = [
-  {
-    href: "/studio",
-    eyebrow: "Studio-Based, Dübendorf",
-    title: "KWIIN Signature Experience",
-    description: "Champion-level Thai massage in a calm, dedicated studio setting.",
-    side: "left" as const,
-    // A fixed location pin. Studio is a single, dedicated home base.
-    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8"><path d="M12 21s7-7.58 7-12a7 7 0 1 0-14 0c0 4.42 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>`,
-  },
-  {
-    href: "/mobile-spa",
-    eyebrow: "Wherever You Are",
-    title: "KWIIN Mobile Spa",
-    description: "Luxury Thai massage brought to your home, office, or hotel.",
-    side: "right" as const,
-    // A car travelling toward a house. The experience comes to the client.
-    icon: `<svg viewBox="0 0 64 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-14"><path d="M3 22h3l2-5a2 2 0 0 1 1.8-1.2h6.4A2 2 0 0 1 18 17l2 5h3"/><path d="M3 22h20"/><circle cx="9" cy="23.5" r="1.8"/><circle cx="17" cy="23.5" r="1.8"/><path d="M28 18h4M28 22h6M28 26h4"/><path d="M42 18 50 11 58 18"/><path d="M44.5 18v9h11v-9"/><path d="M48 27v-5h4v5"/></svg>`,
-  },
-];
 ---
 
-<div class="kwiin-portal relative grid min-h-[70vh] gap-3 md:grid-cols-2" data-portal>
-  {
-    panels.map((panel) => (
-      <a
-        href={withBase(panel.href)}
-        class="kwiin-portal-panel group relative flex min-h-[44vh] flex-col items-center justify-center gap-4 overflow-hidden rounded-3xl border border-white/5 px-8 py-16 text-center md:min-h-[70vh]"
-        data-side={panel.side}
-        data-tilt
-        aria-label={`${panel.title}. ${panel.description}`}
-      >
-        <span
-          class="kwiin-portal-bg pointer-events-none absolute inset-0 bg-gradient-to-br from-kwiin-charcoal via-kwiin-black to-kwiin-black"
-          aria-hidden="true"
-        />
-        <span
-          class="kwiin-portal-glow pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_28%,rgba(201,168,106,0.20),transparent_62%)] opacity-0 transition-opacity duration-700 group-hover:opacity-100 group-focus-visible:opacity-100"
-          aria-hidden="true"
-        />
-        <span class="kwiin-portal-sheen pointer-events-none absolute inset-0 opacity-0" aria-hidden="true" />
-        <span class="kwiin-portal-ring pointer-events-none absolute inset-0 rounded-3xl" aria-hidden="true" />
+<div class="kwiin-portal relative grid gap-4 md:grid-cols-2" data-portal>
+  {/* ── Panel I: Signature Experience ─────────────────────────────── */}
+  <a
+    href={withBase("/studio")}
+    class="kwiin-portal-panel group relative flex min-h-[58vh] flex-col items-center justify-center overflow-hidden rounded-[2rem] border border-white/5 px-8 py-16 text-center md:min-h-[74vh]"
+    data-side="studio"
+    data-tilt
+    aria-label="KWIIN Signature Experience. Preisgekrönte Thai-Massage im Studio in Dübendorf."
+  >
+    <span class="kwiin-portal-bg kwiin-portal-bg--studio pointer-events-none absolute inset-0" aria-hidden="true"></span>
+    <span class="kwiin-portal-aurora kwiin-portal-aurora--studio pointer-events-none absolute inset-0" aria-hidden="true"></span>
+    <span class="kwiin-portal-sheen pointer-events-none absolute inset-0" aria-hidden="true"></span>
+    <span class="kwiin-portal-ring pointer-events-none absolute inset-0 rounded-[2rem]" aria-hidden="true"></span>
 
-        <span
-          class="kwiin-portal-layer relative z-10 flex h-9 items-center justify-center text-kwiin-gold-bright"
-          data-depth="60"
-          set:html={panel.icon}
-        />
-        <p
-          class="kwiin-portal-layer relative z-10 text-xs uppercase tracking-[0.22em] text-kwiin-gold-bright/80"
-          data-depth="34"
-        >
-          {panel.eyebrow}
-        </p>
-        <h2
-          class="kwiin-portal-layer relative z-10 font-display text-3xl text-kwiin-ivory sm:text-4xl"
-          data-depth="46"
-        >
-          {panel.title}
-        </h2>
-        <p
-          class="kwiin-portal-layer relative z-10 max-w-xs text-sm leading-relaxed text-kwiin-soft-grey"
-          data-depth="26"
-        >
-          {panel.description}
-        </p>
-        <span
-          class="kwiin-portal-layer kwiin-portal-enter relative z-10 mt-2 inline-flex items-center gap-2 rounded-full border border-kwiin-gold/30 px-5 py-2 text-sm uppercase tracking-[0.12em] text-kwiin-gold-bright transition-all duration-500 group-hover:border-kwiin-gold/60 group-hover:gap-3"
-          data-depth="54"
-        >
-          Enter
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-4 w-4">
-            <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-        </span>
-      </a>
-    ))
-  }
+    <span class="kwiin-corner kwiin-corner--tl" aria-hidden="true"></span>
+    <span class="kwiin-corner kwiin-corner--tr" aria-hidden="true"></span>
+    <span class="kwiin-corner kwiin-corner--bl" aria-hidden="true"></span>
+    <span class="kwiin-corner kwiin-corner--br" aria-hidden="true"></span>
 
+    {/* ripples + breathing mandala emblem */}
+    <span class="kwiin-portal-layer relative z-10 mb-2 flex h-40 w-40 items-center justify-center sm:h-48 sm:w-48" data-depth="55" aria-hidden="true">
+      <span class="kwiin-ripple" style="animation-delay: 0s"></span>
+      <span class="kwiin-ripple" style="animation-delay: 2.3s"></span>
+      <span class="kwiin-ripple" style="animation-delay: 4.6s"></span>
+      <span class="kwiin-emblem-halo kwiin-emblem-halo--gold"></span>
+      <svg viewBox="0 0 120 120" fill="none" class="kwiin-mandala relative h-full w-full text-kwiin-gold-bright">
+        <g class="kwiin-mandala-orbit">
+          <circle cx="60" cy="60" r="54" stroke="currentColor" stroke-opacity="0.4" stroke-width="1" stroke-dasharray="1 7" stroke-linecap="round"></circle>
+        </g>
+        <g class="kwiin-mandala-orbit kwiin-mandala-orbit--rev">
+          <circle cx="60" cy="60" r="44" stroke="currentColor" stroke-opacity="0.3" stroke-width="1" stroke-dasharray="1 11" stroke-linecap="round"></circle>
+          <circle cx="60" cy="16" r="1.8" fill="currentColor" fill-opacity="0.9"></circle>
+        </g>
+        <g class="kwiin-mandala-lotus" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" transform="translate(28, 40) scale(1)">
+          <path d="M32 4 C26.5 13 26.5 24 32 34 C37.5 24 37.5 13 32 4 Z"></path>
+          <path d="M32 34 C26 30.5 21 23 19.5 12.5 C27.5 17 31.5 25 32 34 Z"></path>
+          <path d="M32 34 C38 30.5 43 23 44.5 12.5 C36.5 17 32.5 25 32 34 Z"></path>
+          <path d="M32 34 C23 33 13 28 8.5 19.5 C18 20.5 28 26.5 32 34 Z"></path>
+          <path d="M32 34 C41 33 51 28 55.5 19.5 C46 20.5 36 26.5 32 34 Z"></path>
+          <path d="M20 38.5 C25 42 39 42 44 38.5"></path>
+        </g>
+      </svg>
+    </span>
+
+    <p class="kwiin-portal-layer relative z-10 text-[0.68rem] uppercase tracking-[0.3em] text-kwiin-gold-bright/80" data-depth="34">
+      Studio · Dübendorf
+    </p>
+    <h2 class="kwiin-portal-layer relative z-10 mt-3 font-display text-4xl leading-[1.05] text-kwiin-ivory sm:text-5xl" data-depth="46">
+      <span class="block text-[0.42em] uppercase tracking-[0.42em] text-kwiin-gold/90">KWIIN</span>
+      Signature <span class="kwiin-accent">Experience</span>
+    </h2>
+    <p class="kwiin-portal-layer relative z-10 mt-4 max-w-xs text-sm leading-relaxed text-kwiin-soft-grey" data-depth="26">
+      Preisgekrönte Thai-Massage in einem ruhigen, privaten Studio. Ankommen, loslassen, neue Kraft schöpfen.
+    </p>
+    <span
+      class="kwiin-portal-layer kwiin-portal-enter relative z-10 mt-7 inline-flex items-center gap-2 rounded-full border border-kwiin-gold/30 px-6 py-2.5 text-sm uppercase tracking-[0.14em] text-kwiin-gold-bright transition-all duration-500 group-hover:gap-3 group-hover:border-kwiin-gold/60"
+      data-depth="54"
+    >
+      Eintreten
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-4 w-4">
+        <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+    </span>
+    <span class="kwiin-portal-layer relative z-10 mt-4 text-[0.65rem] uppercase tracking-[0.2em] text-kwiin-soft-grey/60" data-depth="20">
+      Behandlungen ab 85 CHF
+    </span>
+  </a>
+
+  {/* ── Panel II: Mobile Spa ──────────────────────────────────────── */}
+  <a
+    href={withBase("/mobile-spa")}
+    class="kwiin-portal-panel group relative flex min-h-[58vh] flex-col items-center justify-center overflow-hidden rounded-[2rem] border border-white/5 px-8 py-16 text-center md:min-h-[74vh]"
+    data-side="mobile"
+    data-tilt
+    aria-label="KWIIN Mobile Spa. Luxus Thai-Massage bei Ihnen zuhause, im Büro oder im Hotel."
+  >
+    <span class="kwiin-portal-bg kwiin-portal-bg--mobile pointer-events-none absolute inset-0" aria-hidden="true"></span>
+    <span class="kwiin-portal-aurora kwiin-portal-aurora--mobile pointer-events-none absolute inset-0" aria-hidden="true"></span>
+    <span class="kwiin-portal-sheen pointer-events-none absolute inset-0" aria-hidden="true"></span>
+    <span class="kwiin-portal-ring kwiin-portal-ring--mobile pointer-events-none absolute inset-0 rounded-[2rem]" aria-hidden="true"></span>
+
+    <span class="kwiin-corner kwiin-corner--tl" aria-hidden="true"></span>
+    <span class="kwiin-corner kwiin-corner--tr" aria-hidden="true"></span>
+    <span class="kwiin-corner kwiin-corner--bl" aria-hidden="true"></span>
+    <span class="kwiin-corner kwiin-corner--br" aria-hidden="true"></span>
+
+    {/* journey emblem: gold light travelling home */}
+    <span class="kwiin-portal-layer relative z-10 mb-2 flex h-40 w-52 items-center justify-center sm:h-48 sm:w-60" data-depth="55" aria-hidden="true">
+      <span class="kwiin-ripple kwiin-ripple--amethyst" style="animation-delay: 1.2s"></span>
+      <span class="kwiin-ripple kwiin-ripple--amethyst" style="animation-delay: 3.5s"></span>
+      <span class="kwiin-emblem-halo kwiin-emblem-halo--amethyst"></span>
+      <svg viewBox="0 0 132 96" fill="none" class="relative h-full w-full">
+        <path
+          id="kwiin-journey-path"
+          d="M6 78 C 36 58, 66 88, 96 66"
+          stroke="rgba(236, 210, 155, 0.5)"
+          stroke-width="1.2"
+          stroke-linecap="round"
+          class="kwiin-journey-trail"
+        ></path>
+        <g stroke="rgba(236, 210, 155, 0.9)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M94 56 L 108 44 L 122 56"></path>
+          <path d="M98 56 v 20 h 20 v -20"></path>
+          <path d="M105 76 v -9 h 6 v 9"></path>
+          <path d="M108 44 v -5 m -2.5 2.5 h 5"></path>
+        </g>
+        <circle r="7" fill="rgba(236, 210, 155, 0.18)">
+          <animateMotion dur="5.5s" repeatCount="indefinite" rotate="none" path="M6 78 C 36 58, 66 88, 96 66"></animateMotion>
+        </circle>
+        <circle r="2.6" fill="#ecd29b">
+          <animateMotion dur="5.5s" repeatCount="indefinite" rotate="none" path="M6 78 C 36 58, 66 88, 96 66"></animateMotion>
+        </circle>
+      </svg>
+    </span>
+
+    <p class="kwiin-portal-layer relative z-10 text-[0.68rem] uppercase tracking-[0.3em] text-kwiin-gold-bright/80" data-depth="34">
+      Bei Ihnen · Region Zürich
+    </p>
+    <h2 class="kwiin-portal-layer relative z-10 mt-3 font-display text-4xl leading-[1.05] text-kwiin-ivory sm:text-5xl" data-depth="46">
+      <span class="block text-[0.42em] uppercase tracking-[0.42em] text-kwiin-gold/90">KWIIN</span>
+      Mobile <span class="kwiin-accent">Spa</span>
+    </h2>
+    <p class="kwiin-portal-layer relative z-10 mt-4 max-w-xs text-sm leading-relaxed text-kwiin-soft-grey" data-depth="26">
+      Dieselbe Qualität, dieselbe Ruhe, direkt bei Ihnen. Zuhause, im Büro oder im Hotel.
+    </p>
+    <span
+      class="kwiin-portal-layer kwiin-portal-enter relative z-10 mt-7 inline-flex items-center gap-2 rounded-full border border-kwiin-gold/30 px-6 py-2.5 text-sm uppercase tracking-[0.14em] text-kwiin-gold-bright transition-all duration-500 group-hover:gap-3 group-hover:border-kwiin-gold/60"
+      data-depth="54"
+    >
+      Eintreten
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-4 w-4">
+        <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+    </span>
+    <span class="kwiin-portal-layer relative z-10 mt-4 text-[0.65rem] uppercase tracking-[0.2em] text-kwiin-soft-grey/60" data-depth="20">
+      Inklusive Liege, Öle und frischer Tücher
+    </span>
+  </a>
+
+  {/* ── seam medallion: rotating circular wordmark ─────────────────── */}
   <div
-    class="pointer-events-none absolute left-1/2 top-4 z-20 -translate-x-1/2 whitespace-nowrap rounded-full border border-white/10 bg-kwiin-black/70 px-4 py-1.5 text-center shadow-[0_8px_30px_rgba(0,0,0,0.5)] backdrop-blur-md sm:top-6"
+    class="pointer-events-none absolute left-1/2 top-1/2 z-20 hidden -translate-x-1/2 -translate-y-1/2 md:block"
     aria-hidden="true"
   >
-    <span class="font-display text-sm tracking-wide text-kwiin-ivory sm:text-base">
-      KWIIN <span aria-hidden="true">🪷</span> <span class="text-kwiin-gold-bright">by Pratana Halstrick</span>
-    </span>
+    <div class="relative flex h-28 w-28 items-center justify-center rounded-full border border-kwiin-gold/25 bg-kwiin-black/80 shadow-[0_10px_50px_rgba(0,0,0,0.6)] backdrop-blur-md">
+      <svg viewBox="0 0 120 120" class="kwiin-medallion absolute inset-0 h-full w-full">
+        <defs>
+          <path id="kwiin-medallion-circle" d="M 60,60 m -46,0 a 46,46 0 1,1 92,0 a 46,46 0 1,1 -92,0"></path>
+        </defs>
+        <text class="kwiin-medallion-text" fill="rgba(236, 210, 155, 0.75)">
+          <textPath href="#kwiin-medallion-circle">
+            KWIIN · BY PRATANA HALSTRICK · WHERE LUXURY MEETS HEALING ·
+          </textPath>
+        </text>
+      </svg>
+      <svg viewBox="0 0 64 44" fill="none" stroke="#c9a35c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-7 w-auto">
+        <path d="M32 4 C26.5 13 26.5 24 32 34 C37.5 24 37.5 13 32 4 Z"></path>
+        <path d="M32 34 C26 30.5 21 23 19.5 12.5 C27.5 17 31.5 25 32 34 Z"></path>
+        <path d="M32 34 C38 30.5 43 23 44.5 12.5 C36.5 17 32.5 25 32 34 Z"></path>
+        <path d="M32 34 C23 33 13 28 8.5 19.5 C18 20.5 28 26.5 32 34 Z"></path>
+        <path d="M32 34 C41 33 51 28 55.5 19.5 C46 20.5 36 26.5 32 34 Z"></path>
+      </svg>
+    </div>
   </div>
 </div>
 
@@ -123,11 +206,11 @@ const panels = [
 
   .kwiin-portal-panel:hover,
   .kwiin-portal-panel:focus-visible {
-    border-color: rgba(201, 168, 106, 0.28);
+    border-color: rgba(201, 163, 92, 0.28);
     box-shadow:
       0 1px 0 rgba(255, 255, 255, 0.06) inset,
       0 40px 80px -28px rgba(0, 0, 0, 0.9),
-      0 0 60px -20px rgba(201, 168, 106, 0.35);
+      0 0 70px -18px rgba(201, 163, 92, 0.35);
   }
 
   .kwiin-portal-panel:focus-visible {
@@ -135,12 +218,39 @@ const panels = [
     outline-offset: -4px;
   }
 
+  /* base gradients: warm candlelight vs. dusk amethyst */
   .kwiin-portal-bg {
     transition: transform 0.8s var(--ease-silk);
+  }
+  .kwiin-portal-bg--studio {
+    background:
+      radial-gradient(120% 90% at 50% 100%, rgba(201, 163, 92, 0.08), transparent 55%),
+      linear-gradient(165deg, #201810 0%, #0b0908 62%);
+  }
+  .kwiin-portal-bg--mobile {
+    background:
+      radial-gradient(120% 90% at 50% 100%, rgba(124, 94, 163, 0.1), transparent 55%),
+      linear-gradient(195deg, #1b1424 0%, #0b0908 62%);
   }
   .kwiin-portal-panel:hover .kwiin-portal-bg,
   .kwiin-portal-panel:focus-visible .kwiin-portal-bg {
     transform: scale(1.06);
+  }
+
+  /* aurora bloom behind the emblem, brightening on hover */
+  .kwiin-portal-aurora {
+    opacity: 0.55;
+    transition: opacity 0.8s var(--ease-silk);
+  }
+  .kwiin-portal-aurora--studio {
+    background: radial-gradient(circle at 50% 32%, rgba(201, 163, 92, 0.2), transparent 58%);
+  }
+  .kwiin-portal-aurora--mobile {
+    background: radial-gradient(circle at 50% 32%, rgba(124, 94, 163, 0.24), transparent 58%);
+  }
+  .kwiin-portal-panel:hover .kwiin-portal-aurora,
+  .kwiin-portal-panel:focus-visible .kwiin-portal-aurora {
+    opacity: 1;
   }
 
   .kwiin-portal-layer {
@@ -151,11 +261,12 @@ const panels = [
   .kwiin-portal-sheen {
     background: radial-gradient(
       220px circle at var(--mx, 50%) var(--my, 30%),
-      rgba(246, 241, 233, 0.10),
+      rgba(247, 242, 232, 0.1),
       transparent 60%
     );
     transition: opacity 0.5s var(--ease-silk);
     mix-blend-mode: screen;
+    opacity: 0;
   }
   .kwiin-portal-panel:hover .kwiin-portal-sheen {
     opacity: 1;
@@ -165,8 +276,8 @@ const panels = [
     padding: 1px;
     background: radial-gradient(
       300px circle at var(--mx, 50%) var(--my, 50%),
-      rgba(233, 200, 121, 0.55),
-      rgba(201, 168, 106, 0) 65%
+      rgba(236, 210, 155, 0.55),
+      rgba(201, 163, 92, 0) 65%
     );
     -webkit-mask:
       linear-gradient(#000 0 0) content-box,
@@ -176,9 +287,112 @@ const panels = [
     opacity: 0;
     transition: opacity 0.5s var(--ease-silk);
   }
+  .kwiin-portal-ring--mobile {
+    background: radial-gradient(
+      300px circle at var(--mx, 50%) var(--my, 50%),
+      rgba(180, 150, 220, 0.55),
+      rgba(124, 94, 163, 0) 65%
+    );
+  }
   .kwiin-portal-panel:hover .kwiin-portal-ring,
   .kwiin-portal-panel:focus-visible .kwiin-portal-ring {
     opacity: 1;
+  }
+
+  /* fine corner frames that reach outward on hover */
+  .kwiin-corner {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border-color: rgba(201, 163, 92, 0.4);
+    border-style: solid;
+    border-width: 0;
+    transition: width 0.5s var(--ease-silk), height 0.5s var(--ease-silk),
+      border-color 0.5s var(--ease-silk);
+    pointer-events: none;
+    z-index: 5;
+  }
+  .kwiin-corner--tl { top: 16px; left: 16px; border-top-width: 1px; border-left-width: 1px; border-top-left-radius: 14px; }
+  .kwiin-corner--tr { top: 16px; right: 16px; border-top-width: 1px; border-right-width: 1px; border-top-right-radius: 14px; }
+  .kwiin-corner--bl { bottom: 16px; left: 16px; border-bottom-width: 1px; border-left-width: 1px; border-bottom-left-radius: 14px; }
+  .kwiin-corner--br { bottom: 16px; right: 16px; border-bottom-width: 1px; border-right-width: 1px; border-bottom-right-radius: 14px; }
+  .kwiin-portal-panel:hover .kwiin-corner,
+  .kwiin-portal-panel:focus-visible .kwiin-corner {
+    width: 44px;
+    height: 44px;
+    border-color: rgba(236, 210, 155, 0.8);
+  }
+
+  /* expanding meditation ripples behind the emblems */
+  .kwiin-ripple {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(201, 163, 92, 0.35);
+    opacity: 0;
+    animation: kwiin-ripple-out 7s var(--ease-silk) infinite;
+  }
+  .kwiin-ripple--amethyst {
+    border-color: rgba(150, 120, 190, 0.4);
+  }
+  @keyframes kwiin-ripple-out {
+    0% { transform: scale(0.45); opacity: 0; }
+    12% { opacity: 0.7; }
+    70%, 100% { transform: scale(1.5); opacity: 0; }
+  }
+
+  /* breathing halo */
+  .kwiin-emblem-halo {
+    position: absolute;
+    inset: 8%;
+    border-radius: 50%;
+    filter: blur(18px);
+    animation: kwiin-breathe-soft 5.5s ease-in-out infinite;
+  }
+  .kwiin-emblem-halo--gold {
+    background: radial-gradient(circle, rgba(201, 163, 92, 0.3), transparent 70%);
+  }
+  .kwiin-emblem-halo--amethyst {
+    background: radial-gradient(circle, rgba(124, 94, 163, 0.34), transparent 70%);
+  }
+
+  /* mandala orbits: two counter-rotating rings of light */
+  .kwiin-mandala-orbit {
+    transform-origin: 60px 60px;
+    animation: kwiin-orbit 60s linear infinite;
+  }
+  .kwiin-mandala-orbit--rev {
+    animation: kwiin-orbit 84s linear infinite reverse;
+  }
+  @keyframes kwiin-orbit {
+    to { transform: rotate(360deg); }
+  }
+  .kwiin-mandala-lotus {
+    filter: drop-shadow(0 0 10px rgba(236, 210, 155, 0.35));
+  }
+  .kwiin-portal-panel:hover .kwiin-mandala-lotus {
+    filter: drop-shadow(0 0 18px rgba(236, 210, 155, 0.6));
+  }
+
+  /* journey trail shimmer */
+  .kwiin-journey-trail {
+    stroke-dasharray: 4 8;
+    animation: kwiin-trail 2.4s linear infinite;
+  }
+  @keyframes kwiin-trail {
+    to { stroke-dashoffset: -24; }
+  }
+
+  /* rotating medallion text */
+  .kwiin-medallion {
+    animation: kwiin-orbit 44s linear infinite;
+    transform-origin: 50% 50%;
+  }
+  .kwiin-medallion-text {
+    font-family: var(--font-body);
+    font-size: 8.4px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -188,6 +402,14 @@ const panels = [
       transition: none !important;
       transform: none !important;
     }
+    .kwiin-ripple,
+    .kwiin-emblem-halo,
+    .kwiin-mandala-orbit,
+    .kwiin-mandala-orbit--rev,
+    .kwiin-journey-trail,
+    .kwiin-medallion {
+      animation: none !important;
+    }
   }
 </style>
 
@@ -195,8 +417,17 @@ const panels = [
   // 3D cursor-perspective tilt for the portal choice cards.
   // Buttery rAF lerp; only runs on fine-pointer, non-reduced-motion devices.
   function initPortalTilt() {
-    const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // SMIL animations ignore the CSS reduced-motion kill switch, so remove
+    // the travelling orbs explicitly for those users.
+    if (reduce) {
+      document
+        .querySelectorAll("[data-portal] animateMotion")
+        .forEach((el) => el.parentElement?.remove());
+    }
+
+    const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     if (!fine || reduce) return;
 
     const cards = document.querySelectorAll<HTMLElement>("[data-tilt]");

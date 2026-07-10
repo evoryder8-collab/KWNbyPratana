@@ -4,10 +4,17 @@ import { WHATSAPP_MESSAGES } from "../utils/whatsapp";
 import { withBase } from "../utils/base";
 import WhatsAppButton from "./WhatsAppButton.astro";
 import MobileMenu from "./MobileMenu.astro";
+import LotusMark from "./LotusMark.astro";
 
 const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 ---
 
+{/*
+  The fullscreen mobile menu is intentionally rendered as a SIBLING of the
+  header, not inside it: the header's backdrop-filter makes it the containing
+  block for fixed-position descendants, which would clamp the menu to the
+  navbar strip and let page content bleed through underneath it.
+*/}
 <header
   id="kwiin-nav"
   data-scrolled="false"
@@ -22,21 +29,16 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 
   <nav
     class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 transition-[padding] duration-500 lg:px-8"
-    aria-label="Main navigation"
+    aria-label="Hauptnavigation"
   >
     <a
       href={withBase("/")}
-      class="group flex items-center gap-2.5 font-display text-lg tracking-wide text-kwiin-ivory"
+      class="group flex items-center gap-3 font-display text-lg tracking-wide text-kwiin-ivory"
     >
-      <img
-        src={withBase("/assets/kwiin-logo.png")}
-        alt="KWIIN by Pratana Halstrick"
-        class="h-9 w-auto transition-transform duration-700 group-hover:rotate-[8deg]"
-      />
-      <span class="hidden items-baseline gap-1.5 sm:flex">
-        <span>KWIIN</span>
-        <span aria-hidden="true" class="text-kwiin-gold-bright/70">🪷</span>
-        <span class="text-kwiin-gold-bright">by Pratana</span>
+      <LotusMark class="h-7 w-auto text-kwiin-gold transition-transform duration-700 group-hover:scale-110" />
+      <span class="flex items-baseline gap-1.5">
+        <span class="tracking-[0.18em]">KWIIN</span>
+        <span class="hidden font-display text-sm italic text-kwiin-gold-bright sm:inline">by Pratana</span>
       </span>
     </a>
 
@@ -49,7 +51,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
               <a
                 href={withBase(item.href)}
                 aria-current={active ? "page" : undefined}
-                class={`kwiin-navlink text-sm uppercase tracking-[0.14em] transition-colors hover:text-kwiin-gold-bright ${
+                class={`kwiin-navlink text-[0.78rem] uppercase tracking-[0.16em] transition-colors hover:text-kwiin-gold-bright ${
                   active ? "text-kwiin-gold-bright" : "text-kwiin-ivory/80"
                 }`}
               >
@@ -71,21 +73,21 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
       class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-kwiin-ivory transition-colors hover:border-kwiin-gold/40 lg:hidden"
       aria-expanded="false"
       aria-controls="kwiin-mobile-menu"
-      aria-label="Open menu"
+      aria-label="Menü öffnen"
     >
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-5 w-5">
-        <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"></path>
+        <path d="M4 8h16M8 12h12M4 16h16" stroke-linecap="round"></path>
       </svg>
     </button>
   </nav>
-
-  <MobileMenu />
 </header>
+
+<MobileMenu />
 
 <style>
   #kwiin-nav[data-scrolled="true"] {
-    background-color: rgba(10, 9, 8, 0.85);
-    border-color: rgba(201, 168, 106, 0.16);
+    background-color: rgba(11, 9, 8, 0.86);
+    border-color: rgba(201, 163, 92, 0.16);
     box-shadow: 0 10px 40px -24px rgba(0, 0, 0, 0.9);
   }
   #kwiin-nav[data-scrolled="true"] nav {

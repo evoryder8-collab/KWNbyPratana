@@ -1,8 +1,9 @@
 /**
  * Shared animation bootstrapping for GSAP/ScrollTrigger reveals, the
- * "magnetic" hover effect used on buttons, and cursor-perspective tilt on
- * content cards. Initialized once globally from BaseLayout and re-run after
- * every Astro view transition swap.
+ * "magnetic" hover effect used on buttons, cursor-perspective tilt on
+ * content cards, word-by-word manifesto reveals, and scroll counters.
+ * Initialized once globally from BaseLayout and re-run after every Astro
+ * view transition swap.
  *
  * Everything here is a no-op (or safely skipped) when the user has
  * prefers-reduced-motion enabled, and never hides content that JS fails
@@ -54,6 +55,74 @@ function initSectionReveals(): void {
       duration: 0.8,
       ease: "power3.out",
       scrollTrigger: { trigger: card, start: "top 90%", once: true },
+    });
+  });
+}
+
+/**
+ * Word-by-word reveal for manifesto lines marked with [data-words].
+ * The original text is preserved on the element as aria-label; the visual
+ * word spans are aria-hidden, so screen readers hear one clean sentence.
+ * Skipped entirely under reduced motion (text simply stays visible).
+ */
+function initWordReveals(): void {
+  const els = document.querySelectorAll<HTMLElement>("[data-words]:not([data-words-bound])");
+
+  els.forEach((el) => {
+    el.dataset.wordsBound = "true";
+    const text = (el.textContent ?? "").trim().replace(/\s+/g, " ");
+    if (!text) return;
+
+    el.setAttribute("aria-label", text);
+    const frag = document.createDocumentFragment();
+    const words = text.split(" ");
+    words.forEach((word, i) => {
+      const span = document.createElement("span");
+      span.className = "kwiin-word";
+      span.textContent = word;
+      span.setAttribute("aria-hidden", "true");
+      frag.appendChild(span);
+      if (i < words.length - 1) frag.appendChild(document.createTextNode(" "));
+    });
+    el.textContent = "";
+    el.appendChild(frag);
+
+    const spans = el.querySelectorAll<HTMLElement>(".kwiin-word");
+    gsap.to(spans, {
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      duration: 0.9,
+      ease: "power3.out",
+      stagger: 0.045,
+      scrollTrigger: { trigger: el, start: "top 88%", once: true },
+    });
+  });
+}
+
+/**
+ * Counts [data-counter] elements up from 0 to their target when scrolled
+ * into view, formatted for de-CH (2'500). The final value is authored in
+ * the HTML, so no-JS and reduced-motion users always see the real number.
+ */
+function initCounters(): void {
+  const els = document.querySelectorAll<HTMLElement>("[data-counter]:not([data-counter-bound])");
+
+  els.forEach((el) => {
+    el.dataset.counterBound = "true";
+    const target = Number(el.dataset.counter ?? "0");
+    if (!Number.isFinite(target)) return;
+    const suffix = el.dataset.counterSuffix ?? "";
+    const obj = { v: 0 };
+
+    gsap.to(obj, {
+      v: target,
+      duration: 1.8,
+      ease: "power2.out",
+      scrollTrigger: { trigger: el, start: "top 90%", once: true },
+      onUpdate: () => {
+        el.textContent = Math.round(obj.v).toLocaleString("de-CH") + suffix;
+      },
     });
   });
 }
@@ -134,6 +203,8 @@ function initTiltCards(): void {
 export function initKwiinAnimations(): void {
   if (prefersReducedMotion()) return;
   initSectionReveals();
+  initWordReveals();
+  initCounters();
   initMagneticButtons();
   initTiltCards();
 }
