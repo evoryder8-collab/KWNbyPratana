@@ -122,9 +122,10 @@ function renderHeroLanguageSelector() {
       <details class="language-menu language-menu--hero" data-language-menu>
         <summary>
           <span class="sr-only" data-i18n="language.selectAria">Sprache auswählen</span>
+          <svg class="language-menu__globe" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.4 2.5 3.7 5.5 3.7 9S14.4 18.5 12 21c-2.4-2.5-3.7-5.5-3.7-9S9.6 5.5 12 3Z"/></svg>
           <span data-current-language-name>Deutsch</span>
           <span data-current-language>DE</span>
-          <svg viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="m1 1 5 5 5-5"/></svg>
+          <svg class="language-menu__chevron" viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="m1 1 5 5 5-5"/></svg>
         </summary>
         <div class="language-menu__popover">
           <p data-i18n="language.available">Verfügbare Sprachen</p>

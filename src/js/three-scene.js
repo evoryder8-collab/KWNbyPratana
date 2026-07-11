@@ -27,20 +27,32 @@ const fragmentShader = `
 `;
 
 function createNetwork(isMobile) {
-  const anchors = [
-    [-4.8, 2.2, -1.1], [-3.9, 3.3, -0.4], [-2.7, 2.45, 0], [-1.5, 3.55, -0.8],
-    [-0.3, 2.55, 0.2], [1.1, 3.45, -0.5], [2.4, 2.35, 0.1], [3.8, 3.15, -0.7], [4.9, 2.0, -1.2],
-    [-4.3, 0.5, -0.3], [-2.9, 0.9, -0.9], [-1.5, 0.35, 0.2], [0, 1.3, -1.1], [1.6, 0.25, 0.15], [3.0, 0.85, -0.8], [4.4, 0.4, -0.3],
-    [-4.8, -1.45, -1], [-3.2, -0.85, 0.1], [-1.8, -1.75, -0.7], [0, -0.8, 0.25], [1.9, -1.8, -0.6], [3.3, -0.85, 0.15], [4.9, -1.55, -1],
-    [-3.8, -3.0, -0.6], [-2.0, -2.55, 0], [0, -3.25, -0.8], [2.1, -2.5, 0], [3.9, -3.05, -0.7],
+  const vector = ([x, y, z = 0]) => new THREE.Vector3(x, y, z);
+  const pathData = [
+    [[0,-3.55,-.3],[-.65,-1.4,0],[-1.25,.75,-.25],[-.7,2.25,0],[0,3.35,.15]],
+    [[0,-3.55,-.3],[.65,-1.4,0],[1.25,.75,-.25],[.7,2.25,0],[0,3.35,.15]],
+    [[0,-2.95,.1],[-1.45,-1.25,-.2],[-2.5,.55,.05],[-1.65,1.85,-.15],[0,2.62,.05]],
+    [[0,-2.95,.1],[1.45,-1.25,-.2],[2.5,.55,.05],[1.65,1.85,-.15],[0,2.62,.05]],
+    [[-.2,-3.1,-.15],[-2.55,-2.15,.1],[-4.25,-.2,-.25],[-3.25,.78,0],[-1.35,1.25,-.1]],
+    [[.2,-3.1,-.15],[2.55,-2.15,.1],[4.25,-.2,-.25],[3.25,.78,0],[1.35,1.25,-.1]],
+    [[-4.25,-.2,-.2],[-3.65,-2.1,0],[-1.9,-3.35,-.15],[0,-3.65,.05]],
+    [[4.25,-.2,-.2],[3.65,-2.1,0],[1.9,-3.35,-.15],[0,-3.65,.05]],
+    [[-4.0,-2.25,-.3],[-2.35,-3.65,.05],[0,-3.88,-.1],[2.35,-3.65,.05],[4.0,-2.25,-.3]],
+    [[-3.05,-.55,-.25],[-2.25,-1.25,.05],[-1.25,-1.72,-.15],[0,-1.82,.05],[1.25,-1.72,-.15],[2.25,-1.25,.05],[3.05,-.55,-.25]],
   ];
-  const points = isMobile ? anchors.filter((_, index) => index % 2 === 0 || index === 12 || index === 19) : anchors;
-  const connections = isMobile
-    ? [[0,1],[1,2],[2,3],[3,4],[5,6],[6,7],[7,8],[8,9],[10,11],[11,12],[12,13]]
-    : [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[0,9],[9,10],[10,2],[10,11],[11,4],[4,12],[12,6],[6,14],[14,15],[15,8],[9,16],[16,17],[17,11],[11,18],[18,19],[19,13],[13,20],[20,21],[21,15],[15,22],[16,23],[23,24],[24,18],[18,25],[25,20],[20,26],[26,27],[27,22],[23,25],[25,27]];
+  const curves = pathData.map((path) => new THREE.CatmullRomCurve3(path.map(vector), false, "centripetal", 0.45));
+
+  const anchors = [
+    [0,3.35,.15],[-.7,2.25,0],[.7,2.25,0],[-1.65,1.85,-.15],[1.65,1.85,-.15],
+    [-3.25,.78,0],[3.25,.78,0],[-4.25,-.2,-.25],[4.25,-.2,-.25],[-3.65,-2.1,0],[3.65,-2.1,0],
+    [-2.35,-3.65,.05],[2.35,-3.65,.05],[0,-3.88,-.1],[0,-1.82,.05],[-2.25,-1.25,.05],[2.25,-1.25,.05],
+    [-1.25,.75,-.25],[1.25,.75,-.25],[-1.9,-3.35,-.15],[1.9,-3.35,-.15],[-3.05,-.55,-.25],[3.05,-.55,-.25],
+  ];
+  const visibleAnchors = isMobile ? anchors.filter((_, index) => ![9,10,15,16,19,20].includes(index)) : anchors;
+  const points = visibleAnchors.map(vector);
 
   const pointGeometry = new THREE.BufferGeometry();
-  pointGeometry.setAttribute("position", new THREE.Float32BufferAttribute(points.flat(), 3));
+  pointGeometry.setAttribute("position", new THREE.Float32BufferAttribute(points.flatMap((point) => point.toArray()), 3));
   pointGeometry.setAttribute("aSize", new THREE.Float32BufferAttribute(points.map((_, index) => index % 5 === 0 ? 16 : 9 + (index % 3) * 2), 1));
   pointGeometry.setAttribute("aPhase", new THREE.Float32BufferAttribute(points.map((_, index) => index * 0.83), 1));
   const starMaterial = new THREE.ShaderMaterial({
@@ -54,13 +66,16 @@ function createNetwork(isMobile) {
   const stars = new THREE.Points(pointGeometry, starMaterial);
 
   const linePositions = [];
-  connections.forEach(([a, b]) => {
-    if (!points[a] || !points[b]) return;
-    linePositions.push(...points[a], ...points[b]);
+  const lineSteps = isMobile ? 22 : 36;
+  curves.forEach((curve) => {
+    const samples = curve.getPoints(lineSteps);
+    for (let index = 0; index < samples.length - 1; index += 1) {
+      linePositions.push(...samples[index].toArray(), ...samples[index + 1].toArray());
+    }
   });
   const lineGeometry = new THREE.BufferGeometry();
   lineGeometry.setAttribute("position", new THREE.Float32BufferAttribute(linePositions, 3));
-  const lineMaterial = new THREE.LineBasicMaterial({ color: 0x9b7047, transparent: true, opacity: 0.22 });
+  const lineMaterial = new THREE.LineBasicMaterial({ color: 0x9b7047, transparent: true, opacity: 0.28, depthWrite: false });
   const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
 
   const signalCount = isMobile ? 3 : 7;
@@ -71,7 +86,7 @@ function createNetwork(isMobile) {
   signalGeometry.setAttribute("aPhase", new THREE.Float32BufferAttribute(new Array(signalCount).fill(0).map((_, index) => index), 1));
   const signals = new THREE.Points(signalGeometry, starMaterial.clone());
 
-  return { points, connections: connections.filter(([a, b]) => points[a] && points[b]), stars, lines, signals, starMaterial, lineMaterial };
+  return { curves, stars, lines, signals, starMaterial, lineMaterial };
 }
 
 export function initThreeScene() {
@@ -91,6 +106,13 @@ export function initThreeScene() {
   const network = createNetwork(isMobile);
   const group = new THREE.Group();
   group.add(network.lines, network.stars, network.signals);
+  if (isMobile) {
+    group.scale.set(0.49, 0.67, 0.55);
+    group.position.set(0, -1.7, 0);
+  } else {
+    group.scale.setScalar(0.88);
+    group.position.set(2.45, -0.35, 0);
+  }
   scene.add(group);
 
   let active = true;
@@ -109,17 +131,14 @@ export function initThreeScene() {
 
   function updateSignals(time) {
     const positions = network.signals.geometry.attributes.position.array;
+    const target = new THREE.Vector3();
     for (let index = 0; index < positions.length / 3; index += 1) {
-      const connection = network.connections[(index * 5 + Math.floor(time * 0.12)) % network.connections.length];
-      if (!connection) continue;
-      const [a, b] = connection;
-      const start = network.points[a];
-      const end = network.points[b];
-      const progress = (time * (0.1 + index * 0.006) + index * 0.17) % 1;
-      const smooth = progress * progress * (3 - 2 * progress);
-      positions[index * 3] = THREE.MathUtils.lerp(start[0], end[0], smooth);
-      positions[index * 3 + 1] = THREE.MathUtils.lerp(start[1], end[1], smooth);
-      positions[index * 3 + 2] = THREE.MathUtils.lerp(start[2], end[2], smooth);
+      const curve = network.curves[(index * 3 + Math.floor(time * 0.08)) % network.curves.length];
+      const progress = (time * (0.075 + index * 0.004) + index * 0.19) % 1;
+      curve.getPointAt(progress, target);
+      positions[index * 3] = target.x;
+      positions[index * 3 + 1] = target.y;
+      positions[index * 3 + 2] = target.z;
     }
     network.signals.geometry.attributes.position.needsUpdate = true;
   }

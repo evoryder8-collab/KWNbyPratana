@@ -168,12 +168,12 @@ function initCyclingPrompt() {
       prompt.textContent = t("language.prompt", {}, language);
       prompt.lang = language;
       prompt.classList.remove("is-changing");
-    }, 220);
+    }, 185);
   };
 
   prompt.textContent = t("language.prompt", {}, currentLanguage);
   prompt.lang = currentLanguage;
-  if (!reducedMotion) timer = window.setInterval(nextPrompt, 1450);
+  if (!reducedMotion) timer = window.setInterval(nextPrompt, 1225);
 
   window.addEventListener("pagehide", () => {
     if (timer) clearInterval(timer);
