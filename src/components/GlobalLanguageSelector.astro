@@ -111,11 +111,11 @@ import { languages } from "../i18n/translations";
     width: clamp(1rem, 4vw, 2.4rem);
     height: 1px;
     flex: none;
-    background: linear-gradient(90deg, transparent, rgba(236, 210, 155, 0.48));
+    background: linear-gradient(90deg, transparent, rgba(116, 82, 29, 0.48));
   }
 
   .kwiin-language__prompt {
-    color: rgba(232, 221, 201, 0.66);
+    color: rgba(65, 57, 71, 0.72);
     font-size: 0.57rem;
     font-weight: 400;
     letter-spacing: 0.14em;
@@ -140,10 +140,10 @@ import { languages } from "../i18n/translations";
     align-items: center;
     gap: 0.48rem;
     padding: 0 0.72rem;
-    border: 1px solid rgba(236, 210, 155, 0.28);
+    border: 1px solid rgba(116, 82, 29, 0.32);
     border-radius: 999px;
-    background: radial-gradient(circle at 20% 0%, rgba(236, 210, 155, 0.1), transparent 52%), rgba(8, 20, 29, 0.86);
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 12px 30px -18px rgba(0, 0, 0, 0.94);
+    background: radial-gradient(circle at 20% 0%, rgba(244, 216, 141, 0.28), transparent 52%), rgba(250, 246, 247, 0.82);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 12px 30px -18px rgba(72, 58, 79, 0.42);
     color: var(--color-kwiin-ivory-dim);
     cursor: pointer;
     list-style: none;
@@ -155,8 +155,8 @@ import { languages } from "../i18n/translations";
   .kwiin-language__menu summary:hover,
   .kwiin-language__menu summary:focus-visible,
   .kwiin-language__menu[open] summary {
-    border-color: rgba(236, 210, 155, 0.58);
-    box-shadow: 0 0 30px -17px rgba(201, 163, 92, 0.75);
+    border-color: rgba(116, 82, 29, 0.62);
+    box-shadow: 0 0 30px -17px rgba(185, 133, 47, 0.62);
   }
 
   .kwiin-language__menu summary > svg {
@@ -177,7 +177,7 @@ import { languages } from "../i18n/translations";
   }
 
   .kwiin-language__menu summary > small {
-    color: rgba(186, 177, 164, 0.62);
+    color: rgba(75, 68, 80, 0.62);
     font-size: 0.48rem;
     letter-spacing: 0.14em;
   }
@@ -200,10 +200,13 @@ import { languages } from "../i18n/translations";
     right: 0;
     width: min(22rem, calc(100vw - 2.5rem));
     padding: 1rem;
-    border: 1px solid rgba(236, 210, 155, 0.22);
+    border: 1px solid rgba(116, 82, 29, 0.25);
     border-radius: 1.15rem;
-    background: radial-gradient(circle at 100% 0%, rgba(91, 124, 153, 0.2), transparent 46%), rgba(7, 18, 26, 0.98);
-    box-shadow: 0 30px 70px -24px rgba(0, 0, 0, 0.96);
+    background:
+      radial-gradient(circle at 100% 0%, rgba(71, 163, 171, 0.2), transparent 46%),
+      radial-gradient(circle at 0 100%, rgba(198, 139, 131, 0.16), transparent 48%),
+      rgba(248, 242, 244, 0.97);
+    box-shadow: 0 30px 70px -24px rgba(72, 58, 79, 0.42);
     text-align: left;
     transform-origin: 82% 0;
     animation: kwiin-language-arrive 0.4s var(--ease-silk) both;
@@ -213,7 +216,7 @@ import { languages } from "../i18n/translations";
   .kwiin-language__eyebrow {
     display: block;
     margin: 0 0 0.72rem 0.25rem;
-    color: rgba(236, 210, 155, 0.62);
+    color: rgba(116, 82, 29, 0.68);
     font-size: 0.5rem;
     letter-spacing: 0.22em;
     text-transform: uppercase;
@@ -228,10 +231,10 @@ import { languages } from "../i18n/translations";
     align-items: center;
     gap: 0.45rem;
     padding: 0.68rem 0.65rem;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(92, 74, 92, 0.1);
     border-radius: 0.75rem;
-    background: rgba(255, 255, 255, 0.02);
-    color: rgba(232, 221, 201, 0.76);
+    background: rgba(255, 255, 255, 0.42);
+    color: rgba(53, 45, 64, 0.78);
     text-align: left;
     cursor: pointer;
     transition: color 0.3s, border-color 0.3s, background 0.3s, transform 0.3s;
@@ -239,20 +242,20 @@ import { languages } from "../i18n/translations";
 
   .kwiin-language__grid button:hover,
   .kwiin-language__grid button:focus-visible {
-    border-color: rgba(236, 210, 155, 0.26);
+    border-color: rgba(116, 82, 29, 0.3);
     color: var(--color-kwiin-ivory);
     transform: translateY(-1px);
   }
 
   .kwiin-language__grid button[aria-checked="true"] {
-    border-color: rgba(236, 210, 155, 0.4);
-    background: linear-gradient(110deg, rgba(201, 163, 92, 0.13), rgba(124, 94, 163, 0.09));
+    border-color: rgba(116, 82, 29, 0.42);
+    background: linear-gradient(110deg, rgba(244, 216, 141, 0.24), rgba(183, 180, 208, 0.22));
   }
 
-  .kwiin-language__grid button > small { color: rgba(236, 210, 155, 0.62); font-size: 0.48rem; letter-spacing: 0.13em; }
+  .kwiin-language__grid button > small { color: rgba(116, 82, 29, 0.66); font-size: 0.48rem; letter-spacing: 0.13em; }
   .kwiin-language__grid button > span { overflow: hidden; font-family: var(--font-display); font-size: 0.86rem; text-overflow: ellipsis; white-space: nowrap; }
-  .kwiin-language__grid button > i { width: 0.38rem; height: 0.38rem; border: 1px solid rgba(236, 210, 155, 0.3); border-radius: 50%; }
-  .kwiin-language__grid button[aria-checked="true"] > i { background: var(--color-kwiin-gold-bright); box-shadow: 0 0 10px rgba(236, 210, 155, 0.72); }
+  .kwiin-language__grid button > i { width: 0.38rem; height: 0.38rem; border: 1px solid rgba(116, 82, 29, 0.34); border-radius: 50%; }
+  .kwiin-language__grid button[aria-checked="true"] > i { background: var(--color-kwiin-gold); box-shadow: 0 0 10px rgba(185, 133, 47, 0.4); }
 
   @keyframes kwiin-language-arrive {
     from { opacity: 0; transform: translateY(-0.4rem) scale(0.97); }

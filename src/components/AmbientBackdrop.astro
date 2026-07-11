@@ -1,6 +1,6 @@
 ---
 /**
- * Site-wide slate atmosphere. The gradients are already soft at the edges,
+ * Site-wide coastal atmosphere. The gradients are already soft at the edges,
  * so the animation only changes opacity and transforms. This keeps the scene
  * organic without a canvas, video, blur filter, or JavaScript render loop.
  */
@@ -22,8 +22,9 @@
     overflow: hidden;
     contain: strict;
     background:
-      radial-gradient(100% 64% at 50% -14%, rgba(91, 124, 153, 0.25), transparent 68%),
-      linear-gradient(155deg, #07131c 0%, #0c1e2a 48%, #08141d 100%);
+      radial-gradient(86% 60% at 90% -12%, rgba(71, 163, 171, 0.32), transparent 68%),
+      radial-gradient(72% 62% at 2% 82%, rgba(198, 139, 131, 0.24), transparent 72%),
+      linear-gradient(152deg, #f8f2f3 0%, #dce9e9 48%, #eee2e8 100%);
     pointer-events: none;
   }
 
@@ -38,9 +39,9 @@
   .kwiin-ambient__wash {
     inset: -18%;
     background:
-      radial-gradient(42% 34% at 21% 25%, rgba(91, 124, 153, 0.32), transparent 72%),
-      radial-gradient(38% 32% at 78% 66%, rgba(53, 93, 111, 0.2), transparent 74%);
-    opacity: 0.72;
+      radial-gradient(42% 34% at 21% 25%, rgba(93, 127, 164, 0.26), transparent 72%),
+      radial-gradient(38% 32% at 78% 66%, rgba(183, 180, 208, 0.28), transparent 74%);
+    opacity: 0.82;
     animation: kwiin-slate-breathe 19s cubic-bezier(0.45, 0, 0.25, 1) infinite alternate;
   }
 
@@ -53,8 +54,8 @@
     height: 82vmax;
     left: -38vmax;
     top: 5%;
-    background: radial-gradient(circle, rgba(91, 124, 153, 0.3), rgba(63, 93, 117, 0.1) 42%, transparent 70%);
-    opacity: 0.56;
+    background: radial-gradient(circle, rgba(71, 163, 171, 0.3), rgba(169, 216, 213, 0.16) 42%, transparent 70%);
+    opacity: 0.62;
     animation: kwiin-slate-drift-a 31s cubic-bezier(0.45, 0, 0.2, 1) infinite alternate;
   }
 
@@ -63,8 +64,8 @@
     height: 78vmax;
     right: -40vmax;
     top: 30%;
-    background: radial-gradient(circle, rgba(57, 101, 119, 0.23), rgba(40, 67, 89, 0.08) 44%, transparent 70%);
-    opacity: 0.48;
+    background: radial-gradient(circle, rgba(93, 127, 164, 0.27), rgba(183, 180, 208, 0.13) 44%, transparent 70%);
+    opacity: 0.56;
     animation: kwiin-slate-drift-b 37s cubic-bezier(0.4, 0, 0.25, 1) infinite alternate;
   }
 
@@ -73,16 +74,16 @@
     height: 56vmax;
     left: 22%;
     bottom: -34vmax;
-    background: radial-gradient(circle, rgba(201, 163, 92, 0.12), rgba(161, 132, 77, 0.035) 46%, transparent 70%);
-    opacity: 0.5;
+    background: radial-gradient(circle, rgba(198, 139, 131, 0.26), rgba(244, 216, 141, 0.08) 46%, transparent 70%);
+    opacity: 0.58;
     animation: kwiin-slate-drift-c 43s cubic-bezier(0.45, 0, 0.2, 1) infinite alternate;
   }
 
   .kwiin-ambient__tide {
     inset: -12%;
     background:
-      linear-gradient(118deg, transparent 24%, rgba(151, 178, 196, 0.035) 43%, transparent 61%),
-      linear-gradient(300deg, transparent 31%, rgba(201, 163, 92, 0.022) 50%, transparent 69%);
+      linear-gradient(118deg, transparent 24%, rgba(255, 255, 255, 0.22) 43%, transparent 61%),
+      linear-gradient(300deg, transparent 31%, rgba(185, 133, 47, 0.045) 50%, transparent 69%);
     opacity: 0.7;
     transform-origin: 50% 45%;
     animation: kwiin-slate-tide 24s ease-in-out infinite alternate;

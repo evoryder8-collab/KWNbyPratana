@@ -25,10 +25,10 @@
   >
     <defs>
       <linearGradient id="celestial-desktop-line" x1="180" y1="450" x2="1420" y2="450" gradientUnits="userSpaceOnUse">
-        <stop stop-color="#8a6f33" stop-opacity=".28"></stop>
-        <stop offset=".42" stop-color="#ecd29b" stop-opacity=".5"></stop>
-        <stop offset=".58" stop-color="#f7ead0" stop-opacity=".46"></stop>
-        <stop offset="1" stop-color="#9f78c2" stop-opacity=".3"></stop>
+        <stop stop-color="#74521d" stop-opacity=".42"></stop>
+        <stop offset=".42" stop-color="#b9852f" stop-opacity=".58"></stop>
+        <stop offset=".58" stop-color="#8f6f5d" stop-opacity=".42"></stop>
+        <stop offset="1" stop-color="#73516f" stop-opacity=".48"></stop>
       </linearGradient>
       <radialGradient id="celestial-desktop-signal">
         <stop stop-color="#fff9e9"></stop>
@@ -121,10 +121,10 @@
   >
     <defs>
       <linearGradient id="celestial-mobile-line" x1="80" y1="850" x2="820" y2="850" gradientUnits="userSpaceOnUse">
-        <stop stop-color="#8a6f33" stop-opacity=".34"></stop>
-        <stop offset=".45" stop-color="#ecd29b" stop-opacity=".5"></stop>
-        <stop offset=".55" stop-color="#f7ead0" stop-opacity=".45"></stop>
-        <stop offset="1" stop-color="#9f78c2" stop-opacity=".34"></stop>
+        <stop stop-color="#74521d" stop-opacity=".44"></stop>
+        <stop offset=".45" stop-color="#b9852f" stop-opacity=".58"></stop>
+        <stop offset=".55" stop-color="#8f6f5d" stop-opacity=".42"></stop>
+        <stop offset="1" stop-color="#73516f" stop-opacity=".5"></stop>
       </linearGradient>
       <radialGradient id="celestial-mobile-signal">
         <stop stop-color="#fff9e9"></stop>
@@ -208,20 +208,21 @@
     inset: 0;
     overflow: hidden;
     background:
-      radial-gradient(76% 58% at 50% 43%, rgba(91, 124, 153, 0.48), transparent 66%),
-      radial-gradient(48% 54% at 76% 54%, rgba(57, 101, 119, 0.18), transparent 72%),
-      radial-gradient(42% 40% at 22% 66%, rgba(201, 163, 92, 0.1), transparent 72%),
-      linear-gradient(180deg, #091924 0%, #183344 52%, #0a1822 100%);
+      radial-gradient(74% 54% at 84% 10%, rgba(71, 163, 171, 0.52), transparent 67%),
+      radial-gradient(58% 50% at 8% 72%, rgba(198, 139, 131, 0.36), transparent 72%),
+      radial-gradient(48% 46% at 74% 78%, rgba(183, 180, 208, 0.38), transparent 72%),
+      radial-gradient(54% 44% at 48% 46%, rgba(255, 255, 255, 0.54), transparent 72%),
+      linear-gradient(180deg, #d9e8e8 0%, #efe3e7 56%, #e5dce7 100%);
     pointer-events: none;
   }
 
   .kwiin-celestial__silk {
     position: absolute;
     inset: 0;
-    opacity: 0.5;
+    opacity: 0.8;
     background:
-      linear-gradient(115deg, transparent 22%, rgba(222, 235, 241, 0.045) 43%, transparent 62%),
-      linear-gradient(245deg, transparent 28%, rgba(201, 163, 92, 0.035) 51%, transparent 72%);
+      linear-gradient(115deg, transparent 22%, rgba(255, 255, 255, 0.28) 43%, transparent 62%),
+      linear-gradient(245deg, transparent 28%, rgba(185, 133, 47, 0.055) 51%, transparent 72%);
   }
 
   .kwiin-celestial__aura {
@@ -233,9 +234,9 @@
     border-radius: 50%;
     background: radial-gradient(
       circle,
-      rgba(151, 178, 196, 0.27),
-      rgba(91, 124, 153, 0.13) 40%,
-      rgba(201, 163, 92, 0.045) 58%,
+      rgba(255, 255, 255, 0.5),
+      rgba(169, 216, 213, 0.22) 40%,
+      rgba(244, 216, 141, 0.08) 58%,
       transparent 73%
     );
     opacity: 0.78;
@@ -286,15 +287,15 @@
   }
 
   .kwiin-celestial__star--gold {
-    color: #e4c07a;
+    color: #a87322;
   }
 
   .kwiin-celestial__star--ivory {
-    color: #fff4d6;
+    color: #7c655b;
   }
 
   .kwiin-celestial__star--violet {
-    color: #c6a2e2;
+    color: #73516f;
   }
 
   .kwiin-celestial__star--small {
@@ -308,7 +309,7 @@
   .kwiin-celestial__star--delay-4 { animation-delay: -5.8s; }
 
   .kwiin-celestial__micro-stars {
-    fill: rgba(244, 220, 171, 0.5);
+    fill: rgba(116, 82, 29, 0.48);
   }
 
   .kwiin-celestial__signal {

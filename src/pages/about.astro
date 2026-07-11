@@ -105,7 +105,7 @@ const values = [
       <SectionReveal stagger={true} class="mx-auto mt-14 grid max-w-4xl gap-px overflow-hidden rounded-3xl border border-kwiin-gold/15 bg-kwiin-gold/15 sm:grid-cols-2 lg:grid-cols-4">
         {
           pillars.map((pillar) => (
-            <div data-reveal-child class="bg-kwiin-black px-6 py-10 text-center">
+            <div data-reveal-child class="bg-kwiin-pearl/85 px-6 py-10 text-center">
               <LotusMark class="mx-auto h-5 w-auto text-kwiin-gold/70" strokeWidth={2} />
               <p class="mt-4 font-display text-2xl text-kwiin-ivory" data-i18n={pillar.wordKey}>{pillar.word}</p>
               <p class="mt-2 text-xs leading-relaxed text-kwiin-soft-grey" data-i18n={pillar.noteKey}>{pillar.note}</p>
@@ -125,7 +125,7 @@ const values = [
     </section>
 
     {/* ── 4. Unsere Vision ─────────────────────────────────────────── */}
-    <section class="relative overflow-hidden border-y border-white/5 py-24">
+    <section class="relative overflow-hidden border-y border-kwiin-purple/10 py-24">
       <div
         class="pointer-events-none absolute inset-0 bg-[radial-gradient(80%_60%_at_50%_50%,rgba(201,163,92,0.06),transparent_70%)]"
         aria-hidden="true"
@@ -145,7 +145,7 @@ const values = [
         <SectionReveal stagger={true} class="mx-auto mt-14 grid max-w-5xl gap-6 sm:grid-cols-2 lg:grid-cols-5">
           {
             values.map((value) => (
-              <div data-reveal-child class="rounded-2xl border border-white/5 bg-white/[0.02] px-5 py-7 text-center transition-colors duration-500 hover:border-kwiin-gold/30">
+              <div data-reveal-child class="rounded-2xl border border-kwiin-purple/10 bg-white/35 px-5 py-7 text-center transition-colors duration-500 hover:border-kwiin-gold/30">
                 <p class="font-display text-xl text-kwiin-gold-bright" data-i18n={value.wordKey}>{value.word}</p>
                 <p class="mt-2 text-xs leading-relaxed text-kwiin-soft-grey" data-i18n={value.noteKey}>{value.note}</p>
               </div>

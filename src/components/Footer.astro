@@ -25,7 +25,7 @@ const navKeys = {
 } as const;
 ---
 
-<footer class="relative z-10 overflow-hidden border-t border-white/5 bg-kwiin-espresso/60">
+<footer class="relative z-10 overflow-hidden border-t border-kwiin-purple/10 bg-kwiin-shell/75">
   <div
     class="pointer-events-none absolute inset-x-0 top-0 h-64 bg-[radial-gradient(60%_100%_at_50%_0%,rgba(201,163,92,0.08),transparent)]"
     aria-hidden="true"
@@ -43,7 +43,7 @@ const navKeys = {
         href={whatsappHref}
         target="_blank"
         rel="noopener noreferrer"
-        class="kwiin-magnetic mt-8 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-kwiin-gold to-kwiin-gold-bright px-8 py-3.5 text-sm font-semibold uppercase tracking-[0.08em] text-kwiin-black shadow-[0_0_40px_-10px_rgba(201,163,92,0.5)]"
+        class="kwiin-magnetic mt-8 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-kwiin-gold-dim via-kwiin-gold to-kwiin-gold-highlight px-8 py-3.5 text-sm font-semibold uppercase tracking-[0.08em] text-kwiin-black shadow-[0_14px_34px_-18px_rgba(116,82,29,0.6)]"
         data-i18n-whatsapp="common.studioWhatsApp"
         data-i18n-aria-label="common.whatsappAppointment"
       >
@@ -56,7 +56,7 @@ const navKeys = {
     <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
       <div class="lg:col-span-2">
         <a href={withBase("/")} class="flex items-center gap-3 font-display text-xl text-kwiin-ivory">
-          <img src={withBase("/assets/kwiin-logo.png")} alt="KWIIN by Pratana Halstrick" class="h-10 w-auto" />
+          <LotusMark class="h-10 w-auto text-kwiin-gold" strokeWidth={1.7} />
           KWIIN <span class="text-sm italic text-kwiin-gold-bright">by Pratana</span>
         </a>
         <p class="mt-4 max-w-sm font-display text-lg italic text-kwiin-gold-bright/90" data-i18n="common.tagline">{tagline}</p>
@@ -108,7 +108,7 @@ const navKeys = {
     </p>
   </div>
 
-  <div class="relative border-t border-white/5 px-5 py-6 lg:px-8">
+  <div class="relative border-t border-kwiin-purple/10 px-5 py-6 lg:px-8">
     <p class="mx-auto max-w-3xl text-center text-[11px] leading-relaxed text-kwiin-soft-grey/50" data-i18n="common.partnerFooter">
       {footerPartnerNote}
     </p>

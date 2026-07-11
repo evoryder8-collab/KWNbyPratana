@@ -120,11 +120,11 @@ import { withBase } from "../utils/base";
     min-height: clamp(32rem, 70svh, 39rem);
     overflow: hidden;
     border-radius: var(--portal-radius);
-    background: #0b0809;
+    background: #eadfe4;
     box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.06) inset,
-      0 34px 82px -40px rgba(0, 0, 0, 0.96),
-      0 0 58px -46px rgba(201, 163, 92, 0.7);
+      0 1px 0 rgba(255, 255, 255, 0.94) inset,
+      0 34px 82px -40px rgba(72, 58, 79, 0.38),
+      0 0 58px -46px rgba(185, 133, 47, 0.58);
     isolation: isolate;
     contain: layout paint;
   }
@@ -148,7 +148,7 @@ import { withBase } from "../utils/base";
 
   .kwiin-world:focus-visible {
     z-index: 5;
-    outline: 1px solid rgba(255, 244, 214, 0.9);
+    outline: 2px solid rgba(116, 82, 29, 0.82);
     outline-offset: -0.5rem;
   }
 
@@ -167,14 +167,16 @@ import { withBase } from "../utils/base";
 
   .kwiin-world--studio .kwiin-world-surface {
     background:
-      radial-gradient(110% 54% at 35% 19%, rgba(232, 196, 125, 0.21), transparent 58%),
-      linear-gradient(154deg, #273038 0%, #172632 50%, #09151d 100%);
+      radial-gradient(110% 58% at 28% 16%, rgba(244, 216, 141, 0.42), transparent 58%),
+      radial-gradient(82% 70% at 8% 88%, rgba(198, 139, 131, 0.3), transparent 68%),
+      linear-gradient(154deg, #f3e5df 0%, #e8d7d8 52%, #d8ced4 100%);
   }
 
   .kwiin-world--mobile .kwiin-world-surface {
     background:
-      radial-gradient(110% 54% at 65% 19%, rgba(120, 150, 173, 0.24), transparent 58%),
-      linear-gradient(206deg, #233747 0%, #142735 50%, #09151d 100%);
+      radial-gradient(110% 58% at 72% 16%, rgba(169, 216, 213, 0.54), transparent 58%),
+      radial-gradient(82% 72% at 92% 88%, rgba(183, 180, 208, 0.38), transparent 68%),
+      linear-gradient(206deg, #d8eeee 0%, #d7dce8 52%, #ddd5e2 100%);
   }
 
   .kwiin-world-light {
@@ -187,11 +189,11 @@ import { withBase } from "../utils/base";
   }
 
   .kwiin-world--studio .kwiin-world-light {
-    background: radial-gradient(circle, rgba(214, 172, 91, 0.22), transparent 68%);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.64), rgba(244, 216, 141, 0.12) 42%, transparent 70%);
   }
 
   .kwiin-world--mobile .kwiin-world-light {
-    background: radial-gradient(circle, rgba(91, 124, 153, 0.28), transparent 68%);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.6), rgba(71, 163, 171, 0.1) 42%, transparent 70%);
     animation-delay: -3.75s;
   }
 
@@ -203,7 +205,7 @@ import { withBase } from "../utils/base";
     min-width: 0;
     align-items: center;
     gap: 0.42rem;
-    color: rgba(236, 210, 155, 0.62);
+    color: rgba(116, 82, 29, 0.72);
     font-size: 0.48rem;
     letter-spacing: 0.15em;
     line-height: 1;
@@ -214,7 +216,7 @@ import { withBase } from "../utils/base";
   .kwiin-world--studio .kwiin-world-index { left: 1rem; }
   .kwiin-world--mobile .kwiin-world-index {
     right: 1rem;
-    color: rgba(184, 207, 221, 0.7);
+    color: rgba(76, 91, 119, 0.72);
   }
 
   .kwiin-world-index i {
@@ -245,7 +247,7 @@ import { withBase } from "../utils/base";
     color: var(--color-kwiin-gold-bright);
   }
 
-  .kwiin-world-emblem--mobile { color: #e2c6f5; }
+  .kwiin-world-emblem--mobile { color: #73516f; }
 
   .kwiin-world-emblem svg {
     display: block;
@@ -279,7 +281,7 @@ import { withBase } from "../utils/base";
   }
 
   .kwiin-orbit-star {
-    fill: #fff2c8;
+    fill: #8b641f;
     transform-origin: 60px 60px;
     animation: kwiin-orbit 17s linear infinite;
   }
@@ -300,7 +302,7 @@ import { withBase } from "../utils/base";
   }
 
   .kwiin-route-signal {
-    fill: #fff1c6;
+    fill: #8b641f;
     offset-path: path("M24 76c13-16 27 8 41-7 8-9 14-16 24-17");
     animation: kwiin-route-signal 5.8s ease-in-out infinite;
   }
@@ -308,14 +310,14 @@ import { withBase } from "../utils/base";
   .kwiin-world-kicker {
     max-width: 100%;
     margin-top: 0.5rem;
-    color: rgba(236, 210, 155, 0.75);
+    color: rgba(116, 82, 29, 0.78);
     font-size: clamp(0.45rem, 1.8vw, 0.58rem);
     letter-spacing: clamp(0.11em, 0.65vw, 0.22em);
     line-height: 1.45;
     text-transform: uppercase;
   }
 
-  .kwiin-world--mobile .kwiin-world-kicker { color: rgba(219, 190, 241, 0.76); }
+  .kwiin-world--mobile .kwiin-world-kicker { color: rgba(98, 70, 96, 0.8); }
 
   .kwiin-world-title {
     display: flex;
@@ -331,7 +333,7 @@ import { withBase } from "../utils/base";
 
   .kwiin-world-title small {
     margin-bottom: 0.35rem;
-    color: rgba(236, 210, 155, 0.64);
+    color: rgba(116, 82, 29, 0.68);
     font-family: var(--font-body);
     font-size: 0.46rem;
     font-style: normal;
@@ -344,13 +346,13 @@ import { withBase } from "../utils/base";
     font-style: italic;
   }
 
-  .kwiin-world--mobile .kwiin-world-title em { color: #d8b8ef; }
+  .kwiin-world--mobile .kwiin-world-title em { color: #73516f; }
 
   .kwiin-world-description {
     display: block;
     width: min(100%, 16rem);
     margin-top: 1.15rem;
-    color: rgba(232, 221, 201, 0.65);
+    color: rgba(53, 45, 64, 0.72);
     font-size: clamp(0.68rem, 2.4vw, 0.82rem);
     font-weight: 300;
     line-height: 1.55;
@@ -364,9 +366,9 @@ import { withBase } from "../utils/base";
     justify-content: center;
     gap: 0.55rem;
     padding: 0.68rem clamp(0.75rem, 3vw, 1.2rem);
-    border: 1px solid rgba(236, 210, 155, 0.43);
+    border: 1px solid rgba(116, 82, 29, 0.54);
     border-radius: 999px;
-    color: rgba(247, 232, 201, 0.92);
+    color: rgba(70, 49, 22, 0.9);
     font-size: clamp(0.5rem, 1.8vw, 0.62rem);
     letter-spacing: clamp(0.1em, 0.6vw, 0.19em);
     line-height: 1;
@@ -375,7 +377,10 @@ import { withBase } from "../utils/base";
     transition: background 0.45s var(--ease-silk), border-color 0.45s var(--ease-silk);
   }
 
-  .kwiin-world--mobile .kwiin-world-enter { border-color: rgba(207, 172, 235, 0.4); }
+  .kwiin-world--mobile .kwiin-world-enter {
+    border-color: rgba(98, 70, 96, 0.52);
+    color: rgba(73, 50, 72, 0.92);
+  }
 
   .kwiin-world-enter svg {
     width: clamp(1rem, 4vw, 1.45rem);
@@ -391,7 +396,7 @@ import { withBase } from "../utils/base";
 
   .kwiin-world-detail {
     margin-top: 1.05rem;
-    color: rgba(186, 177, 164, 0.43);
+    color: rgba(69, 66, 77, 0.58);
     font-size: clamp(0.43rem, 1.55vw, 0.54rem);
     letter-spacing: 0.1em;
     line-height: 1.4;
@@ -404,7 +409,7 @@ import { withBase } from "../utils/base";
     left: 50%;
     z-index: 8;
     width: 1px;
-    background: linear-gradient(180deg, transparent, rgba(236, 210, 155, 0.28) 18%, rgba(210, 179, 236, 0.3) 82%, transparent);
+    background: linear-gradient(180deg, transparent, rgba(116, 82, 29, 0.34) 18%, rgba(98, 70, 96, 0.34) 82%, transparent);
     pointer-events: none;
   }
 
@@ -412,7 +417,7 @@ import { withBase } from "../utils/base";
     position: absolute;
     inset: 0;
     z-index: 9;
-    border: 1px solid rgba(236, 210, 155, 0.18);
+    border: 1px solid rgba(116, 82, 29, 0.28);
     border-radius: inherit;
     box-shadow: 0 0 0 8px rgba(201, 163, 92, 0.018) inset;
     pointer-events: none;
@@ -432,8 +437,8 @@ import { withBase } from "../utils/base";
 
     .kwiin-world:hover .kwiin-world-surface { transform: scale(1.055); }
     .kwiin-world:hover .kwiin-world-enter {
-      border-color: rgba(255, 240, 202, 0.72);
-      background: rgba(236, 210, 155, 0.07);
+      border-color: rgba(116, 82, 29, 0.76);
+      background: rgba(255, 255, 255, 0.26);
     }
   }
 

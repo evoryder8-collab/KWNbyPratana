@@ -11,22 +11,28 @@ body.is-language-switching [data-i18n] {
 }
 
 @theme {
-  /* KWIIN palette: deep slate, champagne gold, mineral blue */
-  --color-kwiin-black: #08141d;
-  --color-kwiin-espresso: #0c1d28;
-  --color-kwiin-charcoal: #132a38;
-  --color-kwiin-graphite: #294656;
-  --color-kwiin-slate: #5b7c99;
-  --color-kwiin-slate-soft: #7896ad;
-  --color-kwiin-soft-grey: #b8c1c5;
-  --color-kwiin-ivory: #f7f2e8;
-  --color-kwiin-ivory-dim: #e8ddc9;
-  --color-kwiin-gold: #c9a35c;
-  --color-kwiin-gold-bright: #ecd29b;
-  --color-kwiin-gold-dim: #8a6f33;
-  --color-kwiin-purple: #7891ad;
-  --color-kwiin-purple-soft: #314b61;
-  --color-kwiin-purple-deep: #162a39;
+  /* KWIIN palette: coastal pearl, mineral colour and polished gold */
+  --color-kwiin-black: #332b3d;
+  --color-kwiin-espresso: #d8cdd2;
+  --color-kwiin-charcoal: #bcc7cc;
+  --color-kwiin-graphite: #677987;
+  --color-kwiin-pearl: #f7f1f3;
+  --color-kwiin-shell: #eadde1;
+  --color-kwiin-slate: #5d7fa4;
+  --color-kwiin-slate-soft: #9bb7c2;
+  --color-kwiin-aqua: #47a3ab;
+  --color-kwiin-aqua-soft: #a9d8d5;
+  --color-kwiin-coral: #c68b83;
+  --color-kwiin-soft-grey: #656573;
+  --color-kwiin-ivory: #352d40;
+  --color-kwiin-ivory-dim: #51495a;
+  --color-kwiin-gold: #b9852f;
+  --color-kwiin-gold-bright: #a87322;
+  --color-kwiin-gold-highlight: #f4d88d;
+  --color-kwiin-gold-dim: #74521d;
+  --color-kwiin-purple: #73516f;
+  --color-kwiin-purple-soft: #b7b4d0;
+  --color-kwiin-purple-deep: #624660;
 
   --font-display: "Cormorant Garamond", "Georgia", serif;
   --font-body: "Inter", "system-ui", sans-serif;
@@ -34,22 +40,23 @@ body.is-language-switching [data-i18n] {
   /* ── motion + elevation language ────────────────────────────────── */
   --ease-silk: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --shadow-luxe: 0 40px 80px -30px rgba(0, 0, 0, 0.85);
-  --shadow-gold: 0 0 60px -20px rgba(201, 163, 92, 0.4);
+  --shadow-luxe: 0 40px 80px -34px rgba(69, 56, 75, 0.34);
+  --shadow-gold: 0 0 60px -20px rgba(185, 133, 47, 0.34);
 }
 
 @layer base {
   html {
     scroll-behavior: auto;
-    background-color: var(--color-kwiin-black);
+    background-color: var(--color-kwiin-pearl);
   }
 
   body {
     font-family: var(--font-body);
     background:
-      radial-gradient(120% 80% at 50% -10%, rgba(91, 124, 153, 0.2), transparent 62%),
-      var(--color-kwiin-black);
-    color: var(--color-kwiin-ivory);
+      radial-gradient(110% 74% at 92% -8%, rgba(71, 163, 171, 0.24), transparent 60%),
+      radial-gradient(90% 70% at 4% 48%, rgba(198, 139, 131, 0.2), transparent 64%),
+      var(--color-kwiin-pearl);
+    color: var(--color-kwiin-black);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     overflow-x: clip;
@@ -85,8 +92,8 @@ body.is-language-switching [data-i18n] {
     inset: 0;
     z-index: 9999;
     pointer-events: none;
-    opacity: 0.038;
-    mix-blend-mode: soft-light;
+    opacity: 0.025;
+    mix-blend-mode: multiply;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
@@ -146,7 +153,7 @@ body.is-language-switching [data-i18n] {
       100deg,
       var(--color-kwiin-gold-dim) 0%,
       var(--color-kwiin-gold) 22%,
-      var(--color-kwiin-ivory) 48%,
+      var(--color-kwiin-gold-highlight) 48%,
       var(--color-kwiin-gold-bright) 70%,
       var(--color-kwiin-gold) 100%
     );
@@ -175,30 +182,31 @@ body.is-language-switching [data-i18n] {
   .kwiin-card {
     background: linear-gradient(
       160deg,
-      rgba(255, 255, 255, 0.035),
-      rgba(255, 255, 255, 0.01)
+      rgba(255, 255, 255, 0.72),
+      rgba(247, 241, 243, 0.38)
     );
-    border: 1px solid rgba(201, 163, 92, 0.16);
+    border: 1px solid rgba(145, 103, 37, 0.24);
     backdrop-filter: blur(6px);
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05) inset;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.78) inset;
   }
 
   /* ── luxury panel: card with fine double-frame + corner accents ──── */
   .kwiin-panel {
     position: relative;
     background:
-      linear-gradient(165deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.008) 55%),
-      radial-gradient(120% 90% at 50% 0%, rgba(201, 163, 92, 0.07), transparent 60%);
-    border: 1px solid rgba(201, 163, 92, 0.18);
+      linear-gradient(165deg, rgba(255, 255, 255, 0.76), rgba(238, 226, 231, 0.42) 58%),
+      radial-gradient(120% 90% at 12% 0%, rgba(71, 163, 171, 0.12), transparent 58%),
+      radial-gradient(100% 90% at 100% 100%, rgba(198, 139, 131, 0.1), transparent 62%);
+    border: 1px solid rgba(145, 103, 37, 0.25);
     box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.05) inset,
-      0 30px 60px -34px rgba(0, 0, 0, 0.9);
+      0 1px 0 rgba(255, 255, 255, 0.92) inset,
+      0 30px 60px -34px rgba(71, 58, 77, 0.32);
   }
   .kwiin-panel::before {
     content: "";
     position: absolute;
     inset: 9px;
-    border: 1px solid rgba(201, 163, 92, 0.1);
+    border: 1px solid rgba(145, 103, 37, 0.15);
     border-radius: inherit;
     pointer-events: none;
   }
@@ -288,7 +296,8 @@ body.is-language-switching [data-i18n] {
     pointer-events: none;
     background: radial-gradient(
       260px circle at var(--mx, 50%) var(--my, 40%),
-      rgba(247, 242, 232, 0.07),
+      rgba(255, 255, 255, 0.62),
+      rgba(255, 255, 255, 0.16) 38%,
       transparent 60%
     );
     opacity: 0;

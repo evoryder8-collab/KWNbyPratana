@@ -38,7 +38,7 @@ const navKeys = {
   <button
     id="kwiin-menu-close"
     type="button"
-    class="absolute right-5 top-5 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-kwiin-ivory transition-colors hover:border-kwiin-gold/40"
+    class="absolute right-5 top-5 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-kwiin-purple/15 text-kwiin-ivory transition-colors hover:border-kwiin-gold/40"
     aria-label="Menü schliessen"
     data-i18n-aria-label="nav.menuClose"
   >
@@ -86,7 +86,7 @@ const navKeys = {
     href={whatsappHref}
     target="_blank"
     rel="noopener noreferrer"
-    class="kwiin-menu-item relative z-10 mt-7 inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-kwiin-gold to-kwiin-gold-bright px-7 py-3.5 text-sm font-semibold uppercase tracking-[0.08em] text-kwiin-black opacity-0"
+    class="kwiin-menu-item relative z-10 mt-7 inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-kwiin-gold-dim via-kwiin-gold to-kwiin-gold-highlight px-7 py-3.5 text-sm font-semibold uppercase tracking-[0.08em] text-kwiin-black opacity-0 shadow-[0_12px_28px_-16px_rgba(116,82,29,0.55)]"
     data-i18n-whatsapp="common.studioWhatsApp"
     data-i18n-aria-label="nav.book"
   >
@@ -98,7 +98,10 @@ const navKeys = {
   /* Guaranteed-opaque, atmospheric backdrop: page content can never show
      through the open menu, regardless of which utilities Tailwind emits. */
   #kwiin-mobile-menu {
-    background-color: var(--color-kwiin-black, #08141d);
+    background:
+      radial-gradient(circle at 92% 8%, rgba(71, 163, 171, 0.28), transparent 42%),
+      radial-gradient(circle at 8% 90%, rgba(198, 139, 131, 0.24), transparent 46%),
+      var(--color-kwiin-pearl, #f7f1f3);
   }
   .kwiin-menu-backdrop {
     position: absolute;
@@ -113,7 +116,7 @@ const navKeys = {
     width: 90vmin;
     height: 90vmin;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(201, 163, 92, 0.14), transparent 62%);
+    background: radial-gradient(circle, rgba(244, 216, 141, 0.3), transparent 62%);
   }
   .kwiin-menu-glow-purple {
     position: absolute;
@@ -122,7 +125,7 @@ const navKeys = {
     width: 90vmin;
     height: 90vmin;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(124, 94, 163, 0.14), transparent 62%);
+    background: radial-gradient(circle, rgba(183, 180, 208, 0.32), transparent 62%);
   }
   /* :global because the svg lives inside the LotusMark child component,
      out of reach of this component's scoped selectors */
@@ -133,7 +136,7 @@ const navKeys = {
     height: 70vmin;
     width: auto;
     transform: translateY(-50%) rotate(8deg);
-    color: rgba(201, 163, 92, 0.07);
+    color: rgba(116, 82, 29, 0.08);
   }
 </style>
 
