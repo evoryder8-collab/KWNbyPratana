@@ -122,13 +122,13 @@ import { languages } from "../i18n/translations";
     line-height: 1.35;
     text-align: right;
     text-transform: uppercase;
-    transition: opacity 0.3s var(--ease-silk), filter 0.3s var(--ease-silk), transform 0.3s var(--ease-silk);
+    transition: opacity 0.22s var(--ease-silk), filter 0.22s var(--ease-silk), transform 0.22s var(--ease-silk);
   }
 
   .kwiin-language__prompt.is-changing {
     opacity: 0;
-    filter: blur(4px);
-    transform: translateY(-0.25rem);
+    filter: blur(2px);
+    transform: translateY(-0.15rem);
   }
 
   .kwiin-language__menu { position: relative; flex: none; }
@@ -314,6 +314,7 @@ import { languages } from "../i18n/translations";
     let cycleTimer = 0;
     let fadeTimer = 0;
     let inView = true;
+    let firstCycle = true;
 
     function updateSelection(language: LanguageCode) {
       active = language;
@@ -338,6 +339,7 @@ import { languages } from "../i18n/translations";
     function queueCycle() {
       stopCycle();
       if (reduceMotion || document.hidden || !inView || languageMenu.open) return;
+      const holdDuration = firstCycle ? 900 : 1550;
       cycleTimer = window.setTimeout(() => {
         languagePrompt.classList.add("is-changing");
         fadeTimer = window.setTimeout(() => {
@@ -346,9 +348,10 @@ import { languages } from "../i18n/translations";
           languagePrompt.textContent = translations[next]["language.prompt"];
           languagePrompt.lang = next;
           languagePrompt.classList.remove("is-changing");
+          firstCycle = false;
           queueCycle();
-        }, 300);
-      }, 2300);
+        }, 220);
+      }, holdDuration);
     }
 
     options.forEach((option) => option.addEventListener("click", () => {
