@@ -83,12 +83,13 @@ const {
   .kwiin-price-row__leader {
     min-width: 0.5rem;
     flex: 1;
-    border-bottom: 1px dotted rgba(201, 163, 92, 0.25);
+    border-bottom: 1px dotted rgba(116, 82, 29, 0.4);
     transform: translateY(-0.15rem);
   }
 
   .kwiin-price-row__cluster {
     display: flex;
+    width: min(9.75rem, 52vw);
     min-width: 8.75rem;
     flex: none;
     flex-direction: column;
@@ -131,13 +132,15 @@ const {
     max-height: 0;
     margin-top: 0;
     overflow: hidden;
-    color: rgba(98, 70, 96, 0.72);
-    font-size: 0.5rem;
+    color: rgba(78, 53, 77, 0.9);
+    max-width: 10rem;
+    font-size: 0.52rem;
     letter-spacing: 0.025em;
     line-height: 1.35;
     opacity: 0;
     transform: translateY(-0.2rem);
-    white-space: nowrap;
+    text-align: right;
+    white-space: normal;
     transition:
       max-height 0.5s var(--ease-silk),
       margin-top 0.5s var(--ease-silk),
@@ -146,7 +149,7 @@ const {
   }
 
   .kwiin-price-row__breakdown[data-visible="true"] {
-    max-height: 1.5rem;
+    max-height: 2.8rem;
     margin-top: 0.3rem;
     opacity: 1;
     transform: translateY(0);
