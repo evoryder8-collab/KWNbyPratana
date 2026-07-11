@@ -302,6 +302,12 @@ import { languages } from "../i18n/translations";
     const options = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-language-option]"));
     if (!menu || !prompt || !selectedName || !selectedCode) return;
 
+    const selectorRoot = root;
+    const languageMenu = menu;
+    const languagePrompt = prompt;
+    const selectedLanguageName = selectedName;
+    const selectedLanguageCode = selectedCode;
+
     const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
     let active = appWindow.__kwiinLanguage ?? "de";
     let promptIndex = LANGUAGE_CODES.indexOf(active);
@@ -311,17 +317,17 @@ import { languages } from "../i18n/translations";
 
     function updateSelection(language: LanguageCode) {
       active = language;
-      root.dataset.language = language;
-      root.querySelector("h1")?.setAttribute("lang", language);
+      selectorRoot.dataset.language = language;
+      selectorRoot.querySelector("h1")?.setAttribute("lang", language);
       const meta = languages.find((item) => item.code === language)!;
-      selectedName.textContent = meta.name;
-      selectedName.lang = language;
-      selectedCode.textContent = meta.short;
+      selectedLanguageName.textContent = meta.name;
+      selectedLanguageName.lang = language;
+      selectedLanguageCode.textContent = meta.short;
       options.forEach((option) => option.setAttribute(
         "aria-checked",
         option.dataset.languageOption === language ? "true" : "false"
       ));
-      menu.open = false;
+      languageMenu.open = false;
     }
 
     function stopCycle() {
@@ -331,15 +337,15 @@ import { languages } from "../i18n/translations";
 
     function queueCycle() {
       stopCycle();
-      if (reduceMotion || document.hidden || !inView || menu.open) return;
+      if (reduceMotion || document.hidden || !inView || languageMenu.open) return;
       cycleTimer = window.setTimeout(() => {
-        prompt.classList.add("is-changing");
+        languagePrompt.classList.add("is-changing");
         fadeTimer = window.setTimeout(() => {
           promptIndex = (promptIndex + 1) % LANGUAGE_CODES.length;
           const next = LANGUAGE_CODES[promptIndex];
-          prompt.textContent = translations[next]["language.prompt"];
-          prompt.lang = next;
-          prompt.classList.remove("is-changing");
+          languagePrompt.textContent = translations[next]["language.prompt"];
+          languagePrompt.lang = next;
+          languagePrompt.classList.remove("is-changing");
           queueCycle();
         }, 300);
       }, 2300);
@@ -352,8 +358,8 @@ import { languages } from "../i18n/translations";
       updateSelection(language);
       appWindow.__kwiinSetLanguage?.(language, changed);
       promptIndex = LANGUAGE_CODES.indexOf(language);
-      prompt.textContent = translations[language]["language.prompt"];
-      prompt.lang = language;
+      languagePrompt.textContent = translations[language]["language.prompt"];
+      languagePrompt.lang = language;
       queueCycle();
     }, { signal }));
 
@@ -361,17 +367,17 @@ import { languages } from "../i18n/translations";
       const language = (event as CustomEvent<{ language: LanguageCode }>).detail.language;
       updateSelection(language);
       promptIndex = LANGUAGE_CODES.indexOf(language);
-      prompt.textContent = translations[language]["language.prompt"];
-      prompt.lang = language;
+      languagePrompt.textContent = translations[language]["language.prompt"];
+      languagePrompt.lang = language;
       queueCycle();
     }, { signal });
 
-    menu.addEventListener("toggle", queueCycle, { signal });
+    languageMenu.addEventListener("toggle", queueCycle, { signal });
     document.addEventListener("pointerdown", (event) => {
-      if (menu.open && !menu.contains(event.target as Node)) menu.open = false;
+      if (languageMenu.open && !languageMenu.contains(event.target as Node)) languageMenu.open = false;
     }, { signal });
     document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") menu.open = false;
+      if (event.key === "Escape") languageMenu.open = false;
     }, { signal });
     document.addEventListener("visibilitychange", queueCycle, { signal });
 
@@ -379,11 +385,11 @@ import { languages } from "../i18n/translations";
       inView = Boolean(entry?.isIntersecting);
       queueCycle();
     }, { threshold: 0.05 });
-    observer.observe(root);
+    observer.observe(selectorRoot);
 
     updateSelection(active);
-    prompt.textContent = translations[active]["language.prompt"];
-    prompt.lang = active;
+    languagePrompt.textContent = translations[active]["language.prompt"];
+    languagePrompt.lang = active;
     queueCycle();
 
     appWindow.__kwiinLanguageSelectorCleanup = () => {
