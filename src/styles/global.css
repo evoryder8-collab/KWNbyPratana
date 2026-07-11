@@ -11,20 +11,22 @@ body.is-language-switching [data-i18n] {
 }
 
 @theme {
-  /* ── KWIIN palette: candlelit black, champagne gold, royal amethyst ── */
-  --color-kwiin-black: #0b0908;
-  --color-kwiin-espresso: #120e0b;
-  --color-kwiin-charcoal: #1b1613;
-  --color-kwiin-graphite: #2b2620;
-  --color-kwiin-soft-grey: #bab1a4;
+  /* KWIIN palette: deep slate, champagne gold, mineral blue */
+  --color-kwiin-black: #08141d;
+  --color-kwiin-espresso: #0c1d28;
+  --color-kwiin-charcoal: #132a38;
+  --color-kwiin-graphite: #294656;
+  --color-kwiin-slate: #5b7c99;
+  --color-kwiin-slate-soft: #7896ad;
+  --color-kwiin-soft-grey: #b8c1c5;
   --color-kwiin-ivory: #f7f2e8;
   --color-kwiin-ivory-dim: #e8ddc9;
   --color-kwiin-gold: #c9a35c;
   --color-kwiin-gold-bright: #ecd29b;
   --color-kwiin-gold-dim: #8a6f33;
-  --color-kwiin-purple: #7c5ea3;
-  --color-kwiin-purple-soft: #43325a;
-  --color-kwiin-purple-deep: #221a30;
+  --color-kwiin-purple: #7891ad;
+  --color-kwiin-purple-soft: #314b61;
+  --color-kwiin-purple-deep: #162a39;
 
   --font-display: "Cormorant Garamond", "Georgia", serif;
   --font-body: "Inter", "system-ui", sans-serif;
@@ -44,7 +46,9 @@ body.is-language-switching [data-i18n] {
 
   body {
     font-family: var(--font-body);
-    background-color: var(--color-kwiin-black);
+    background:
+      radial-gradient(120% 80% at 50% -10%, rgba(91, 124, 153, 0.2), transparent 62%),
+      var(--color-kwiin-black);
     color: var(--color-kwiin-ivory);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
@@ -81,8 +85,8 @@ body.is-language-switching [data-i18n] {
     inset: 0;
     z-index: 9999;
     pointer-events: none;
-    opacity: 0.05;
-    mix-blend-mode: overlay;
+    opacity: 0.038;
+    mix-blend-mode: soft-light;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 

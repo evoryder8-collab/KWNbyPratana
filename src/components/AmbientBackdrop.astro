@@ -1,16 +1,17 @@
 ---
 /**
- * Site-wide candlelit atmosphere: a fixed layer of slowly drifting,
- * pre-blurred light pools (champagne gold above, amethyst below) that sits
- * behind all page content. Pure CSS transforms, so it costs almost nothing;
- * the global reduced-motion rule freezes the drift automatically.
+ * Site-wide slate atmosphere. The gradients are already soft at the edges,
+ * so the animation only changes opacity and transforms. This keeps the scene
+ * organic without a canvas, video, blur filter, or JavaScript render loop.
  */
 ---
 
 <div class="kwiin-ambient" aria-hidden="true">
-  <span class="kwiin-ambient-glow"></span>
-  <span class="kwiin-ambient-blob kwiin-ambient-gold"></span>
-  <span class="kwiin-ambient-blob kwiin-ambient-purple"></span>
+  <span class="kwiin-ambient__wash"></span>
+  <span class="kwiin-ambient__pool kwiin-ambient__pool--slate"></span>
+  <span class="kwiin-ambient__pool kwiin-ambient__pool--mineral"></span>
+  <span class="kwiin-ambient__pool kwiin-ambient__pool--champagne"></span>
+  <span class="kwiin-ambient__tide"></span>
 </div>
 
 <style>
@@ -19,55 +20,108 @@
     inset: 0;
     z-index: 0;
     overflow: hidden;
+    contain: strict;
+    background:
+      radial-gradient(100% 64% at 50% -14%, rgba(91, 124, 153, 0.25), transparent 68%),
+      linear-gradient(155deg, #07131c 0%, #0c1e2a 48%, #08141d 100%);
     pointer-events: none;
   }
 
-  /* steady candle glow resting at the top of every page */
-  .kwiin-ambient-glow {
+  .kwiin-ambient__wash,
+  .kwiin-ambient__pool,
+  .kwiin-ambient__tide {
     position: absolute;
-    left: 50%;
-    top: -20%;
-    width: 130vmax;
-    height: 70vmax;
-    transform: translateX(-50%);
-    background: radial-gradient(
-      ellipse at center,
-      rgba(201, 163, 92, 0.07),
-      transparent 55%
-    );
+    pointer-events: none;
+    will-change: transform, opacity;
   }
 
-  .kwiin-ambient-blob {
-    position: absolute;
+  .kwiin-ambient__wash {
+    inset: -18%;
+    background:
+      radial-gradient(42% 34% at 21% 25%, rgba(91, 124, 153, 0.32), transparent 72%),
+      radial-gradient(38% 32% at 78% 66%, rgba(53, 93, 111, 0.2), transparent 74%);
+    opacity: 0.72;
+    animation: kwiin-slate-breathe 19s cubic-bezier(0.45, 0, 0.25, 1) infinite alternate;
+  }
+
+  .kwiin-ambient__pool {
     border-radius: 50%;
-    will-change: transform;
   }
 
-  .kwiin-ambient-gold {
-    width: 70vmax;
-    height: 70vmax;
-    left: -22vmax;
-    top: 12%;
-    background: radial-gradient(circle, rgba(201, 163, 92, 0.055), transparent 62%);
-    animation: kwiin-drift-a 44s ease-in-out infinite alternate;
+  .kwiin-ambient__pool--slate {
+    width: 92vmax;
+    height: 82vmax;
+    left: -38vmax;
+    top: 5%;
+    background: radial-gradient(circle, rgba(91, 124, 153, 0.3), rgba(63, 93, 117, 0.1) 42%, transparent 70%);
+    opacity: 0.56;
+    animation: kwiin-slate-drift-a 31s cubic-bezier(0.45, 0, 0.2, 1) infinite alternate;
   }
 
-  .kwiin-ambient-purple {
-    width: 66vmax;
-    height: 66vmax;
-    right: -26vmax;
-    bottom: -14%;
-    background: radial-gradient(circle, rgba(124, 94, 163, 0.06), transparent 60%);
-    animation: kwiin-drift-b 56s ease-in-out infinite alternate;
+  .kwiin-ambient__pool--mineral {
+    width: 86vmax;
+    height: 78vmax;
+    right: -40vmax;
+    top: 30%;
+    background: radial-gradient(circle, rgba(57, 101, 119, 0.23), rgba(40, 67, 89, 0.08) 44%, transparent 70%);
+    opacity: 0.48;
+    animation: kwiin-slate-drift-b 37s cubic-bezier(0.4, 0, 0.25, 1) infinite alternate;
   }
 
-  @keyframes kwiin-drift-a {
-    from { transform: translate3d(0, 0, 0) scale(1); }
-    to { transform: translate3d(9vmax, -6vmax, 0) scale(1.12); }
+  .kwiin-ambient__pool--champagne {
+    width: 68vmax;
+    height: 56vmax;
+    left: 22%;
+    bottom: -34vmax;
+    background: radial-gradient(circle, rgba(201, 163, 92, 0.12), rgba(161, 132, 77, 0.035) 46%, transparent 70%);
+    opacity: 0.5;
+    animation: kwiin-slate-drift-c 43s cubic-bezier(0.45, 0, 0.2, 1) infinite alternate;
   }
 
-  @keyframes kwiin-drift-b {
-    from { transform: translate3d(0, 0, 0) scale(1.08); }
-    to { transform: translate3d(-8vmax, -8vmax, 0) scale(0.98); }
+  .kwiin-ambient__tide {
+    inset: -12%;
+    background:
+      linear-gradient(118deg, transparent 24%, rgba(151, 178, 196, 0.035) 43%, transparent 61%),
+      linear-gradient(300deg, transparent 31%, rgba(201, 163, 92, 0.022) 50%, transparent 69%);
+    opacity: 0.7;
+    transform-origin: 50% 45%;
+    animation: kwiin-slate-tide 24s ease-in-out infinite alternate;
+  }
+
+  @keyframes kwiin-slate-breathe {
+    0% { opacity: 0.54; transform: scale(0.96) translate3d(-1.5%, 0, 0); }
+    52% { opacity: 0.82; }
+    100% { opacity: 0.66; transform: scale(1.07) translate3d(2%, -1.5%, 0); }
+  }
+
+  @keyframes kwiin-slate-drift-a {
+    from { transform: translate3d(0, 0, 0) scale(0.94); }
+    to { transform: translate3d(19vmax, -5vmax, 0) scale(1.08); }
+  }
+
+  @keyframes kwiin-slate-drift-b {
+    from { transform: translate3d(0, -4vmax, 0) scale(1.06); }
+    to { transform: translate3d(-17vmax, 7vmax, 0) scale(0.94); }
+  }
+
+  @keyframes kwiin-slate-drift-c {
+    from { transform: translate3d(-6vmax, 0, 0) scale(0.92); opacity: 0.36; }
+    to { transform: translate3d(8vmax, -14vmax, 0) scale(1.08); opacity: 0.58; }
+  }
+
+  @keyframes kwiin-slate-tide {
+    from { transform: rotate(-1.5deg) scale(1); opacity: 0.45; }
+    to { transform: rotate(1.5deg) scale(1.06); opacity: 0.78; }
+  }
+
+  @media (hover: none), (pointer: coarse) {
+    .kwiin-ambient__pool--champagne { animation: none; opacity: 0.36; }
+    .kwiin-ambient__tide { animation: none; opacity: 0.52; }
+    .kwiin-ambient__pool--slate { animation-duration: 38s; }
+    .kwiin-ambient__pool--mineral { animation-duration: 44s; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kwiin-ambient * { animation: none !important; }
   }
 </style>
