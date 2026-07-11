@@ -12,6 +12,17 @@ const medalColor: Record<Award["medal"], string> = {
   Silver: "from-[#9a9a9a] via-[#cfcfcf] to-[#eaeaea] text-kwiin-black",
   Bronze: "from-[#7a4a2c] via-[#a9683c] to-[#c98a55] text-kwiin-black",
 };
+const medalKeys = {
+  Gold: "about.medalGold",
+  Silver: "about.medalSilver",
+  Bronze: "about.medalBronze",
+} as const;
+const categoryKeys: Record<string, string> = {
+  "Thai-Massage": "about.categoryThai",
+  Sportmassage: "about.categorySport",
+  Freestyle: "about.categoryFreestyle",
+  Wellness: "about.categoryWellness",
+};
 ---
 
 <div
@@ -27,7 +38,7 @@ const medalColor: Record<Award["medal"], string> = {
     </span>
   </span>
   <p class="relative z-10 text-xs uppercase tracking-[0.2em] text-kwiin-gold-bright">
-    {medalLabels[award.medal]}
+    <span data-i18n={medalKeys[award.medal]}>{medalLabels[award.medal]}</span>
   </p>
-  <p class="relative z-10 font-display text-lg text-kwiin-ivory">{award.category}</p>
+  <p class="relative z-10 font-display text-lg text-kwiin-ivory" data-i18n={categoryKeys[award.category]}>{award.category}</p>
 </div>

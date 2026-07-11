@@ -11,7 +11,7 @@ const description =
   "Das komplette KWIIN Behandlungsmenü: Signature Thai-Massage, Sport-Regeneration, Lymphfluss, Rücken-, Kopf- und Fussbehandlungen. Preise in CHF, im Studio und mobil.";
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} page="services">
   <PageTransition>
     <section class="relative overflow-hidden pb-14 pt-40">
       <div
@@ -20,17 +20,12 @@ const description =
       >
       </div>
       <div class="relative mx-auto max-w-4xl px-5 text-center lg:px-8">
-        <p class="kwiin-eyebrow">Behandlungen</p>
+        <p class="kwiin-eyebrow" data-i18n="services.eyebrow">Behandlungen</p>
         <h1 class="mt-6 font-display text-4xl leading-tight text-kwiin-ivory text-balance sm:text-5xl">
-          Handwerk, verwurzelt in
-          <span class="kwiin-accent text-gold-gradient">Tradition.</span>
+          <span data-i18n="services.titleLead">Gute Massage beginnt mit </span><span class="kwiin-accent text-gold-gradient" data-i18n="services.titleAccent">Zuhören.</span>
         </h1>
-        <p class="mx-auto mt-6 max-w-2xl text-sm leading-relaxed text-kwiin-soft-grey">
-          Jede KWIIN Behandlung ist im Studio in Dübendorf und als Mobile Spa verfügbar. Jede
-          wird individuell auf Ihre Bedürfnisse abgestimmt: mit hochwertigen Ölen, edlen
-          Materialien und der Zeit, die Sie verdienen. Alle Preise in Schweizer Franken.
-          Wählen Sie auf einer Karte «Im Studio» oder «Mobil bei Ihnen» – alle Preise
-          aktualisieren sich sofort.
+        <p class="mx-auto mt-6 max-w-2xl text-sm leading-relaxed text-kwiin-soft-grey" data-i18n="services.copy">
+          Wählen Sie Studio oder Mobil. Die Preise ändern sich sofort. Für Mobil wählen Sie danach bis 15 km oder bis 30 km. Alle Preise sind in Schweizer Franken.
         </p>
       </div>
     </section>
@@ -43,7 +38,7 @@ const description =
 
     <SectionReveal class="mx-auto max-w-2xl px-5 pb-24 text-center lg:px-8">
       <OrnamentDivider class="mb-8" />
-      <p class="text-xs uppercase tracking-[0.12em] text-kwiin-soft-grey/60">
+      <p class="text-xs uppercase tracking-[0.12em] text-kwiin-soft-grey/60" data-i18n="common.mobileTravelNote">
         {MOBILE_SPA_TRAVEL_FEE_NOTE}
       </p>
     </SectionReveal>

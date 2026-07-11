@@ -15,7 +15,7 @@ const description =
   "Kontaktieren Sie KWIIN by Pratana Halstrick: Studio-Termin in Dübendorf oder Mobile Spa Besuch, am schnellsten via WhatsApp.";
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} page="contact">
   <PageTransition>
     <section class="relative overflow-hidden pb-24 pt-40">
       <div
@@ -25,22 +25,21 @@ const description =
       </div>
       <GoldDust />
       <div class="relative mx-auto max-w-3xl px-5 text-center lg:px-8">
-        <p class="kwiin-eyebrow">Kontakt</p>
+        <p class="kwiin-eyebrow" data-i18n="contact.eyebrow">Kontakt</p>
         <h1 class="mt-6 font-display text-4xl leading-tight text-kwiin-ivory text-balance sm:text-5xl">
-          Nehmen Sie sich einen Moment,
-          <span class="kwiin-accent text-gold-gradient">der nur Ihnen gehört.</span>
+          <span data-i18n="contact.titleLead">Nehmen Sie sich Zeit </span><span class="kwiin-accent text-gold-gradient" data-i18n="contact.titleAccent">für sich.</span>
         </h1>
-        <p class="mx-auto mt-6 max-w-xl text-base leading-relaxed text-kwiin-soft-grey">
-          Für Studio- und Mobile Spa Anfragen erreichen Sie Pratana am schnellsten via
-          WhatsApp. Jede Behandlung beginnt mit dem Zuhören und wird achtsam auf Ihre
-          persönlichen Bedürfnisse abgestimmt.
+        <p class="mx-auto mt-6 max-w-xl text-base leading-relaxed text-kwiin-soft-grey" data-i18n="contact.copy">
+          Für Studio und Mobile Spa erreichen Sie Pratana am schnellsten via WhatsApp. Schreiben Sie kurz, was Sie brauchen und wann es für Sie passt.
         </p>
 
         <SectionReveal class="mt-10 flex flex-col items-center gap-4">
-          <WhatsAppButton message={WHATSAPP_MESSAGES.studioGeneric} label="Studio-Termin via WhatsApp" size="lg" />
+          <WhatsAppButton message={WHATSAPP_MESSAGES.studioGeneric} label="Studio Termin via WhatsApp" labelKey="common.studioWhatsApp" messageKey="common.studioWhatsApp" size="lg" />
           <WhatsAppButton
             message={WHATSAPP_MESSAGES.mobileGeneric}
             label="Mobile Spa via WhatsApp anfragen"
+            labelKey="common.mobileWhatsApp"
+            messageKey="common.mobileWhatsApp"
             variant="secondary"
             size="lg"
           />
@@ -48,25 +47,25 @@ const description =
 
         <SectionReveal class="kwiin-panel mt-16 grid gap-8 rounded-3xl p-8 text-left sm:grid-cols-2 sm:p-10">
           <div>
-            <h2 class="text-xs uppercase tracking-[0.2em] text-kwiin-gold-bright/80">Öffnungszeiten</h2>
-            <p class="mt-2 text-sm text-kwiin-soft-grey">{contact.hours}</p>
+            <h2 class="text-xs uppercase tracking-[0.2em] text-kwiin-gold-bright/80" data-i18n="contact.hoursTitle">Öffnungszeiten</h2>
+            <p class="mt-2 text-sm text-kwiin-soft-grey" data-i18n="common.hours">{contact.hours}</p>
 
-            <h2 class="mt-6 text-xs uppercase tracking-[0.2em] text-kwiin-gold-bright/80">
+            <h2 class="mt-6 text-xs uppercase tracking-[0.2em] text-kwiin-gold-bright/80" data-i18n="contact.languagesTitle">
               Sprachen
             </h2>
             <div class="mt-2 flex flex-wrap gap-2">
-              {contact.languages.map((lang) => <LanguageBadge language={lang} />)}
+              <LanguageBadge language={contact.languages.join(" · ")} translationKey="common.languages" />
             </div>
           </div>
 
           <div>
-            <h2 class="text-xs uppercase tracking-[0.2em] text-kwiin-gold-bright/80">
+            <h2 class="text-xs uppercase tracking-[0.2em] text-kwiin-gold-bright/80" data-i18n="contact.generalTitle">
               Allgemeiner Kontakt
             </h2>
             <p class="mt-2 text-sm text-kwiin-soft-grey">{contact.generalContactNumber}</p>
-            <p class="text-xs text-kwiin-soft-grey/60">(Nur zur Information, Termine bitte via WhatsApp)</p>
+            <p class="text-xs text-kwiin-soft-grey/60" data-i18n="contact.generalNote">Nur für allgemeine Fragen. Termine bitte via WhatsApp.</p>
 
-            <h2 class="mt-6 text-xs uppercase tracking-[0.2em] text-kwiin-gold-bright/80">
+            <h2 class="mt-6 text-xs uppercase tracking-[0.2em] text-kwiin-gold-bright/80" data-i18n="contact.instagram">
               Instagram
             </h2>
             <a
@@ -86,7 +85,7 @@ const description =
 
         <OrnamentDivider class="mt-14" />
         <p class="mt-10 font-display text-2xl italic text-kwiin-gold-bright text-balance">
-          {closingLines[0]} {closingLines[1]}
+          <span data-i18n="common.closingOne">{closingLines[0]}</span> <span data-i18n="common.closingTwo">{closingLines[1]}</span>
         </p>
       </div>
     </section>

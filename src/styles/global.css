@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+body [data-i18n],
+body [data-i18n-aria-label] {
+  transition: opacity 0.22s ease, filter 0.22s ease;
+}
+
+body.is-language-switching [data-i18n] {
+  opacity: 0.18;
+  filter: blur(3px);
+}
+
 @theme {
   /* ── KWIIN palette: candlelit black, champagne gold, royal amethyst ── */
   --color-kwiin-black: #0b0908;

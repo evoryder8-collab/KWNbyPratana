@@ -18,8 +18,14 @@ const text =
     : variant === "official"
       ? officialPartnerLine
       : subtleLocationLine;
+const translationKey =
+  variant === "full"
+    ? "common.locationFull"
+    : variant === "official"
+      ? "common.locationOfficial"
+      : "common.locationSubtle";
 ---
 
-<p class={`text-xs leading-relaxed text-kwiin-soft-grey/70 max-w-md ${className}`}>
+<p class={`text-xs leading-relaxed text-kwiin-soft-grey/70 max-w-md ${className}`} data-i18n={translationKey}>
   {text}
 </p>

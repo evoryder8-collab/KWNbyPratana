@@ -1,7 +1,7 @@
 /**
  * WhatsApp booking helper.
  *
- * All booking / inquiry CTAs across the site must route through WhatsApp —
+ * All booking and inquiry CTAs across the site must route through WhatsApp.
  * there is no calendar booking system, cart, or checkout. This is the
  * single source of truth for building a correctly formatted wa.me link.
  */
@@ -10,7 +10,7 @@
 // Stored without the leading "+" per the wa.me URL format.
 export const WHATSAPP_BOOKING_NUMBER = "41779669928";
 
-// General contact number — informational only, never used for booking CTAs.
+// General contact number. Informational only, never used for booking CTAs.
 export const GENERAL_CONTACT_NUMBER = "+41 76 728 21 22";
 export const WHATSAPP_DISPLAY_NUMBER = "+41 77 966 99 28";
 

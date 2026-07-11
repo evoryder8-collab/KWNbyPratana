@@ -29,6 +29,14 @@ const initialMessage = initialMode === "mobile" ? mobileMessage : studioMessage;
 const ctaLabel = initialMode === "mobile"
   ? "Mobil via WhatsApp anfragen"
   : "Im Studio via WhatsApp buchen";
+const serviceKey = {
+  "kwiin-massage": "kwiin",
+  "booster-muscles-sport": "booster",
+  "flow-essence-lymph": "flow",
+  "back-serenity": "back",
+  "crown-serenity-head": "crown",
+  "bata-flow-foot": "bata",
+}[service.id] ?? "kwiin";
 ---
 
 <article
@@ -45,7 +53,7 @@ const ctaLabel = initialMode === "mobile"
       <span
         class="absolute -top-3 left-8 z-10 rounded-full bg-gradient-to-r from-kwiin-gold to-kwiin-gold-bright px-3.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-kwiin-black shadow-md"
       >
-        Signature
+        <span data-i18n="pricing.signature">Signature</span>
       </span>
     )
   }
@@ -58,7 +66,7 @@ const ctaLabel = initialMode === "mobile"
 
   <div class="relative z-10">
     <p class="text-[0.65rem] uppercase tracking-[0.22em] text-kwiin-gold-bright/75">
-      {service.category}
+      <span data-i18n={`service.${serviceKey}.category`}>{service.category}</span>
     </p>
     <h3 class="mt-2 font-display text-[1.7rem] leading-tight text-kwiin-ivory">
       {service.title}
@@ -66,9 +74,9 @@ const ctaLabel = initialMode === "mobile"
     </h3>
   </div>
 
-  <p class="relative z-10 font-display text-base italic text-kwiin-gold-bright/90">{service.tagline}</p>
+  <p class="relative z-10 font-display text-base italic text-kwiin-gold-bright/90" data-i18n={`service.${serviceKey}.tagline`}>{service.tagline}</p>
 
-  <p class="relative z-10 flex-1 text-sm leading-relaxed text-kwiin-soft-grey">{service.description}</p>
+  <p class="relative z-10 flex-1 text-sm leading-relaxed text-kwiin-soft-grey" data-i18n={`service.${serviceKey}.description`}>{service.description}</p>
 
   <div class="relative z-10">
     <ServiceAvailabilityBadge
@@ -94,10 +102,23 @@ const ctaLabel = initialMode === "mobile"
 </article>
 
 <script>
+  import type { TranslationKey } from "../i18n/translations";
+
   type PriceMode = "studio" | "mobile";
   type DistanceKm = "15" | "30";
+  type PricingWindow = Window & {
+    __kwiinT?: (key: TranslationKey, params?: Record<string, string | number>) => string;
+    __kwiinPricingLanguageBound?: boolean;
+  };
 
   const priceAnimations = new WeakMap<HTMLElement, number>();
+
+  function localText(
+    key: TranslationKey,
+    params: Record<string, string | number> = {}
+  ) {
+    return (window as PricingWindow).__kwiinT?.(key, params) ?? key;
+  }
 
   function animatePrice(
     element: HTMLElement,
@@ -184,14 +205,21 @@ const ctaLabel = initialMode === "mobile"
       const currentPrice = Number(priceValue?.textContent || studioPrice);
       const breakdown = row.querySelector<HTMLElement>("[data-travel-breakdown]");
       const minutes = row.dataset.minutes || "";
+      const duration = row.querySelector<HTMLElement>("[data-price-duration]");
+
+      if (duration) {
+        duration.textContent = localText("pricing.duration", { minutes });
+      }
 
       if (priceValue) {
         animatePrice(priceValue, currentPrice, nextPrice, shouldAnimate);
       }
 
       if (breakdown) {
-        breakdown.textContent =
-          `(+ CHF ${travelFee} Anfahrtspauschale · bis ${distanceKm} km)`;
+        breakdown.textContent = localText("pricing.breakdown", {
+          fee: travelFee,
+          distance: distanceKm,
+        });
         breakdown.dataset.visible = mode === "mobile" ? "true" : "false";
         breakdown.setAttribute("aria-hidden", mode === "mobile" ? "false" : "true");
       }
@@ -199,8 +227,13 @@ const ctaLabel = initialMode === "mobile"
       row.setAttribute(
         "aria-label",
         mode === "mobile"
-          ? `${minutes} Minuten, ${nextPrice} Schweizer Franken, inklusive ${travelFee} Schweizer Franken Anfahrtspauschale für bis zu ${distanceKm} Kilometer`
-          : `${minutes} Minuten, ${nextPrice} Schweizer Franken, Studiopreis`
+          ? localText("pricing.rowMobile", {
+              minutes,
+              price: nextPrice,
+              fee: travelFee,
+              distance: distanceKm,
+            })
+          : localText("pricing.rowStudio", { minutes, price: nextPrice })
       );
     });
 
@@ -213,10 +246,18 @@ const ctaLabel = initialMode === "mobile"
           : card.getAttribute("data-mobile-whatsapp-15")
         : card.dataset.studioWhatsapp;
       const label = mode === "mobile"
-        ? `Mobil bis ${distanceKm} km anfragen`
-        : "Im Studio via WhatsApp buchen";
+        ? localText("pricing.ctaMobile", { distance: distanceKm })
+        : localText("pricing.ctaStudio");
 
-      if (href) cta.href = href;
+      if (href) {
+        try {
+          const localizedUrl = new URL(href);
+          localizedUrl.searchParams.set("text", label);
+          cta.href = localizedUrl.toString();
+        } catch {
+          cta.href = href;
+        }
+      }
       cta.setAttribute("aria-label", label);
       if (ctaLabel) ctaLabel.textContent = label;
     }
@@ -275,4 +316,16 @@ const ctaLabel = initialMode === "mobile"
 
   initServicePricing();
   document.addEventListener("astro:after-swap", initServicePricing);
+
+  const pricingWindow = window as PricingWindow;
+  if (!pricingWindow.__kwiinPricingLanguageBound) {
+    pricingWindow.__kwiinPricingLanguageBound = true;
+    window.addEventListener("kwiin:language-change", () => {
+      document.querySelectorAll<HTMLElement>("[data-service-card]").forEach((card) => {
+        const mode = (card.dataset.priceMode || card.dataset.initialPriceMode || "studio") as PriceMode;
+        const distance = (card.dataset.mobileDistance || "15") as DistanceKm;
+        updateCardPriceMode(card, mode, distance, false);
+      });
+    });
+  }
 </script>

@@ -5,7 +5,7 @@ export interface Award {
 
 export const championshipName = "Nordic Nuad-Thai Massage Championship 2026";
 export const championshipLocation = "Finnland";
-export const championshipDates = "13.–14. Juni 2026";
+export const championshipDates = "13. bis 14. Juni 2026";
 
 export const awards: Award[] = [
   { medal: "Gold", category: "Thai-Massage" },

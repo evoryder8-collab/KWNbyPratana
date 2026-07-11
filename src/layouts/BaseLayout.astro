@@ -5,6 +5,7 @@ import Footer from "../components/Footer.astro";
 import Preloader from "../components/Preloader.astro";
 import AmbientBackdrop from "../components/AmbientBackdrop.astro";
 import CursorGlow from "../components/CursorGlow.astro";
+import SiteLanguage from "../components/SiteLanguage.astro";
 import { withBase } from "../utils/base";
 import "../styles/global.css";
 
@@ -12,12 +13,14 @@ export interface Props {
   title: string;
   description: string;
   ogImage?: string;
+  page?: "home" | "studio" | "mobile" | "services" | "about" | "contact";
 }
 
 const {
   title,
   description,
   ogImage = withBase("/assets/kwiin-logo.png"),
+  page = "home",
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -66,7 +69,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     <ClientRouter />
   </head>
-  <body class="bg-kwiin-black text-kwiin-ivory min-h-screen flex flex-col">
+  <body data-page={page} class="bg-kwiin-black text-kwiin-ivory min-h-screen flex flex-col">
+    <SiteLanguage />
     <Preloader />
     <AmbientBackdrop />
     <CursorGlow />
@@ -75,7 +79,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       href="#main-content"
       class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-kwiin-gold focus:text-kwiin-black focus:px-4 focus:py-2 focus:rounded"
     >
-      Zum Inhalt springen
+      <span data-i18n="common.skip">Zum Inhalt springen</span>
     </a>
 
     <Navbar />

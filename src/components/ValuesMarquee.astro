@@ -7,13 +7,17 @@
  */
 import LotusMark from "./LotusMark.astro";
 
-const values = ["Eleganz", "Qualität", "Achtsamkeit", "Respekt", "Authentizität"];
+const values = [
+  { label: "Eleganz", key: "values.elegance" },
+  { label: "Qualität", key: "values.quality" },
+  { label: "Achtsamkeit", key: "values.mindfulness" },
+  { label: "Respekt", key: "values.respect" },
+  { label: "Authentizität", key: "values.authenticity" },
+] as const;
 ---
 
 <section class="border-y border-white/5 py-10 sm:py-14">
-  <p class="sr-only">
-    Unsere Werte: {values.join(", ")}.
-  </p>
+  <p class="sr-only" data-i18n="values.aria">Unsere Werte: Eleganz, Qualität, Achtsamkeit, Respekt und Authentizität.</p>
 
   <div class="kwiin-marquee" aria-hidden="true">
     {
@@ -26,7 +30,7 @@ const values = ["Eleganz", "Qualität", "Achtsamkeit", "Respekt", "Authentizitä
                   i % 2 === 0 ? "text-kwiin-ivory/90" : "kwiin-outline-text"
                 }`}
               >
-                {value}
+                <span data-i18n={value.key}>{value.label}</span>
               </span>
               <LotusMark class="h-6 w-auto shrink-0 text-kwiin-gold/60" strokeWidth={2.2} />
             </span>

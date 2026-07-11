@@ -3,8 +3,10 @@ export interface Props {
   title: string;
   description: string;
   icon?: "home" | "office" | "hotel" | "prepare" | "travel";
+  titleKey?: string;
+  descriptionKey?: string;
 }
-const { title, description, icon = "home" } = Astro.props;
+const { title, description, icon = "home", titleKey, descriptionKey } = Astro.props;
 
 const icons: Record<string, string> = {
   home: "M3 11.5 12 4l9 7.5M5 10v9.5h14V10",
@@ -26,7 +28,7 @@ const icons: Record<string, string> = {
     </svg>
   </span>
   <div class="relative z-10">
-    <h3 class="font-display text-xl text-kwiin-ivory">{title}</h3>
-    <p class="mt-1.5 text-sm leading-relaxed text-kwiin-soft-grey">{description}</p>
+    <h3 class="font-display text-xl text-kwiin-ivory" data-i18n={titleKey}>{title}</h3>
+    <p class="mt-1.5 text-sm leading-relaxed text-kwiin-soft-grey" data-i18n={descriptionKey}>{description}</p>
   </div>
 </div>

@@ -5,7 +5,7 @@
  * domain root (e.g. the future kwiin-by-pratana.ch) or under a subpath
  * (e.g. a GitHub Pages project site at /KWNbyPratana/).
  *
- * Astro's own routing already accounts for `base` automatically — this
+ * Astro's own routing already accounts for `base` automatically. This
  * helper is only needed for paths we write by hand in href/src attributes.
  */
 export function withBase(path: string): string {

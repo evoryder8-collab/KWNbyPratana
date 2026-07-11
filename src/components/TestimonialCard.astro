@@ -5,6 +5,11 @@ export interface Props {
   testimonial: Testimonial;
 }
 const { testimonial } = Astro.props;
+const quoteKey = testimonial.name === "Rudi"
+  ? "home.testimonialOne"
+  : testimonial.name === "Eliza"
+    ? "home.testimonialTwo"
+    : "home.testimonialThree";
 ---
 
 <figure
@@ -14,7 +19,7 @@ const { testimonial } = Astro.props;
   <span class="relative z-10 font-display text-6xl leading-none text-kwiin-gold/50" aria-hidden="true">
     &ldquo;
   </span>
-  <blockquote class="relative z-10 -mt-8 font-display text-xl leading-relaxed text-kwiin-ivory text-balance">
+  <blockquote class="relative z-10 -mt-8 font-display text-xl leading-relaxed text-kwiin-ivory text-balance" data-i18n={quoteKey}>
     {testimonial.quote}
   </blockquote>
   <figcaption class="relative z-10 flex items-center gap-3 text-xs uppercase tracking-[0.2em] text-kwiin-gold-bright/80">

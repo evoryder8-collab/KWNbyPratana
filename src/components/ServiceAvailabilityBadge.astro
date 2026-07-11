@@ -25,12 +25,12 @@ const hintId = `price-mode-hint-${serviceId}`;
   data-mode={initialMode}
   aria-describedby={hintId}
 >
-  <legend class="sr-only">Preis nach Behandlungsort auswählen</legend>
+  <legend class="sr-only" data-i18n="pricing.legend">Preis nach Behandlungsort auswählen</legend>
 
   <div class="kwiin-price-selector__intro">
-    <span>Preis anzeigen für</span>
+    <span data-i18n="pricing.intro">Preis anzeigen für</span>
     <span class="kwiin-price-selector__action">
-      Antippen zum Wechseln
+      <span data-i18n="pricing.tap">Antippen zum Wechseln</span>
       <svg viewBox="0 0 18 18" fill="none" aria-hidden="true">
         <path d="M5.2 9h7.6M9.8 6l3 3-3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
       </svg>
@@ -55,8 +55,8 @@ const hintId = `price-mode-hint-${serviceId}`;
             <path d="M4.5 20h15M6.5 20V8.5L12 4l5.5 4.5V20M9.2 20v-6h5.6v6" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
           <span class="kwiin-price-selector__copy">
-            <strong>Im Studio</strong>
-            <small>Dübendorf</small>
+            <strong data-i18n="pricing.studio">Im Studio</strong>
+            <small data-i18n="pricing.studioPlace">Dübendorf</small>
           </span>
           <span class="kwiin-price-selector__check" aria-hidden="true">
             <svg viewBox="0 0 16 16" fill="none">
@@ -84,8 +84,8 @@ const hintId = `price-mode-hint-${serviceId}`;
             <path d="M21 15.5h-7.4M16.7 12.4l-3.1 3.1 3.1 3.1" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
           <span class="kwiin-price-selector__copy">
-            <strong>Mobil</strong>
-            <small>bei Ihnen · inkl. Anfahrt</small>
+            <strong data-i18n="pricing.mobile">Mobil</strong>
+            <small data-i18n="pricing.mobilePlace">bei Ihnen · Anfahrt inklusive</small>
           </span>
           <span class="kwiin-price-selector__check" aria-hidden="true">
             <svg viewBox="0 0 16 16" fill="none">
@@ -110,21 +110,22 @@ const hintId = `price-mode-hint-${serviceId}`;
         </svg>
       </span>
       <span>
-        <strong>Anfahrtszone wählen</strong>
-        <small>Wird direkt im Gesamtpreis eingerechnet</small>
+        <strong data-i18n="pricing.zoneTitle">Anfahrtszone wählen</strong>
+        <small data-i18n="pricing.zoneCopy">Die Anfahrt ist direkt im Gesamtpreis enthalten</small>
       </span>
     </div>
 
     <label class="kwiin-distance-panel__select-wrap">
-      <span class="sr-only">Maximale Entfernung für Mobile Spa</span>
-      <select data-mobile-distance-select aria-label="Anfahrtszone für Mobile Spa">
+      <span class="sr-only" data-i18n="pricing.zoneHidden">Maximale Entfernung für Mobile Spa</span>
+      <select data-mobile-distance-select aria-label="Anfahrtszone für Mobile Spa" data-i18n-aria-label="pricing.zoneAria">
         {
           MOBILE_SPA_TRAVEL_ZONES.map((zone) => (
             <option
               value={zone.maxDistanceKm}
               data-travel-fee={zone.feeChf}
+              data-i18n={zone.maxDistanceKm === 15 ? "pricing.zone15" : "pricing.zone30"}
             >
-              Bis {zone.maxDistanceKm} km · + CHF {zone.feeChf}
+              Bis {zone.maxDistanceKm} km · plus CHF {zone.feeChf}
             </option>
           ))
         }
@@ -135,7 +136,7 @@ const hintId = `price-mode-hint-${serviceId}`;
     </label>
   </div>
 
-  <p id={hintId} class="kwiin-price-selector__hint">
+  <p id={hintId} class="kwiin-price-selector__hint" data-i18n="pricing.hint">
     Die Auswahl gilt für alle Behandlungen auf dieser Seite.
   </p>
 </fieldset>

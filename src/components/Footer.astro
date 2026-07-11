@@ -9,7 +9,20 @@ import OrnamentDivider from "./OrnamentDivider.astro";
 
 const whatsappHref = whatsappUrl(WHATSAPP_MESSAGES.studioGeneric);
 const year = new Date().getFullYear();
-const values = ["Eleganz", "Qualität", "Achtsamkeit", "Respekt", "Authentizität"];
+const values = [
+  { label: "Eleganz", key: "values.elegance" },
+  { label: "Qualität", key: "values.quality" },
+  { label: "Achtsamkeit", key: "values.mindfulness" },
+  { label: "Respekt", key: "values.respect" },
+  { label: "Authentizität", key: "values.authenticity" },
+] as const;
+const navKeys = {
+  "/studio": "nav.signature",
+  "/mobile-spa": "nav.mobile",
+  "/services": "nav.services",
+  "/about": "nav.about",
+  "/contact": "nav.contact",
+} as const;
 ---
 
 <footer class="relative z-10 overflow-hidden border-t border-white/5 bg-kwiin-espresso/60">
@@ -23,16 +36,18 @@ const values = ["Eleganz", "Qualität", "Achtsamkeit", "Respekt", "Authentizitä
     <div class="text-center">
       <LotusMark class="mx-auto h-8 w-auto text-kwiin-gold" />
       <p class="mt-6 font-display text-3xl leading-snug text-kwiin-ivory text-balance sm:text-4xl">
-        {closingLines[0]}<br />
-        <span class="kwiin-accent">{closingLines[1]}</span>
+        <span data-i18n="common.closingOne">{closingLines[0]}</span><br />
+        <span class="kwiin-accent" data-i18n="common.closingTwo">{closingLines[1]}</span>
       </p>
       <a
         href={whatsappHref}
         target="_blank"
         rel="noopener noreferrer"
         class="kwiin-magnetic mt-8 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-kwiin-gold to-kwiin-gold-bright px-8 py-3.5 text-sm font-semibold uppercase tracking-[0.08em] text-kwiin-black shadow-[0_0_40px_-10px_rgba(201,163,92,0.5)]"
+        data-i18n-whatsapp="common.studioWhatsApp"
+        data-i18n-aria-label="common.whatsappAppointment"
       >
-        Termin via WhatsApp
+        <span data-i18n="common.whatsappAppointment">Termin via WhatsApp</span>
       </a>
     </div>
 
@@ -44,21 +59,21 @@ const values = ["Eleganz", "Qualität", "Achtsamkeit", "Respekt", "Authentizitä
           <img src={withBase("/assets/kwiin-logo.png")} alt="KWIIN by Pratana Halstrick" class="h-10 w-auto" />
           KWIIN <span class="text-sm italic text-kwiin-gold-bright">by Pratana</span>
         </a>
-        <p class="mt-4 max-w-sm font-display text-lg italic text-kwiin-gold-bright/90">{tagline}</p>
-        <p class="mt-3 max-w-sm text-sm leading-relaxed text-kwiin-soft-grey">
+        <p class="mt-4 max-w-sm font-display text-lg italic text-kwiin-gold-bright/90" data-i18n="common.tagline">{tagline}</p>
+        <p class="mt-3 max-w-sm text-sm leading-relaxed text-kwiin-soft-grey" data-i18n="footer.description">
           Traditionelle thailändische Heilkunst, verbunden mit modernem Luxus und höchster
           Qualität. In Dübendorf und bei Ihnen, in der ganzen Region Zürich.
         </p>
       </div>
 
       <div>
-        <h2 class="text-xs uppercase tracking-[0.2em] text-kwiin-gold-bright/80">Entdecken</h2>
+        <h2 class="text-xs uppercase tracking-[0.2em] text-kwiin-gold-bright/80" data-i18n="footer.explore">Entdecken</h2>
         <ul class="mt-4 flex flex-col gap-3 text-sm text-kwiin-soft-grey">
           {
             navItems.map((item) => (
               <li>
                 <a href={withBase(item.href)} class="transition-colors hover:text-kwiin-gold-bright">
-                  {item.label}
+                  <span data-i18n={navKeys[item.href as keyof typeof navKeys]}>{item.label}</span>
                 </a>
               </li>
             ))
@@ -67,16 +82,16 @@ const values = ["Eleganz", "Qualität", "Achtsamkeit", "Respekt", "Authentizitä
       </div>
 
       <div>
-        <h2 class="text-xs uppercase tracking-[0.2em] text-kwiin-gold-bright/80">Kontakt</h2>
+        <h2 class="text-xs uppercase tracking-[0.2em] text-kwiin-gold-bright/80" data-i18n="footer.contact">Kontakt</h2>
         <ul class="mt-4 flex flex-col gap-3 text-sm text-kwiin-soft-grey">
-          <li>{contact.hours}</li>
-          <li>{contact.languages.join(" · ")}</li>
+          <li data-i18n="common.hours">{contact.hours}</li>
+          <li data-i18n="common.languages">{contact.languages.join(" · ")}</li>
           <li>
             <a href={contact.instagramUrl} target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-kwiin-gold-bright">
               {contact.instagramHandle}
             </a>
           </li>
-          <li>Allgemeiner Kontakt: {contact.generalContactNumber}</li>
+          <li><span data-i18n="footer.general">Allgemeiner Kontakt:</span> {contact.generalContactNumber}</li>
         </ul>
       </div>
     </div>
@@ -86,7 +101,7 @@ const values = ["Eleganz", "Qualität", "Achtsamkeit", "Respekt", "Authentizitä
         values.map((value, i) => (
           <>
             {i > 0 && <span class="text-kwiin-gold/40" aria-hidden="true">·</span>}
-            <span>{value}</span>
+            <span data-i18n={value.key}>{value.label}</span>
           </>
         ))
       }
@@ -94,11 +109,11 @@ const values = ["Eleganz", "Qualität", "Achtsamkeit", "Respekt", "Authentizitä
   </div>
 
   <div class="relative border-t border-white/5 px-5 py-6 lg:px-8">
-    <p class="mx-auto max-w-3xl text-center text-[11px] leading-relaxed text-kwiin-soft-grey/50">
+    <p class="mx-auto max-w-3xl text-center text-[11px] leading-relaxed text-kwiin-soft-grey/50" data-i18n="common.partnerFooter">
       {footerPartnerNote}
     </p>
     <p class="mt-3 text-center text-[11px] text-kwiin-soft-grey/40">
-      &copy; {year} Barbu Media Switzerland. Alle Rechte vorbehalten.
+      &copy; {year} Barbu Media Switzerland. <span data-i18n="common.rights">Alle Rechte vorbehalten.</span>
     </p>
   </div>
 </footer>

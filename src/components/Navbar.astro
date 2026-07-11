@@ -7,6 +7,13 @@ import MobileMenu from "./MobileMenu.astro";
 import LotusMark from "./LotusMark.astro";
 
 const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+const navKeys = {
+  "/studio": "nav.signature",
+  "/mobile-spa": "nav.mobile",
+  "/services": "nav.services",
+  "/about": "nav.about",
+  "/contact": "nav.contact",
+} as const;
 ---
 
 {/*
@@ -30,6 +37,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
   <nav
     class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 transition-[padding] duration-500 lg:px-8"
     aria-label="Hauptnavigation"
+    data-i18n-aria-label="nav.aria"
   >
     <a
       href={withBase("/")}
@@ -55,7 +63,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
                   active ? "text-kwiin-gold-bright" : "text-kwiin-ivory/80"
                 }`}
               >
-                {item.label}
+                <span data-i18n={navKeys[item.href as keyof typeof navKeys]}>{item.label}</span>
               </a>
             </li>
           );
@@ -64,7 +72,13 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
     </ul>
 
     <div class="hidden lg:block">
-      <WhatsAppButton message={WHATSAPP_MESSAGES.studioGeneric} label={navCtaLabel} size="md" />
+      <WhatsAppButton
+        message={WHATSAPP_MESSAGES.studioGeneric}
+        label={navCtaLabel}
+        labelKey="nav.book"
+        messageKey="common.studioWhatsApp"
+        size="md"
+      />
     </div>
 
     <button
@@ -74,6 +88,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
       aria-expanded="false"
       aria-controls="kwiin-mobile-menu"
       aria-label="Menü öffnen"
+      data-i18n-aria-label="nav.menuOpen"
     >
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-5 w-5">
         <path d="M4 8h16M8 12h12M4 16h16" stroke-linecap="round"></path>

@@ -1,191 +1,107 @@
 ---
-/**
- * The KWIIN threshold is one continuous, living object with two worlds.
- *
- * Astro remains the page shell; GSAP supplies pointer-driven depth and the
- * touch launch sequence. The portal is deliberately progressive: without
- * JavaScript both halves remain ordinary links, and reduced-motion visitors
- * get the same composition without perpetual or transitional movement.
- */
 import { withBase } from "../utils/base";
 ---
 
 <div class="kwiin-portal" data-portal>
   <div class="kwiin-portal-shell">
-    <span class="kwiin-portal-ambient kwiin-portal-ambient--gold" aria-hidden="true"></span>
-    <span class="kwiin-portal-ambient kwiin-portal-ambient--violet" aria-hidden="true"></span>
-
     <a
       href={withBase("/studio")}
       class="kwiin-world kwiin-world--studio"
       data-world="studio"
-      aria-label="KWIIN Signature Experience. Preisgekrönte Thai-Massage im Studio in Dübendorf."
+      data-i18n-aria-label="portal.studioAria"
+      aria-label="KWIIN Signature Experience im Studio in Dübendorf"
     >
       <span class="kwiin-world-surface" aria-hidden="true"></span>
-      <span class="kwiin-world-bloom" aria-hidden="true"></span>
-      <span class="kwiin-world-gleam" data-gleam aria-hidden="true"></span>
-      <span class="kwiin-world-grain" aria-hidden="true"></span>
-
-      <span class="kwiin-particle kwiin-particle--1" aria-hidden="true"></span>
-      <span class="kwiin-particle kwiin-particle--2" aria-hidden="true"></span>
-      <span class="kwiin-particle kwiin-particle--3" aria-hidden="true"></span>
-      <span class="kwiin-particle kwiin-particle--4" aria-hidden="true"></span>
-
+      <span class="kwiin-world-light" aria-hidden="true"></span>
       <span class="kwiin-world-index" aria-hidden="true">
-        <span>01</span>
-        <i></i>
-        <span>Im Studio</span>
+        <span>01</span><i></i><span data-i18n="portal.studioIndex">Im Studio</span>
       </span>
 
-      <div class="kwiin-world-float">
+      <span class="kwiin-world-content">
         <span class="kwiin-world-emblem kwiin-world-emblem--studio" aria-hidden="true">
-          <span class="kwiin-emblem-aura"></span>
-          <svg viewBox="0 0 160 160" fill="none" class="kwiin-lotus-orbit">
-            <defs>
-              <radialGradient id="studio-orbit-glow">
-                <stop offset="0" stop-color="#fff6dc" stop-opacity=".95"></stop>
-                <stop offset="1" stop-color="#c9a35c" stop-opacity=".18"></stop>
-              </radialGradient>
-            </defs>
-            <circle class="kwiin-orbit kwiin-orbit--outer" cx="80" cy="80" r="68" stroke="rgba(236,210,155,.46)" stroke-width=".8" stroke-dasharray="1 8" stroke-linecap="round"></circle>
-            <circle class="kwiin-orbit kwiin-orbit--inner" cx="80" cy="80" r="54" stroke="rgba(236,210,155,.22)" stroke-width=".8" stroke-dasharray="2 11" stroke-linecap="round"></circle>
-            <circle class="kwiin-orbit-light" cx="80" cy="12" r="3.2" fill="url(#studio-orbit-glow)"></circle>
-            <g class="kwiin-lotus" transform="translate(44 56)" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M36 2C29 14 29 28 36 40C43 28 43 14 36 2Z"></path>
-              <path d="M36 40C28 35 22 25 21 12C31 18 35 29 36 40Z"></path>
-              <path d="M36 40C44 35 50 25 51 12C41 18 37 29 36 40Z"></path>
-              <path d="M36 40C25 40 13 34 7 24C20 25 31 32 36 40Z"></path>
-              <path d="M36 40C47 40 59 34 65 24C52 25 41 32 36 40Z"></path>
-              <path d="M21 47C28 52 44 52 51 47"></path>
+          <svg viewBox="0 0 120 120" fill="none">
+            <circle class="kwiin-orbit kwiin-orbit--outer" cx="60" cy="60" r="48"></circle>
+            <circle class="kwiin-orbit kwiin-orbit--inner" cx="60" cy="60" r="38"></circle>
+            <circle class="kwiin-orbit-star" cx="60" cy="12" r="2.6"></circle>
+            <g class="kwiin-emblem-lotus" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M60 38c-6 8-6 18 0 27 6-9 6-19 0-27Z"></path>
+              <path d="M60 65c-7-3-12-10-12-19 8 4 11 12 12 19Z"></path>
+              <path d="M60 65c7-3 12-10 12-19-8 4-11 12-12 19Z"></path>
+              <path d="M60 65c-10 0-18-4-23-12 10 1 19 6 23 12Z"></path>
+              <path d="M60 65c10 0 18-4 23-12-10 1-19 6-23 12Z"></path>
+              <path d="M45 73c7 5 23 5 30 0"></path>
             </g>
           </svg>
         </span>
 
-        <span class="kwiin-world-kicker">Studio · Dübendorf</span>
-        <h2 class="kwiin-world-title">
-          <span>KWIIN</span>
-          Signature
-          <em>Experience</em>
-        </h2>
-        <p class="kwiin-world-description">
-          <span class="kwiin-copy-compact">Preisgekrönte Thai-Massage im privaten Studio.</span>
-          <span class="kwiin-copy-full">Preisgekrönte Thai-Massage in einem ruhigen, privaten Studio. Ankommen, loslassen, neue Kraft schöpfen.</span>
-        </p>
+        <span class="kwiin-world-kicker" data-i18n="portal.studioKicker">Studio · Dübendorf</span>
+        <span class="kwiin-world-title">
+          <small>KWIIN</small>
+          <span data-i18n="portal.studioTitle">Signature</span>
+          <em data-i18n="portal.studioAccent">Experience</em>
+        </span>
+        <span class="kwiin-world-description" data-i18n="portal.studioCopy">
+          Persönliche Thai Massage in einem ruhigen Studio.
+        </span>
         <span class="kwiin-world-enter">
-          <span>Eintreten</span>
+          <span data-i18n="portal.enter">Entdecken</span>
           <svg viewBox="0 0 28 12" fill="none" aria-hidden="true">
-            <path d="M1 6h24M20 1l5 5-5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M1 6h24M20 1l5 5-5 5"></path>
           </svg>
         </span>
-        <span class="kwiin-world-detail">Dübendorf · ab 85 CHF</span>
-      </div>
+        <span class="kwiin-world-detail" data-i18n="portal.studioDetail">Dübendorf · ab CHF 85</span>
+      </span>
     </a>
 
     <a
       href={withBase("/mobile-spa")}
       class="kwiin-world kwiin-world--mobile"
       data-world="mobile"
-      aria-label="KWIIN Mobile Spa. Luxus Thai-Massage bei Ihnen zuhause, im Büro oder im Hotel."
+      data-i18n-aria-label="portal.mobileAria"
+      aria-label="KWIIN Mobile Spa bei Ihnen in der Region Zürich"
     >
       <span class="kwiin-world-surface" aria-hidden="true"></span>
-      <span class="kwiin-world-bloom" aria-hidden="true"></span>
-      <span class="kwiin-world-gleam" data-gleam aria-hidden="true"></span>
-      <span class="kwiin-world-grain" aria-hidden="true"></span>
-
-      <span class="kwiin-particle kwiin-particle--1" aria-hidden="true"></span>
-      <span class="kwiin-particle kwiin-particle--2" aria-hidden="true"></span>
-      <span class="kwiin-particle kwiin-particle--3" aria-hidden="true"></span>
-      <span class="kwiin-particle kwiin-particle--4" aria-hidden="true"></span>
-
+      <span class="kwiin-world-light" aria-hidden="true"></span>
       <span class="kwiin-world-index" aria-hidden="true">
-        <span>02</span>
-        <i></i>
-        <span>Bei Ihnen</span>
+        <span data-i18n="portal.mobileIndex">Bei Ihnen</span><i></i><span>02</span>
       </span>
 
-      <div class="kwiin-world-float">
+      <span class="kwiin-world-content">
         <span class="kwiin-world-emblem kwiin-world-emblem--mobile" aria-hidden="true">
-          <span class="kwiin-emblem-aura"></span>
-          <svg viewBox="0 0 180 150" fill="none" class="kwiin-journey">
-            <defs>
-              <linearGradient id="journey-line" x1="16" y1="116" x2="158" y2="54" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#9474bd" stop-opacity=".18"></stop>
-                <stop offset=".5" stop-color="#ecd29b" stop-opacity=".8"></stop>
-                <stop offset="1" stop-color="#fff3cf"></stop>
-              </linearGradient>
-              <radialGradient id="journey-orb">
-                <stop stop-color="#fff8e5"></stop>
-                <stop offset=".35" stop-color="#ecd29b"></stop>
-                <stop offset="1" stop-color="#7c5ea3" stop-opacity="0"></stop>
-              </radialGradient>
-            </defs>
-            <circle class="kwiin-journey-ring kwiin-journey-ring--one" cx="92" cy="77" r="63" stroke="rgba(159,126,201,.25)" stroke-width=".8" stroke-dasharray="1 9" stroke-linecap="round"></circle>
-            <circle class="kwiin-journey-ring kwiin-journey-ring--two" cx="92" cy="77" r="49" stroke="rgba(236,210,155,.14)" stroke-width=".8" stroke-dasharray="2 12" stroke-linecap="round"></circle>
-            <path class="kwiin-journey-path" d="M15 116C48 92 76 124 109 92C123 79 133 72 146 70" stroke="url(#journey-line)" stroke-width="1.5" stroke-linecap="round"></path>
-            <circle class="kwiin-journey-light kwiin-journey-light--halo" cx="15" cy="116" r="10" fill="url(#journey-orb)"></circle>
-            <circle class="kwiin-journey-light" cx="15" cy="116" r="2.6" fill="#fff3cf"></circle>
-            <g class="kwiin-pavilion" stroke="rgba(255,239,198,.92)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M128 67l18-16 18 16"></path>
-              <path d="M133 66v27h26V66"></path>
-              <path d="M143 93V81h7v12"></path>
-              <path d="M146 51v-7m-3.5 3.5h7"></path>
+          <svg viewBox="0 0 120 120" fill="none">
+            <circle class="kwiin-mobile-ring kwiin-mobile-ring--outer" cx="60" cy="60" r="48"></circle>
+            <circle class="kwiin-mobile-ring kwiin-mobile-ring--inner" cx="60" cy="60" r="38"></circle>
+            <path class="kwiin-route" d="M24 76c13-16 27 8 41-7 8-9 14-16 24-17"></path>
+            <circle class="kwiin-route-signal" cx="24" cy="76" r="3"></circle>
+            <g class="kwiin-home" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m77 53 13-11 13 11"></path>
+              <path d="M81 52v20h18V52"></path>
+              <path d="M88 72v-8h5v8"></path>
+              <path d="M90 42v-5m-3 2.5h6"></path>
             </g>
           </svg>
         </span>
 
-        <span class="kwiin-world-kicker">Bei Ihnen · Region Zürich</span>
-        <h2 class="kwiin-world-title">
-          <span>KWIIN</span>
-          Mobile
-          <em>Spa</em>
-        </h2>
-        <p class="kwiin-world-description">
-          <span class="kwiin-copy-compact">Luxusmassage bei Ihnen – zuhause, im Büro oder Hotel.</span>
-          <span class="kwiin-copy-full">Dieselbe Qualität, dieselbe Ruhe, direkt bei Ihnen. Zuhause, im Büro oder im Hotel.</span>
-        </p>
+        <span class="kwiin-world-kicker" data-i18n="portal.mobileKicker">Bei Ihnen · Region Zürich</span>
+        <span class="kwiin-world-title">
+          <small>KWIIN</small>
+          <span data-i18n="portal.mobileTitle">Mobile</span>
+          <em data-i18n="portal.mobileAccent">Spa</em>
+        </span>
+        <span class="kwiin-world-description" data-i18n="portal.mobileCopy">
+          Ihre Massage zuhause, im Büro oder im Hotel.
+        </span>
         <span class="kwiin-world-enter">
-          <span>Eintreten</span>
+          <span data-i18n="portal.enter">Entdecken</span>
           <svg viewBox="0 0 28 12" fill="none" aria-hidden="true">
-            <path d="M1 6h24M20 1l5 5-5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M1 6h24M20 1l5 5-5 5"></path>
           </svg>
         </span>
-        <span class="kwiin-world-detail">Region Zürich · alles inklusive</span>
-      </div>
+        <span class="kwiin-world-detail" data-i18n="portal.mobileDetail">Region Zürich · Anfahrt wählbar</span>
+      </span>
     </a>
 
-    <div class="kwiin-threshold" aria-hidden="true">
-      <span class="kwiin-threshold-veil"></span>
-      <svg viewBox="0 0 120 800" preserveAspectRatio="none" class="kwiin-threshold-line">
-        <defs>
-          <linearGradient id="threshold-gold" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#c9a35c" stop-opacity="0"></stop>
-            <stop offset=".18" stop-color="#ecd29b" stop-opacity=".42"></stop>
-            <stop offset=".5" stop-color="#fff4d4" stop-opacity=".85"></stop>
-            <stop offset=".82" stop-color="#9b78c7" stop-opacity=".38"></stop>
-            <stop offset="1" stop-color="#7c5ea3" stop-opacity="0"></stop>
-          </linearGradient>
-        </defs>
-        <path d="M60 0C29 96 91 180 58 278C30 365 91 447 60 538C32 620 87 711 60 800" stroke="url(#threshold-gold)" stroke-width="1.15"></path>
-        <path class="kwiin-threshold-pulse" d="M60 0C29 96 91 180 58 278C30 365 91 447 60 538C32 620 87 711 60 800" stroke="rgba(255,244,212,.9)" stroke-width="2"></path>
-      </svg>
-      <span class="kwiin-threshold-seal">
-        <span class="kwiin-seal-halo"></span>
-        <svg viewBox="0 0 100 100" class="kwiin-seal-orbit">
-          <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(236,210,155,.42)" stroke-width=".8" stroke-dasharray="1 5"></circle>
-          <circle cx="50" cy="50" r="36" fill="rgba(11,9,8,.78)" stroke="rgba(236,210,155,.26)" stroke-width=".8"></circle>
-        </svg>
-        <svg viewBox="0 0 64 44" fill="none" class="kwiin-seal-lotus">
-          <g stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M32 3C26.5 12 26.5 24 32 34C37.5 24 37.5 12 32 3Z"></path>
-            <path d="M32 34C25 31 20 23 19 13C27 17 31 26 32 34Z"></path>
-            <path d="M32 34C39 31 44 23 45 13C37 17 33 26 32 34Z"></path>
-            <path d="M32 34C22 34 13 29 8 21C19 22 28 28 32 34Z"></path>
-            <path d="M32 34C42 34 51 29 56 21C45 22 36 28 32 34Z"></path>
-          </g>
-        </svg>
-      </span>
-    </div>
-
+    <span class="kwiin-portal-seam" aria-hidden="true"></span>
     <span class="kwiin-portal-frame" aria-hidden="true"></span>
   </div>
 </div>
@@ -194,1045 +110,411 @@ import { withBase } from "../utils/base";
   .kwiin-portal {
     --portal-radius: 1.8rem;
     position: relative;
-    perspective: 1500px;
-    perspective-origin: 50% 42%;
-    padding-block: 0.35rem 0.85rem;
-  }
-
-  /* Preserve the living portal while it is on-screen, but stop all of its
-     perpetual compositing work once it is well outside the viewport. */
-  .kwiin-portal.is-dormant *,
-  .kwiin-portal.is-dormant *::before,
-  .kwiin-portal.is-dormant *::after {
-    animation-play-state: paused !important;
+    padding-block: 0.35rem 0.75rem;
   }
 
   .kwiin-portal-shell {
     position: relative;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    min-height: clamp(34rem, 74svh, 40rem);
+    min-height: clamp(32rem, 70svh, 39rem);
+    overflow: hidden;
     border-radius: var(--portal-radius);
-    background:
-      radial-gradient(70% 54% at 50% 45%, rgba(226, 195, 137, 0.075), transparent 65%),
-      #0c0909;
+    background: #0b0809;
     box-shadow:
       0 1px 0 rgba(255, 255, 255, 0.06) inset,
-      0 45px 100px -42px rgba(0, 0, 0, 0.92),
-      0 0 90px -64px rgba(201, 163, 92, 0.62);
+      0 34px 82px -40px rgba(0, 0, 0, 0.96),
+      0 0 58px -46px rgba(201, 163, 92, 0.7);
     isolation: isolate;
-    transform-style: preserve-3d;
-    transition:
-      grid-template-columns 0.9s var(--ease-silk),
-      box-shadow 0.9s var(--ease-silk);
-    animation: kwiin-shell-levitate 9s ease-in-out infinite;
-  }
-
-  .kwiin-portal-frame {
-    position: absolute;
-    inset: 0;
-    z-index: 40;
-    border: 1px solid rgba(236, 210, 155, 0.18);
-    border-radius: inherit;
-    box-shadow:
-      0 0 0 1px rgba(255, 255, 255, 0.018) inset,
-      0 0 0 9px rgba(201, 163, 92, 0.018) inset;
-    pointer-events: none;
-  }
-
-  .kwiin-portal-frame::before,
-  .kwiin-portal-frame::after {
-    content: "";
-    position: absolute;
-    top: 1.1rem;
-    bottom: 1.1rem;
-    width: 1px;
-    opacity: 0.42;
-  }
-
-  .kwiin-portal-frame::before {
-    left: 1.05rem;
-    background: linear-gradient(180deg, transparent, rgba(236, 210, 155, 0.5) 12%, transparent 42%);
-  }
-
-  .kwiin-portal-frame::after {
-    right: 1.05rem;
-    background: linear-gradient(0deg, transparent, rgba(155, 120, 199, 0.5) 12%, transparent 42%);
-  }
-
-  .kwiin-portal-ambient {
-    position: absolute;
-    z-index: -1;
-    width: 44%;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    filter: blur(70px);
-    opacity: 0.2;
-    pointer-events: none;
-    animation: kwiin-ambient-drift 13s ease-in-out infinite alternate;
-  }
-
-  .kwiin-portal-ambient--gold {
-    left: -12%;
-    top: 3%;
-    background: rgba(201, 163, 92, 0.42);
-  }
-
-  .kwiin-portal-ambient--violet {
-    right: -12%;
-    bottom: 0;
-    background: rgba(124, 94, 163, 0.42);
-    animation-delay: -6s;
-    animation-direction: alternate-reverse;
+    contain: layout paint;
   }
 
   .kwiin-world {
-    --mx: 50%;
-    --my: 38%;
     position: relative;
     z-index: 2;
     display: flex;
     min-width: 0;
+    overflow: hidden;
     align-items: stretch;
     justify-content: center;
-    overflow: hidden;
-    padding: 3.8rem 0.65rem 1.45rem;
+    padding: 3rem clamp(0.55rem, 2.4vw, 1.35rem) 1.3rem;
     color: var(--color-kwiin-ivory);
     text-align: center;
     text-decoration: none;
-    transform-style: preserve-3d;
-    will-change: transform;
-    transition:
-      filter 0.8s var(--ease-silk),
-      opacity 0.8s var(--ease-silk),
-      border-radius 0.8s var(--ease-silk);
-  }
-
-  .kwiin-world--studio {
-    border-radius: var(--portal-radius) 0 0 var(--portal-radius);
-    transform-origin: 100% 50%;
-  }
-
-  .kwiin-world--mobile {
-    border-radius: 0 var(--portal-radius) var(--portal-radius) 0;
-    transform-origin: 0 50%;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    contain: layout paint style;
   }
 
   .kwiin-world:focus-visible {
-    z-index: 30;
-    outline: 1px solid rgba(255, 242, 208, 0.92);
-    outline-offset: -0.55rem;
-    border-radius: var(--portal-radius);
+    z-index: 5;
+    outline: 1px solid rgba(255, 244, 214, 0.9);
+    outline-offset: -0.5rem;
   }
 
   .kwiin-world-surface,
-  .kwiin-world-bloom,
-  .kwiin-world-gleam,
-  .kwiin-world-grain {
+  .kwiin-world-light {
     position: absolute;
     inset: 0;
     pointer-events: none;
   }
 
   .kwiin-world-surface {
-    z-index: -4;
-    transform: scale(1.035);
-    transition: transform 1.2s var(--ease-silk), filter 0.9s var(--ease-silk);
+    z-index: -2;
+    transform: scale(1.02);
+    transition: transform 0.8s var(--ease-silk), filter 0.8s var(--ease-silk);
   }
 
   .kwiin-world--studio .kwiin-world-surface {
     background:
-      radial-gradient(90% 55% at 38% 27%, rgba(233, 200, 133, 0.2), transparent 56%),
-      radial-gradient(90% 80% at 90% 65%, rgba(138, 90, 38, 0.1), transparent 68%),
-      linear-gradient(155deg, #24190f 0%, #120d09 52%, #090708 100%);
+      radial-gradient(110% 54% at 35% 19%, rgba(232, 196, 125, 0.21), transparent 58%),
+      linear-gradient(154deg, #271b10 0%, #130d09 50%, #080607 100%);
   }
 
   .kwiin-world--mobile .kwiin-world-surface {
     background:
-      radial-gradient(86% 60% at 62% 27%, rgba(144, 105, 190, 0.21), transparent 56%),
-      radial-gradient(90% 80% at 12% 67%, rgba(91, 56, 130, 0.13), transparent 67%),
-      linear-gradient(205deg, #21172d 0%, #120d18 52%, #090708 100%);
+      radial-gradient(110% 54% at 65% 19%, rgba(151, 111, 196, 0.22), transparent 58%),
+      linear-gradient(206deg, #241830 0%, #130d19 50%, #080607 100%);
   }
 
-  .kwiin-world-bloom {
-    z-index: -3;
-    inset: 11% 4% 20%;
+  .kwiin-world-light {
+    z-index: -1;
+    inset: 14% 6% 26%;
     border-radius: 50%;
-    opacity: 0.58;
-    filter: blur(24px);
-    transform-origin: 50% 40%;
-    animation: kwiin-bloom-breathe 6.8s ease-in-out infinite;
-    transition: opacity 0.8s var(--ease-silk);
+    opacity: 0.55;
+    transform: scale(0.9);
+    animation: kwiin-world-breathe 7.5s ease-in-out infinite;
   }
 
-  .kwiin-world--studio .kwiin-world-bloom {
-    background: radial-gradient(circle, rgba(222, 183, 105, 0.3), transparent 68%);
+  .kwiin-world--studio .kwiin-world-light {
+    background: radial-gradient(circle, rgba(214, 172, 91, 0.22), transparent 68%);
   }
 
-  .kwiin-world--mobile .kwiin-world-bloom {
-    background: radial-gradient(circle, rgba(127, 91, 171, 0.33), transparent 68%);
-    animation-delay: -3.2s;
-    animation-duration: 7.7s;
-  }
-
-  .kwiin-world-gleam {
-    z-index: 4;
-    opacity: 0.14;
-    mix-blend-mode: screen;
-    background: radial-gradient(
-      260px circle at var(--mx) var(--my),
-      rgba(255, 247, 226, 0.3),
-      rgba(236, 210, 155, 0.05) 30%,
-      transparent 68%
-    );
-    transition: opacity 0.7s var(--ease-silk);
-  }
-
-  .kwiin-world-grain {
-    z-index: 5;
-    opacity: 0.08;
-    mix-blend-mode: soft-light;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.62' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
+  .kwiin-world--mobile .kwiin-world-light {
+    background: radial-gradient(circle, rgba(128, 88, 176, 0.25), transparent 68%);
+    animation-delay: -3.75s;
   }
 
   .kwiin-world-index {
     position: absolute;
-    top: 1.25rem;
-    z-index: 8;
+    top: 1.15rem;
+    z-index: 3;
     display: flex;
+    min-width: 0;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.42rem;
+    color: rgba(236, 210, 155, 0.62);
     font-size: 0.48rem;
-    letter-spacing: 0.17em;
+    letter-spacing: 0.15em;
+    line-height: 1;
     text-transform: uppercase;
-    color: rgba(236, 210, 155, 0.58);
-    transform: translateZ(26px);
+    white-space: nowrap;
   }
 
-  .kwiin-world--studio .kwiin-world-index {
-    left: 1.25rem;
-  }
-
+  .kwiin-world--studio .kwiin-world-index { left: 1rem; }
   .kwiin-world--mobile .kwiin-world-index {
-    right: 1.25rem;
-    flex-direction: row-reverse;
-    color: rgba(202, 175, 232, 0.62);
+    right: 1rem;
+    color: rgba(212, 183, 238, 0.66);
   }
 
   .kwiin-world-index i {
-    width: 0.9rem;
+    width: clamp(0.65rem, 3vw, 1.35rem);
     height: 1px;
+    flex: none;
     background: currentColor;
   }
 
-  .kwiin-world-float {
+  .kwiin-world-content {
     position: relative;
-    z-index: 7;
+    z-index: 2;
     display: flex;
     width: 100%;
     min-width: 0;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    transform: translateZ(52px);
-    transform-style: preserve-3d;
-    animation: kwiin-content-float 7.4s ease-in-out infinite;
-    transition: opacity 0.75s var(--ease-silk), filter 0.75s var(--ease-silk);
-  }
-
-  .kwiin-world--mobile .kwiin-world-float {
-    animation-delay: -3.7s;
-    animation-duration: 8.2s;
+    transition: transform 0.65s var(--ease-silk), opacity 0.65s var(--ease-silk);
   }
 
   .kwiin-world-emblem {
     position: relative;
-    display: grid;
-    width: clamp(5.6rem, 25vw, 7rem);
+    display: block;
+    width: clamp(5rem, 22vw, 7.5rem);
+    max-width: 70%;
     aspect-ratio: 1;
-    place-items: center;
     color: var(--color-kwiin-gold-bright);
-    transform: translateZ(44px);
-    filter: drop-shadow(0 16px 26px rgba(0, 0, 0, 0.42));
   }
 
-  .kwiin-world-emblem--mobile {
-    width: clamp(6.3rem, 28vw, 7.6rem);
-  }
+  .kwiin-world-emblem--mobile { color: #e2c6f5; }
 
   .kwiin-world-emblem svg {
-    position: relative;
-    z-index: 2;
+    display: block;
     width: 100%;
     height: 100%;
-    overflow: visible;
+    overflow: hidden;
   }
 
-  .kwiin-emblem-aura {
-    position: absolute;
-    inset: 18%;
-    border-radius: 50%;
-    background: rgba(227, 190, 115, 0.3);
-    filter: blur(18px);
-    animation: kwiin-emblem-breathe 5.2s ease-in-out infinite;
+  .kwiin-orbit,
+  .kwiin-mobile-ring {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    transform-origin: 60px 60px;
   }
 
-  .kwiin-world-emblem--mobile .kwiin-emblem-aura {
-    background: rgba(128, 91, 172, 0.38);
-    animation-delay: -2.4s;
+  .kwiin-orbit--outer,
+  .kwiin-mobile-ring--outer {
+    opacity: 0.33;
+    stroke-width: 0.75;
+    stroke-dasharray: 1 7;
+    animation: kwiin-orbit 46s linear infinite;
   }
 
-  .kwiin-orbit {
-    transform-origin: 80px 80px;
-    animation: kwiin-orbit 48s linear infinite;
+  .kwiin-orbit--inner,
+  .kwiin-mobile-ring--inner {
+    opacity: 0.16;
+    stroke-width: 0.7;
+    stroke-dasharray: 2 10;
+    animation: kwiin-orbit 64s linear infinite reverse;
   }
 
-  .kwiin-orbit--inner {
-    animation-duration: 67s;
-    animation-direction: reverse;
+  .kwiin-orbit-star {
+    fill: #fff2c8;
+    transform-origin: 60px 60px;
+    animation: kwiin-orbit 17s linear infinite;
   }
 
-  .kwiin-orbit-light {
-    transform-origin: 80px 80px;
-    animation: kwiin-orbit 19s linear infinite;
-    filter: drop-shadow(0 0 7px rgba(255, 238, 190, 0.9));
+  .kwiin-emblem-lotus,
+  .kwiin-home {
+    filter: drop-shadow(0 0 8px rgba(236, 210, 155, 0.32));
   }
 
-  .kwiin-lotus {
-    filter: drop-shadow(0 0 10px rgba(236, 210, 155, 0.42));
-    animation: kwiin-lotus-breathe 5.4s ease-in-out infinite;
-    transform-origin: 36px 31px;
+  .kwiin-route {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.25;
+    stroke-linecap: round;
+    stroke-dasharray: 4 7;
+    opacity: 0.65;
+    animation: kwiin-route-flow 3.6s linear infinite;
   }
 
-  .kwiin-journey-ring {
-    transform-origin: 92px 77px;
-    animation: kwiin-orbit 58s linear infinite;
-  }
-
-  .kwiin-journey-ring--two {
-    animation-duration: 73s;
-    animation-direction: reverse;
-  }
-
-  .kwiin-journey-path {
-    stroke-dasharray: 5 10;
-    animation: kwiin-journey-dash 2.8s linear infinite;
-  }
-
-  .kwiin-journey-light {
-    offset-path: path("M15 116C48 92 76 124 109 92C123 79 133 72 146 70");
-    animation: kwiin-travel-home 5.8s var(--ease-silk) infinite;
-    filter: drop-shadow(0 0 8px rgba(255, 239, 198, 0.92));
-  }
-
-  .kwiin-journey-light--halo {
-    opacity: 0.55;
-    filter: blur(2px);
-  }
-
-  .kwiin-pavilion {
-    filter: drop-shadow(0 0 9px rgba(236, 210, 155, 0.34));
-    animation: kwiin-pavilion-breathe 5.8s ease-in-out infinite;
-    transform-origin: 146px 72px;
+  .kwiin-route-signal {
+    fill: #fff1c6;
+    offset-path: path("M24 76c13-16 27 8 41-7 8-9 14-16 24-17");
+    animation: kwiin-route-signal 5.8s ease-in-out infinite;
   }
 
   .kwiin-world-kicker {
-    margin-top: 0.7rem;
-    font-size: clamp(0.46rem, 1.9vw, 0.58rem);
-    letter-spacing: clamp(0.15em, 0.85vw, 0.26em);
-    line-height: 1.5;
+    max-width: 100%;
+    margin-top: 0.5rem;
+    color: rgba(236, 210, 155, 0.75);
+    font-size: clamp(0.45rem, 1.8vw, 0.58rem);
+    letter-spacing: clamp(0.11em, 0.65vw, 0.22em);
+    line-height: 1.45;
     text-transform: uppercase;
-    color: rgba(236, 210, 155, 0.77);
   }
 
-  .kwiin-world--mobile .kwiin-world-kicker {
-    color: rgba(221, 196, 241, 0.76);
-  }
+  .kwiin-world--mobile .kwiin-world-kicker { color: rgba(219, 190, 241, 0.76); }
 
   .kwiin-world-title {
-    margin-top: 0.65rem;
-    max-width: 100%;
+    display: flex;
+    min-width: 0;
+    margin-top: 0.7rem;
+    flex-direction: column;
+    align-items: center;
     font-family: var(--font-display);
-    font-size: clamp(1.45rem, 7.1vw, 1.82rem);
-    font-weight: 500;
-    line-height: 0.92;
-    letter-spacing: -0.015em;
-    color: var(--color-kwiin-ivory);
-    text-wrap: balance;
-    transform: translateZ(18px);
+    font-size: clamp(1.45rem, 6vw, 2.35rem);
+    font-weight: 400;
+    line-height: 0.9;
   }
 
-  .kwiin-world-title > span {
-    display: block;
-    margin-bottom: 0.45rem;
+  .kwiin-world-title small {
+    margin-bottom: 0.35rem;
+    color: rgba(236, 210, 155, 0.64);
     font-family: var(--font-body);
-    font-size: 0.28em;
-    font-weight: 400;
-    letter-spacing: 0.43em;
+    font-size: 0.46rem;
+    font-style: normal;
+    letter-spacing: 0.31em;
     line-height: 1;
-    text-transform: uppercase;
-    color: rgba(236, 210, 155, 0.7);
   }
 
   .kwiin-world-title em {
-    display: block;
-    margin-top: 0.12em;
-    font-weight: 500;
     color: var(--color-kwiin-gold-bright);
+    font-style: italic;
   }
 
-  .kwiin-world--mobile .kwiin-world-title em {
-    color: #e0c9f2;
-  }
+  .kwiin-world--mobile .kwiin-world-title em { color: #d8b8ef; }
 
   .kwiin-world-description {
-    min-height: 4.65em;
-    margin-top: 1rem;
-    max-width: 10rem;
-    font-size: clamp(0.62rem, 2.65vw, 0.72rem);
+    display: block;
+    width: min(100%, 16rem);
+    margin-top: 1.15rem;
+    color: rgba(232, 221, 201, 0.65);
+    font-size: clamp(0.68rem, 2.4vw, 0.82rem);
     font-weight: 300;
     line-height: 1.55;
-    color: rgba(232, 221, 201, 0.72);
-    text-wrap: balance;
-  }
-
-  .kwiin-copy-full {
-    display: none;
   }
 
   .kwiin-world-enter {
     display: inline-flex;
     min-width: 0;
+    margin-top: 1.35rem;
     align-items: center;
     justify-content: center;
     gap: 0.55rem;
-    margin-top: 1rem;
-    border: 1px solid rgba(236, 210, 155, 0.27);
+    padding: 0.68rem clamp(0.75rem, 3vw, 1.2rem);
+    border: 1px solid rgba(236, 210, 155, 0.43);
     border-radius: 999px;
-    padding: 0.62rem 0.72rem;
-    font-size: clamp(0.5rem, 2vw, 0.62rem);
-    letter-spacing: 0.16em;
+    color: rgba(247, 232, 201, 0.92);
+    font-size: clamp(0.5rem, 1.8vw, 0.62rem);
+    letter-spacing: clamp(0.1em, 0.6vw, 0.19em);
     line-height: 1;
     text-transform: uppercase;
-    color: var(--color-kwiin-gold-bright);
-    background: rgba(8, 6, 6, 0.18);
-    box-shadow: 0 0 0 rgba(201, 163, 92, 0);
-    backdrop-filter: blur(8px);
-    transition:
-      gap 0.55s var(--ease-silk),
-      border-color 0.55s var(--ease-silk),
-      background 0.55s var(--ease-silk),
-      box-shadow 0.55s var(--ease-silk);
+    white-space: nowrap;
+    transition: background 0.45s var(--ease-silk), border-color 0.45s var(--ease-silk);
   }
 
+  .kwiin-world--mobile .kwiin-world-enter { border-color: rgba(207, 172, 235, 0.4); }
+
   .kwiin-world-enter svg {
-    width: 1.2rem;
+    width: clamp(1rem, 4vw, 1.45rem);
     flex: none;
-    transition: transform 0.55s var(--ease-silk);
+  }
+
+  .kwiin-world-enter path {
+    stroke: currentColor;
+    stroke-width: 1.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
   .kwiin-world-detail {
-    margin-top: 0.8rem;
-    max-width: 9rem;
-    font-size: clamp(0.43rem, 1.7vw, 0.52rem);
-    letter-spacing: 0.13em;
-    line-height: 1.45;
+    margin-top: 1.05rem;
+    color: rgba(186, 177, 164, 0.43);
+    font-size: clamp(0.43rem, 1.55vw, 0.54rem);
+    letter-spacing: 0.1em;
+    line-height: 1.4;
     text-transform: uppercase;
-    color: rgba(186, 177, 164, 0.48);
   }
 
-  .kwiin-particle {
+  .kwiin-portal-seam {
     position: absolute;
-    z-index: 1;
-    width: 2px;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: #f6dfac;
-    box-shadow: 0 0 9px rgba(236, 210, 155, 0.8);
-    opacity: 0.46;
-    pointer-events: none;
-    animation: kwiin-particle-rise 8s ease-in-out infinite;
-  }
-
-  .kwiin-world--mobile .kwiin-particle {
-    background: #d8bcf0;
-    box-shadow: 0 0 9px rgba(170, 129, 214, 0.82);
-  }
-
-  .kwiin-particle--1 { left: 17%; top: 24%; animation-delay: -1s; }
-  .kwiin-particle--2 { right: 16%; top: 37%; animation-delay: -5.1s; animation-duration: 10s; }
-  .kwiin-particle--3 { left: 24%; bottom: 22%; animation-delay: -3.8s; animation-duration: 9s; }
-  .kwiin-particle--4 { right: 24%; bottom: 13%; animation-delay: -6.4s; animation-duration: 11s; }
-
-  .kwiin-threshold {
-    position: absolute;
-    inset-block: 0;
+    inset-block: 1.15rem;
     left: 50%;
-    z-index: 22;
-    width: clamp(4rem, 18vw, 6rem);
+    z-index: 8;
+    width: 1px;
+    background: linear-gradient(180deg, transparent, rgba(236, 210, 155, 0.28) 18%, rgba(210, 179, 236, 0.3) 82%, transparent);
     pointer-events: none;
-    transform: translateX(-50%) translateZ(100px);
-    transform-style: preserve-3d;
   }
 
-  .kwiin-threshold-veil {
-    position: absolute;
-    inset: 2% 0;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(201, 163, 92, 0.04) 32%,
-      rgba(236, 210, 155, 0.1) 50%,
-      rgba(124, 94, 163, 0.05) 68%,
-      transparent
-    );
-    filter: blur(14px);
-    animation: kwiin-threshold-breathe 5.4s ease-in-out infinite;
-  }
-
-  .kwiin-threshold-line {
+  .kwiin-portal-frame {
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-    opacity: 0.55;
+    z-index: 9;
+    border: 1px solid rgba(236, 210, 155, 0.18);
+    border-radius: inherit;
+    box-shadow: 0 0 0 8px rgba(201, 163, 92, 0.018) inset;
+    pointer-events: none;
   }
 
-  .kwiin-threshold-pulse {
-    fill: none;
-    stroke-dasharray: 34 766;
-    stroke-dashoffset: 0;
-    filter: drop-shadow(0 0 5px rgba(255, 238, 196, 0.8));
-    animation: kwiin-threshold-travel 5.6s ease-in-out infinite;
-  }
+  .kwiin-portal.is-dormant * { animation-play-state: paused !important; }
 
-  .kwiin-threshold-seal {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    display: grid;
-    width: clamp(3.2rem, 14vw, 4.2rem);
-    aspect-ratio: 1;
-    place-items: center;
-    color: var(--color-kwiin-gold-bright);
-    transform: translate(-50%, -50%) translateZ(65px);
-    filter: drop-shadow(0 18px 25px rgba(0, 0, 0, 0.65));
-    transition: transform 0.8s var(--ease-silk), opacity 0.6s var(--ease-silk);
-  }
-
-  .kwiin-seal-halo {
-    position: absolute;
-    inset: -25%;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(225, 191, 123, 0.2), transparent 68%);
-    filter: blur(8px);
-    animation: kwiin-emblem-breathe 4.8s ease-in-out infinite;
-  }
-
-  .kwiin-seal-orbit {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    animation: kwiin-orbit 26s linear infinite;
-  }
-
-  .kwiin-seal-lotus {
-    position: relative;
-    z-index: 2;
-    width: 42%;
-    filter: drop-shadow(0 0 7px rgba(236, 210, 155, 0.48));
-  }
-
-  .kwiin-portal[data-active="studio"] .kwiin-world--mobile .kwiin-world-float,
-  .kwiin-portal[data-active="mobile"] .kwiin-world--studio .kwiin-world-float {
-    opacity: 0.5;
-    filter: blur(0.35px) saturate(0.72);
-  }
-
-  .kwiin-portal[data-active="studio"] .kwiin-world--mobile .kwiin-world-surface,
-  .kwiin-portal[data-active="mobile"] .kwiin-world--studio .kwiin-world-surface {
-    filter: brightness(0.66) saturate(0.7);
-  }
-
-  .kwiin-portal[data-active="studio"] .kwiin-world--studio .kwiin-world-gleam,
-  .kwiin-portal[data-active="mobile"] .kwiin-world--mobile .kwiin-world-gleam {
-    opacity: 0.72;
-  }
-
-  .kwiin-portal[data-active="studio"] .kwiin-world--studio .kwiin-world-bloom,
-  .kwiin-portal[data-active="mobile"] .kwiin-world--mobile .kwiin-world-bloom {
-    opacity: 1;
-  }
-
-  .kwiin-portal[data-active="studio"] .kwiin-world--studio .kwiin-world-enter,
-  .kwiin-portal[data-active="mobile"] .kwiin-world--mobile .kwiin-world-enter {
-    gap: 0.85rem;
-    border-color: rgba(236, 210, 155, 0.65);
-    background: rgba(236, 210, 155, 0.08);
-    box-shadow: 0 0 32px -13px rgba(236, 210, 155, 0.72);
-  }
-
-  .kwiin-portal[data-active="studio"] .kwiin-world--studio .kwiin-world-enter svg,
-  .kwiin-portal[data-active="mobile"] .kwiin-world--mobile .kwiin-world-enter svg {
-    transform: translateX(0.22rem);
-  }
-
-  .kwiin-portal.is-launching .kwiin-portal-frame {
-    border-color: rgba(255, 241, 204, 0.48);
-    box-shadow:
-      0 0 0 1px rgba(255, 255, 255, 0.06) inset,
-      0 0 80px -20px rgba(236, 210, 155, 0.55);
-  }
-
-  @media (hover: hover) and (pointer: fine) and (min-width: 48rem) {
-    .kwiin-portal[data-active="studio"] .kwiin-portal-shell {
-      grid-template-columns: 1.055fr 0.945fr;
+  @media (hover: hover) and (pointer: fine) {
+    .kwiin-portal-shell:has(.kwiin-world:hover) .kwiin-world:not(:hover) .kwiin-world-content {
+      opacity: 0.66;
+      transform: scale(0.985);
     }
 
-    .kwiin-portal[data-active="mobile"] .kwiin-portal-shell {
-      grid-template-columns: 0.945fr 1.055fr;
+    .kwiin-world:hover .kwiin-world-content {
+      transform: translateY(-0.45rem) scale(1.018);
+    }
+
+    .kwiin-world:hover .kwiin-world-surface { transform: scale(1.055); }
+    .kwiin-world:hover .kwiin-world-enter {
+      border-color: rgba(255, 240, 202, 0.72);
+      background: rgba(236, 210, 155, 0.07);
     }
   }
 
-  @media (min-width: 40rem) {
-    .kwiin-portal {
-      --portal-radius: 2.65rem;
-    }
+  .kwiin-world:active .kwiin-world-content {
+    transform: scale(0.985);
+    transition-duration: 0.1s;
+  }
+
+  @media (max-width: 30rem) {
+    .kwiin-portal { --portal-radius: 1.45rem; }
 
     .kwiin-portal-shell {
-      min-height: min(74vh, 47rem);
+      min-height: min(35rem, 72svh);
+      max-height: 35rem;
     }
 
+    .kwiin-world { padding-inline: 0.58rem; }
+    .kwiin-world-index { letter-spacing: 0.1em; }
+    .kwiin-world--studio .kwiin-world-index { left: 0.7rem; }
+    .kwiin-world--mobile .kwiin-world-index { right: 0.7rem; }
+    .kwiin-world-description { min-height: 3.2em; }
+  }
+
+  @media (hover: none), (pointer: coarse) {
     .kwiin-world {
-      padding: 4.8rem 2rem 3rem;
+      contain: layout paint;
+      will-change: auto;
     }
 
-    .kwiin-world-index {
-      top: 1.8rem;
-      gap: 0.7rem;
-      font-size: 0.56rem;
-      letter-spacing: 0.24em;
-    }
-
-    .kwiin-world--studio .kwiin-world-index {
-      left: 2rem;
-    }
-
-    .kwiin-world--mobile .kwiin-world-index {
-      right: 2rem;
-    }
-
-    .kwiin-world-index i {
-      width: 1.8rem;
-    }
-
-    .kwiin-world-emblem {
-      width: clamp(9.5rem, 16vw, 12rem);
-    }
-
-    .kwiin-world-emblem--mobile {
-      width: clamp(10.5rem, 18vw, 13rem);
-    }
-
-    .kwiin-world-kicker {
-      margin-top: 0.9rem;
-      font-size: 0.64rem;
-      letter-spacing: 0.3em;
-    }
-
-    .kwiin-world-title {
-      margin-top: 0.9rem;
-      font-size: clamp(2.8rem, 4.7vw, 4.2rem);
-      line-height: 0.9;
-    }
-
-    .kwiin-world-title > span {
-      margin-bottom: 0.55rem;
-    }
-
-    .kwiin-world-description {
-      min-height: 0;
-      margin-top: 1.45rem;
-      max-width: 24rem;
-      font-size: 0.88rem;
-      line-height: 1.7;
-    }
-
-    .kwiin-copy-compact {
-      display: none;
-    }
-
-    .kwiin-copy-full {
-      display: inline;
-    }
-
-    .kwiin-world-enter {
-      gap: 0.8rem;
-      margin-top: 1.8rem;
-      padding: 0.82rem 1.35rem;
-      font-size: 0.68rem;
-      letter-spacing: 0.2em;
-    }
-
-    .kwiin-world-enter svg {
-      width: 1.55rem;
-    }
-
-    .kwiin-world-detail {
-      margin-top: 1rem;
-      max-width: none;
-      font-size: 0.56rem;
-      letter-spacing: 0.2em;
-    }
-
-    .kwiin-threshold {
-      width: clamp(7rem, 13vw, 10rem);
-    }
-
-    .kwiin-threshold-seal {
-      width: clamp(5.3rem, 8vw, 6.5rem);
-    }
-  }
-
-  @media (max-width: 23rem) {
-    .kwiin-portal {
-      --portal-radius: 1.45rem;
-    }
-
-    .kwiin-portal-shell {
-      min-height: 32rem;
-    }
-
-    .kwiin-world {
-      padding-inline: 0.45rem;
-    }
-
-    .kwiin-world-title {
-      font-size: 1.32rem;
-    }
-
-    .kwiin-world-description {
-      font-size: 0.58rem;
-    }
-
-    .kwiin-world-enter {
-      gap: 0.35rem;
-      padding-inline: 0.55rem;
-    }
-
-    .kwiin-world-index span:last-child {
-      display: none;
-    }
-  }
-
-  @keyframes kwiin-shell-levitate {
-    0%, 100% {
-      transform: translate3d(0, 0, 0) rotateX(0deg);
-      box-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.06) inset,
-        0 45px 100px -42px rgba(0, 0, 0, 0.92),
-        0 0 90px -64px rgba(201, 163, 92, 0.62);
-    }
-    50% {
-      transform: translate3d(0, -5px, 18px) rotateX(0.28deg);
-      box-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.075) inset,
-        0 58px 118px -44px rgba(0, 0, 0, 0.96),
-        0 0 105px -58px rgba(201, 163, 92, 0.72);
-    }
-  }
-
-  @keyframes kwiin-ambient-drift {
-    0% { transform: translate3d(-4%, -3%, 0) scale(0.92); opacity: 0.14; }
-    100% { transform: translate3d(9%, 7%, 0) scale(1.13); opacity: 0.28; }
-  }
-
-  @keyframes kwiin-bloom-breathe {
-    0%, 100% { transform: translate3d(-3%, 1%, 0) scale(0.88); opacity: 0.42; }
-    50% { transform: translate3d(4%, -3%, 0) scale(1.13); opacity: 0.76; }
-  }
-
-  @keyframes kwiin-content-float {
-    0%, 100% { transform: translate3d(0, 3px, 52px) rotateZ(-0.08deg); }
-    50% { transform: translate3d(0, -6px, 58px) rotateZ(0.12deg); }
-  }
-
-  @keyframes kwiin-emblem-breathe {
-    0%, 100% { opacity: 0.45; transform: scale(0.86); }
-    50% { opacity: 0.96; transform: scale(1.16); }
-  }
-
-  @keyframes kwiin-lotus-breathe {
-    0%, 100% { transform: scale(0.97); opacity: 0.82; }
-    50% { transform: scale(1.035); opacity: 1; }
-  }
-
-  @keyframes kwiin-orbit {
-    to { transform: rotate(360deg); }
-  }
-
-  @keyframes kwiin-journey-dash {
-    to { stroke-dashoffset: -30; }
-  }
-
-  @keyframes kwiin-travel-home {
-    0% { offset-distance: 0%; opacity: 0; }
-    9% { opacity: 1; }
-    83% { opacity: 1; }
-    100% { offset-distance: 100%; opacity: 0; }
-  }
-
-  @keyframes kwiin-pavilion-breathe {
-    0%, 100% { opacity: 0.72; transform: scale(0.98); }
-    50% { opacity: 1; transform: scale(1.025); }
-  }
-
-  @keyframes kwiin-particle-rise {
-    0%, 100% { transform: translate3d(0, 9px, 0) scale(0.6); opacity: 0.12; }
-    45% { transform: translate3d(4px, -8px, 0) scale(1.1); opacity: 0.58; }
-    70% { transform: translate3d(-2px, -13px, 0) scale(0.8); opacity: 0.28; }
-  }
-
-  @keyframes kwiin-threshold-breathe {
-    0%, 100% { opacity: 0.45; transform: scaleX(0.72); }
-    50% { opacity: 1; transform: scaleX(1.14); }
-  }
-
-  @keyframes kwiin-threshold-travel {
-    0% { stroke-dashoffset: 70; opacity: 0; }
-    12% { opacity: 0.9; }
-    72% { opacity: 0.65; }
-    100% { stroke-dashoffset: -760; opacity: 0; }
+    .kwiin-world-surface { transition: none; }
+    .kwiin-world-light { animation-duration: 10s; }
+    .kwiin-emblem-lotus,
+    .kwiin-home { filter: none; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .kwiin-portal-shell,
-    .kwiin-portal-ambient,
-    .kwiin-world-float,
-    .kwiin-world-bloom,
-    .kwiin-emblem-aura,
-    .kwiin-orbit,
-    .kwiin-orbit-light,
-    .kwiin-lotus,
-    .kwiin-journey-ring,
-    .kwiin-journey-path,
-    .kwiin-journey-light,
-    .kwiin-pavilion,
-    .kwiin-particle,
-    .kwiin-threshold-veil,
-    .kwiin-threshold-pulse,
-    .kwiin-seal-halo,
-    .kwiin-seal-orbit {
+    .kwiin-portal *,
+    .kwiin-portal *::before,
+    .kwiin-portal *::after {
       animation: none !important;
+      transition-duration: 0.01ms !important;
     }
+  }
 
-    .kwiin-world,
-    .kwiin-world-float,
-    .kwiin-world-surface {
-      transform: none !important;
-      filter: none !important;
-    }
+  @keyframes kwiin-world-breathe {
+    0%, 100% { opacity: 0.42; transform: scale(0.88); }
+    50% { opacity: 0.68; transform: scale(1.05); }
+  }
+
+  @keyframes kwiin-orbit { to { transform: rotate(1turn); } }
+
+  @keyframes kwiin-route-flow { to { stroke-dashoffset: -22; } }
+
+  @keyframes kwiin-route-signal {
+    0% { opacity: 0; offset-distance: 0%; }
+    15% { opacity: 1; }
+    75% { opacity: 1; }
+    100% { opacity: 0; offset-distance: 100%; }
   }
 </style>
 
 <script>
-  import { gsap } from "gsap";
+  type PortalWindow = Window & { __kwiinPortalObserver?: IntersectionObserver };
 
-  type PortalElement = HTMLElement & {
-    __kwiinPortalCleanup?: () => void;
-  };
+  function initPortal() {
+    const portal = document.querySelector<HTMLElement>("[data-portal]");
+    if (!portal || portal.dataset.portalBound === "true") return;
+    portal.dataset.portalBound = "true";
 
-  function initKwiinPortal() {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
+    const appWindow = window as PortalWindow;
+    appWindow.__kwiinPortalObserver?.disconnect();
 
-    document.querySelectorAll<PortalElement>("[data-portal]").forEach((portal) => {
-      portal.__kwiinPortalCleanup?.();
-
-      const controller = new AbortController();
-      const signal = controller.signal;
-      const worlds = Array.from(
-        portal.querySelectorAll<HTMLAnchorElement>("[data-world]")
-      );
-      const thresholdSeal = portal.querySelector<HTMLElement>(".kwiin-threshold-seal");
-      let launching = false;
-      let portalInView = true;
-
-      function syncPortalActivity() {
-        portal.classList.toggle(
-          "is-dormant",
-          document.hidden || !portalInView
-        );
-      }
-
-      const activityObserver = new IntersectionObserver(
-        ([entry]) => {
-          portalInView = Boolean(entry?.isIntersecting);
-          syncPortalActivity();
-        },
-        { rootMargin: "180px 0px", threshold: 0 }
-      );
-
-      activityObserver.observe(portal);
-      document.addEventListener("visibilitychange", syncPortalActivity, { signal });
-      syncPortalActivity();
-
-      gsap.set(worlds, {
-        transformPerspective: 1300,
-        transformStyle: "preserve-3d",
-        force3D: true,
-      });
-
-      function activate(active: HTMLAnchorElement) {
-        if (launching) return;
-
-        const side = active.dataset.world || "";
-        portal.dataset.active = side;
-
-        worlds.forEach((world) => {
-          const selected = world === active;
-          gsap.to(world, {
-            z: selected ? 82 : -34,
-            scale: selected ? 1.035 : 0.982,
-            duration: selected ? 0.8 : 0.95,
-            ease: "power3.out",
-            overwrite: "auto",
-          });
-        });
-      }
-
-      function reset() {
-        if (launching) return;
-        delete portal.dataset.active;
-
-        gsap.to(worlds, {
-          rotateX: 0,
-          rotateY: 0,
-          z: 0,
-          scale: 1,
-          opacity: 1,
-          duration: 1.05,
-          ease: "expo.out",
-          overwrite: "auto",
-        });
-      }
-
-      function launch(active: HTMLAnchorElement) {
-        if (launching) return;
-        launching = true;
-
-        const href = active.href;
-        const other = worlds.find((world) => world !== active);
-        const gleam = active.querySelector<HTMLElement>("[data-gleam]");
-
-        portal.classList.add("is-launching");
-        portal.dataset.active = active.dataset.world || "";
-
-        const timeline = gsap.timeline({
-          defaults: { ease: "power3.inOut" },
-          onComplete: () => window.location.assign(href),
-        });
-
-        timeline
-          .to(active, {
-            rotateX: 0,
-            rotateY: 0,
-            z: 170,
-            scale: 1.105,
-            duration: 0.72,
-          }, 0)
-          .to(other || [], {
-            z: -170,
-            scale: 0.88,
-            opacity: 0.16,
-            duration: 0.68,
-          }, 0)
-          .to(gleam || [], {
-            opacity: 1,
-            scale: 1.9,
-            duration: 0.72,
-          }, 0)
-          .to(thresholdSeal || [], {
-            scale: 0.36,
-            opacity: 0,
-            duration: 0.46,
-          }, 0.06);
-      }
-
-      if (finePointer && !reduce) {
-        worlds.forEach((world) => {
-          const rotateXTo = gsap.quickTo(world, "rotateX", {
-            duration: 0.65,
-            ease: "power3.out",
-          });
-          const rotateYTo = gsap.quickTo(world, "rotateY", {
-            duration: 0.65,
-            ease: "power3.out",
-          });
-
-          world.addEventListener("pointerenter", () => activate(world), { signal });
-          world.addEventListener("focus", () => activate(world), { signal });
-
-          world.addEventListener("pointermove", (event) => {
-            const rect = world.getBoundingClientRect();
-            const x = (event.clientX - rect.left) / rect.width;
-            const y = (event.clientY - rect.top) / rect.height;
-
-            rotateXTo((0.5 - y) * 8);
-            rotateYTo((x - 0.5) * 10);
-            world.style.setProperty("--mx", `${(x * 100).toFixed(1)}%`);
-            world.style.setProperty("--my", `${(y * 100).toFixed(1)}%`);
-          }, { signal });
-        });
-
-        portal.addEventListener("pointerleave", reset, { signal });
-        portal.addEventListener("focusout", (event) => {
-          if (!portal.contains(event.relatedTarget as Node | null)) reset();
-        }, { signal });
-      }
-
-      if (coarsePointer && !reduce) {
-        worlds.forEach((world) => {
-          world.addEventListener("pointerdown", () => {
-            activate(world);
-            gsap.to(world, {
-              z: 105,
-              scale: 1.055,
-              duration: 0.24,
-              ease: "power2.out",
-              overwrite: "auto",
-            });
-          }, { signal });
-
-          world.addEventListener("click", (event) => {
-            if (
-              event.metaKey ||
-              event.ctrlKey ||
-              event.shiftKey ||
-              event.altKey ||
-              event.button !== 0
-            ) {
-              return;
-            }
-
-            event.preventDefault();
-            launch(world);
-          }, { signal });
-        });
-      }
-
-      portal.__kwiinPortalCleanup = () => {
-        controller.abort();
-        activityObserver.disconnect();
-        gsap.killTweensOf(worlds);
-        if (thresholdSeal) gsap.killTweensOf(thresholdSeal);
-      };
-    });
+    if (!("IntersectionObserver" in window)) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => portal.classList.toggle("is-dormant", !entry.isIntersecting),
+      { rootMargin: "160px 0px" }
+    );
+    observer.observe(portal);
+    appWindow.__kwiinPortalObserver = observer;
   }
 
-  initKwiinPortal();
-  document.addEventListener("astro:after-swap", initKwiinPortal);
+  initPortal();
+  document.addEventListener("astro:after-swap", initPortal);
 </script>

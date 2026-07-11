@@ -6,6 +6,13 @@ import { tagline, contact } from "../data/contact";
 import LotusMark from "./LotusMark.astro";
 
 const whatsappHref = whatsappUrl(WHATSAPP_MESSAGES.studioGeneric);
+const navKeys = {
+  "/studio": "nav.signature",
+  "/mobile-spa": "nav.mobile",
+  "/services": "nav.services",
+  "/about": "nav.about",
+  "/contact": "nav.contact",
+} as const;
 ---
 
 {/*
@@ -20,6 +27,7 @@ const whatsappHref = whatsappUrl(WHATSAPP_MESSAGES.studioGeneric);
   role="dialog"
   aria-modal="true"
   aria-label="Mobile Navigation"
+  data-i18n-aria-label="nav.menuDialog"
 >
   <div class="kwiin-menu-backdrop" aria-hidden="true">
     <span class="kwiin-menu-glow-gold"></span>
@@ -32,6 +40,7 @@ const whatsappHref = whatsappUrl(WHATSAPP_MESSAGES.studioGeneric);
     type="button"
     class="absolute right-5 top-5 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-kwiin-ivory transition-colors hover:border-kwiin-gold/40"
     aria-label="Menü schliessen"
+    data-i18n-aria-label="nav.menuClose"
   >
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-5 w-5">
       <path d="M6 6l12 12M18 6 6 18" stroke-linecap="round"></path>
@@ -54,7 +63,7 @@ const whatsappHref = whatsappUrl(WHATSAPP_MESSAGES.studioGeneric);
             <span class="font-body text-xs tracking-[0.2em] text-kwiin-gold/50 tabular-nums">
               {String(i + 1).padStart(2, "0")}
             </span>
-            <span class="font-display text-4xl leading-none">{item.label}</span>
+            <span class="font-display text-4xl leading-none" data-i18n={navKeys[item.href as keyof typeof navKeys]}>{item.label}</span>
           </a>
         </li>
       ))
@@ -62,7 +71,7 @@ const whatsappHref = whatsappUrl(WHATSAPP_MESSAGES.studioGeneric);
   </ul>
 
   <div class="kwiin-menu-item relative z-10 mt-8 opacity-0">
-    <p class="font-display text-xl italic text-kwiin-gold-bright text-balance">{tagline}</p>
+    <p class="font-display text-xl italic text-kwiin-gold-bright text-balance" data-i18n="common.tagline">{tagline}</p>
     <a
       href={contact.instagramUrl}
       target="_blank"
@@ -78,8 +87,10 @@ const whatsappHref = whatsappUrl(WHATSAPP_MESSAGES.studioGeneric);
     target="_blank"
     rel="noopener noreferrer"
     class="kwiin-menu-item relative z-10 mt-7 inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-kwiin-gold to-kwiin-gold-bright px-7 py-3.5 text-sm font-semibold uppercase tracking-[0.08em] text-kwiin-black opacity-0"
+    data-i18n-whatsapp="common.studioWhatsApp"
+    data-i18n-aria-label="nav.book"
   >
-    {navCtaLabel}
+    <span data-i18n="nav.book">{navCtaLabel}</span>
   </a>
 </div>
 

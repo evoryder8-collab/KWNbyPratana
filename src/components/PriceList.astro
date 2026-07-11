@@ -19,6 +19,7 @@ const {
 <ul
   class="kwiin-price-list"
   aria-label="Preise"
+  data-i18n-aria-label="pricing.listAria"
   data-price-list
   data-mode={initialMode}
 >
@@ -35,7 +36,7 @@ const {
           data-studio-price={duration.priceChf}
           aria-label={`${duration.minutes} Minuten, ${initialPrice} Schweizer Franken`}
         >
-          <span class="kwiin-price-row__duration">{duration.minutes} Min.</span>
+          <span class="kwiin-price-row__duration" data-price-duration>{duration.minutes} Min.</span>
           <span class="kwiin-price-row__leader" aria-hidden="true"></span>
           <span class="kwiin-price-row__cluster">
             <span class="kwiin-price-row__total" data-price-total>
@@ -48,7 +49,7 @@ const {
               data-visible={initialMode === "mobile" ? "true" : "false"}
               aria-hidden={initialMode === "mobile" ? "false" : "true"}
             >
-              (+ CHF {initialTravelFeeChf} Anfahrtspauschale · bis {initialDistanceKm} km)
+              (plus CHF {initialTravelFeeChf} Anfahrt · bis {initialDistanceKm} km)
             </span>
           </span>
         </li>

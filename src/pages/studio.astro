@@ -21,23 +21,23 @@ const studioServices = services.filter((s) => s.studioAvailable);
 const ritual = [
   {
     step: "01",
-    title: "Ankommen",
-    copy: "Ruhe, ein kurzes Gespräch, bewusstes Loslassen. Jede Behandlung beginnt mit dem Zuhören und wird auf Ihren Körper und Ihren Tag abgestimmt.",
+    title: "Ankommen", titleKey: "studio.ritualOneTitle",
+    copy: "Wir starten mit einem kurzen Gespräch. Sie sagen, was Ihr Körper heute braucht.", copyKey: "studio.ritualOneCopy",
   },
   {
     step: "02",
-    title: "Die Behandlung",
-    copy: "Akupressur, achtsame Dehnung und Energiearbeit fliessen ineinander. Kraftvoll, präzise und immer im Dialog mit Ihrem Körper.",
+    title: "Behandlung", titleKey: "studio.ritualTwoTitle",
+    copy: "Druck, Dehnung und ruhige Bewegungen werden passend für Sie kombiniert.", copyKey: "studio.ritualTwoCopy",
   },
   {
     step: "03",
-    title: "Nachklang",
-    copy: "Zeit zum Zurückkommen. Ihr Körper darf das Erlebte setzen lassen, bevor Sie zurück in den Tag gehen. Leichter, ruhiger, ganz bei sich.",
+    title: "Nachruhen", titleKey: "studio.ritualThreeTitle",
+    copy: "Nach der Massage haben Sie kurz Zeit, in Ruhe wieder anzukommen.", copyKey: "studio.ritualThreeCopy",
   },
 ];
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} page="studio">
   <PageTransition>
     <section class="relative overflow-hidden pb-24 pt-40">
       <div
@@ -49,21 +49,18 @@ const ritual = [
       <div class="relative mx-auto max-w-4xl px-5 text-center lg:px-8">
         <p class="kwiin-eyebrow">KWIIN Signature Experience</p>
         <h1 class="mt-6 font-display text-4xl leading-tight text-kwiin-ivory text-balance sm:text-5xl lg:text-6xl">
-          Die Kunst der Berührung,
-          <span class="kwiin-accent text-gold-gradient">in ihrer edelsten Form.</span>
+          <span data-i18n="studio.heroTitleLead">Massage, die </span><span class="kwiin-accent text-gold-gradient" data-i18n="studio.heroTitleAccent">wirklich zu Ihnen passt.</span>
         </h1>
-        <p class="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-kwiin-soft-grey">
-          Preisgekrönte Thai-Massage von Pratana Halstrick: geboren in Bangkok, geprägt zwischen
-          Thailand, Deutschland und der Schweiz, und ganz der Aufgabe gewidmet, Körper und Geist
-          neue Kraft zu schenken.
+        <p class="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-kwiin-soft-grey" data-i18n="studio.heroCopy">
+          Pratana verbindet traditionelle Thai Massage mit gezielter Körperarbeit. Jede Behandlung wird auf Sie und Ihren Tag abgestimmt.
         </p>
         <div class="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <WhatsAppButton message={WHATSAPP_MESSAGES.studioGeneric} label="Termin via WhatsApp" size="lg" />
+          <WhatsAppButton message={WHATSAPP_MESSAGES.studioGeneric} label="Termin via WhatsApp" labelKey="common.whatsappAppointment" messageKey="common.studioWhatsApp" size="lg" />
           <a
             href="#treatments"
             class="text-sm uppercase tracking-[0.12em] text-kwiin-ivory/80 underline-offset-4 transition-colors hover:text-kwiin-gold-bright hover:underline"
           >
-            Behandlungen entdecken
+            <span data-i18n="studio.discoverTreatments">Behandlungen ansehen</span>
           </a>
         </div>
         <div class="mt-10 flex justify-center">
@@ -81,18 +78,15 @@ const ritual = [
       </div>
       <div class="relative mx-auto grid max-w-6xl gap-12 px-5 lg:grid-cols-[3fr_2fr] lg:items-center lg:px-8">
         <SectionReveal>
-          <p class="kwiin-eyebrow kwiin-eyebrow--bare">Die Seele Thailands</p>
+          <p class="kwiin-eyebrow kwiin-eyebrow--bare" data-i18n="studio.thaiEyebrow">Die Wurzeln in Thailand</p>
           <h2 class="mt-5 font-display text-4xl leading-tight text-kwiin-ivory sm:text-5xl">
             Nuad <span class="kwiin-accent">Thai</span>
           </h2>
-          <p class="mt-6 max-w-xl text-base leading-relaxed text-kwiin-soft-grey">
-            Im Mittelpunkt unserer Arbeit steht die traditionelle Nuad Thai Massage, eine
-            Heilkunst mit einer über 2'500-jährigen Geschichte. Sie verbindet Akupressur,
-            Meditation, achtsame Dehnung und Energiearbeit zu einer ganzheitlichen Behandlung.
+          <p class="mt-6 max-w-xl text-base leading-relaxed text-kwiin-soft-grey" data-i18n="studio.thaiCopyOne">
+            Nuad Thai ist eine traditionelle Massageform mit mehr als 2'500 Jahren Geschichte. Sie verbindet Druckpunkte, Dehnung und ruhige Bewegung.
           </p>
-          <p class="mt-4 max-w-xl text-base leading-relaxed text-kwiin-soft-grey">
-            Für uns ist Nuad Thai kein Trend. Es ist ein kulturelles Erbe. Eine Tradition, die
-            wir mit tiefem Respekt bewahren und mit Stolz weitergeben.
+          <p class="mt-4 max-w-xl text-base leading-relaxed text-kwiin-soft-grey" data-i18n="studio.thaiCopyTwo">
+            Für Pratana ist diese Arbeit kein Trend. Sie ist Teil ihrer Kultur und wird mit Respekt weitergegeben.
           </p>
         </SectionReveal>
 
@@ -101,7 +95,7 @@ const ritual = [
           <p class="mt-4 text-xs uppercase tracking-[0.24em] text-kwiin-gold-bright/80">
             UNESCO
           </p>
-          <p class="mt-2 font-display text-xl leading-snug text-kwiin-ivory text-balance">
+          <p class="mt-2 font-display text-xl leading-snug text-kwiin-ivory text-balance" data-i18n="studio.unesco">
             Anerkannt als Immaterielles Kulturerbe der Menschheit
           </p>
           <OrnamentDivider class="mt-6" />
@@ -112,9 +106,9 @@ const ritual = [
     {/* ── Das Ritual ───────────────────────────────────────────────── */}
     <section class="mx-auto max-w-6xl px-5 py-24 lg:px-8">
       <SectionReveal class="mb-12 text-center">
-        <p class="kwiin-eyebrow">Das Ritual</p>
+        <p class="kwiin-eyebrow" data-i18n="studio.ritualEyebrow">So läuft Ihr Termin ab</p>
         <h2 class="mt-5 font-display text-4xl text-kwiin-ivory sm:text-5xl">
-          Drei Akte der <span class="kwiin-accent">Entschleunigung</span>
+          <span data-i18n="studio.ritualTitleLead">Drei ruhige </span><span class="kwiin-accent" data-i18n="studio.ritualTitleAccent">Schritte</span>
         </h2>
       </SectionReveal>
 
@@ -123,8 +117,8 @@ const ritual = [
           ritual.map((act) => (
             <div data-reveal-child class="kwiin-panel relative flex flex-col rounded-3xl p-8">
               <span class="font-display text-5xl italic text-kwiin-gold/40">{act.step}</span>
-              <h3 class="mt-4 font-display text-2xl text-kwiin-ivory">{act.title}</h3>
-              <p class="mt-3 text-sm leading-relaxed text-kwiin-soft-grey">{act.copy}</p>
+              <h3 class="mt-4 font-display text-2xl text-kwiin-ivory" data-i18n={act.titleKey}>{act.title}</h3>
+              <p class="mt-3 text-sm leading-relaxed text-kwiin-soft-grey" data-i18n={act.copyKey}>{act.copy}</p>
             </div>
           ))
         }
@@ -141,17 +135,17 @@ const ritual = [
         </div>
         <div class="relative max-w-2xl">
           <p class="text-[0.65rem] uppercase tracking-[0.24em] text-kwiin-gold-bright/80">
-            Die Signature-Behandlung
+            <span data-i18n="studio.signatureLabel">Die Signature Behandlung</span>
           </p>
           <h2 class="mt-3 font-display text-4xl text-kwiin-ivory sm:text-5xl">{featuredService.title}</h2>
-          <p class="mt-3 font-display text-xl italic text-kwiin-gold-bright/90">
+          <p class="mt-3 font-display text-xl italic text-kwiin-gold-bright/90" data-i18n="service.kwiin.tagline">
             {featuredService.tagline}
           </p>
-          <p class="mt-5 text-base leading-relaxed text-kwiin-soft-grey">
+          <p class="mt-5 text-base leading-relaxed text-kwiin-soft-grey" data-i18n="service.kwiin.description">
             {featuredService.description}
           </p>
           <div class="mt-8">
-            <WhatsAppButton message={featuredService.whatsappText} label="Via WhatsApp buchen" />
+            <WhatsAppButton message={featuredService.whatsappText} label="Via WhatsApp buchen" labelKey="common.bookWhatsApp" messageKey="common.studioWhatsApp" />
           </div>
         </div>
       </div>
@@ -160,14 +154,12 @@ const ritual = [
     {/* ── Treatments ───────────────────────────────────────────────── */}
     <section id="treatments" class="mx-auto max-w-7xl scroll-mt-28 px-5 py-20 lg:px-8">
       <SectionReveal class="mb-12 text-center">
-        <p class="kwiin-eyebrow">Behandlungen</p>
+        <p class="kwiin-eyebrow" data-i18n="studio.treatmentsEyebrow">Behandlungen</p>
         <h2 class="mt-5 font-display text-4xl text-kwiin-ivory sm:text-5xl">
-          Die KWIIN <span class="kwiin-accent">Lotus Flow</span> Methode
+          <span data-i18n="studio.treatmentsTitleLead">Die KWIIN </span><span class="kwiin-accent" data-i18n="studio.treatmentsTitleAccent">Lotus Flow Methode</span>
         </h2>
-        <p class="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-kwiin-soft-grey">
-          Ein Signature-Ansatz, der traditionelle Thai-Körperarbeit mit fliessenden Dehnungen
-          und gezielten Druckpunkttechniken verbindet. Verspannungen lösen sich, Beweglichkeit
-          kehrt zurück, das Nervensystem darf weich werden.
+        <p class="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-kwiin-soft-grey" data-i18n="studio.treatmentsCopy">
+          Traditionelle Thai Körperarbeit, fliessende Dehnungen und gezielter Druck werden passend zu Ihren Bedürfnissen kombiniert.
         </p>
       </SectionReveal>
 
@@ -179,7 +171,7 @@ const ritual = [
     <SectionReveal class="mx-auto max-w-3xl px-5 pb-24 text-center lg:px-8">
       <OrnamentDivider class="mb-10" />
       <p class="font-display text-2xl italic text-kwiin-gold-bright text-balance">
-        “{brandLine}”
+        “<span data-i18n="common.brandLine">{brandLine}</span>”
       </p>
     </SectionReveal>
 

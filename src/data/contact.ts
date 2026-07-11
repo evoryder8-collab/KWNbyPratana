@@ -5,7 +5,7 @@ export const contact = {
   generalContactNumber: GENERAL_CONTACT_NUMBER,
   instagramUrl: "https://www.instagram.com/kwiinspa/",
   instagramHandle: "@kwiinspa",
-  hours: "Montag bis Samstag, 09:00–18:00 Uhr",
+  hours: "Montag bis Samstag, 09:00 bis 18:00 Uhr",
   languages: ["Deutsch", "Englisch", "Thai"],
   city: "Dübendorf",
   region: "Region Zürich, Schweiz",
