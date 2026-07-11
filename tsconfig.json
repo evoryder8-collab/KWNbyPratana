@@ -1,10 +1,11 @@
 {
-  "extends": "astro/tsconfigs/strict",
-  "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist"],
+  "include": ["src/**/*.js", "vite.config.js"],
+  "exclude": ["dist", "node_modules"],
   "compilerOptions": {
-    "jsx": "react-jsx",
-    "jsxImportSource": "react",
+    "allowJs": true,
+    "checkJs": false,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]

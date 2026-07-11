@@ -1,21 +1,26 @@
 # KWIIN by Pratana Halstrick
 
-Where Luxury meets Healing. Die Website von KWIIN: preisgekrönte Thai-Massage
-im Studio in Dübendorf und als Mobile Spa in der ganzen Region Zürich.
+Die mehrsprachige Website von KWIIN: preisgekrönte Thai Massage im Studio in
+Dübendorf und als Mobile Spa in der Region Zürich.
 
 ## Stack
 
-- [Astro 6](https://astro.build) + View Transitions
-- Tailwind CSS 4
-- GSAP ScrollTrigger, Lenis smooth scroll, Motion
-- React Three Fiber (hero aura shader)
+- [Vite](https://vite.dev) als echte Multi Page Application
+- Semantisches HTML, eigenes CSS und Vanilla JavaScript
+- GSAP mit ScrollTrigger für Übergänge und Scroll Animationen
+- Direktes Three.js für die ressourcenschonende Hero Konstellation
+- Acht vollständig integrierte Sprachen
+
+Die hochauflösenden Originalbilder liegen in `source-assets/`. Für die Website
+werden daraus kleine responsive WebP Varianten in `public/assets/` verwendet.
 
 ## Entwicklung
 
 ```bash
-npm install
-npm run dev        # http://localhost:4321/KWNbyPratana
-npm run build      # astro check + production build
+npm ci
+npm run dev        # http://localhost:5173/KWNbyPratana/
+npm run build      # schreibt die Produktionsdateien nach dist/
+npm run preview    # lokale Vorschau des Produktionsbuilds
 ```
 
 ## Deployment
@@ -23,5 +28,6 @@ npm run build      # astro check + production build
 Jeder Push auf `main` deployt automatisch via GitHub Actions auf GitHub Pages:
 https://evoryder8-collab.github.io/KWNbyPratana/
 
-Wenn die Domain kwiin-by-pratana.ch bereit ist: `site` in `astro.config.mjs`
-anpassen und `base` entfernen.
+Der letzte verifizierte Astro Stand vor dem Vite Neubau bleibt dauerhaft über
+den Tag `live-astro-bef3379-2026-07-11` und die Branch
+`backup/live-astro-bef3379-2026-07-11` verfügbar.
