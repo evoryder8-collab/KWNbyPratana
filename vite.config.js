@@ -179,42 +179,51 @@ function renderModeSwitch(context) {
     <p class="price-mode__hint" data-i18n="pricing.hint">Die Auswahl gilt für alle Behandlungen auf dieser Seite.</p>`;
 }
 
-function renderServiceCard(service, context) {
+function renderServiceCard(service, context, index) {
   const mobile = context === "mobile";
   return `
-    <article class="treatment-card${service.knownFor ? " treatment-card--signature" : ""}" data-service-card data-service-id="${service.id}" data-price-context="${context}" data-reveal>
+    <article class="treatment-card${service.knownFor ? " treatment-card--signature" : ""}" data-service-card data-reactive data-service-id="${service.id}" data-price-context="${context}" data-reveal>
+      <div class="treatment-card__atmosphere" aria-hidden="true"><span></span><span></span></div>
       ${service.knownFor ? `<span class="treatment-card__ribbon" data-i18n="pricing.signature">Signature</span>` : ""}
       <header class="treatment-card__header">
+        <span class="treatment-card__number">${String(index + 1).padStart(2, "0")}</span>
         <div>
           <p class="eyebrow eyebrow--bare" data-i18n="${service.categoryKey}">${service.category}</p>
           <h2>${service.title}${service.subtitle ? ` <em>${service.subtitle}</em>` : ""}</h2>
         </div>
         ${lotus("treatment-card__lotus")}
       </header>
-      <p class="treatment-card__tagline" data-i18n="${service.taglineKey}">${service.tagline}</p>
-      <p class="treatment-card__copy" data-i18n="${service.descriptionKey}">${service.description}</p>
-      ${renderModeSwitch(context)}
-      <ol class="price-list" aria-label="Preise" data-i18n-aria-label="pricing.listAria">
-        ${service.durations.map(({ minutes, price }) => {
-          const shown = mobile ? price + 45 : price;
-          return `<li data-price-row data-minutes="${minutes}" data-base-price="${price}">
-            <span class="price-list__duration" data-duration-label>${minutes} Min.</span>
-            <span class="price-list__rule" aria-hidden="true"></span>
-            <span class="price-list__amount"><small>CHF</small> <strong data-price-value>${shown}</strong></span>
-            <span class="price-list__breakdown" data-price-breakdown>${mobile ? `(plus CHF 45 Anfahrt · bis 15 km)` : ""}</span>
-          </li>`;
-        }).join("")}
-      </ol>
-      <a class="button button--outline treatment-card__book" href="https://wa.me/41779669928" data-service-book>
-        <span data-service-book-label data-i18n="${mobile ? "pricing.ctaMobile" : "pricing.ctaStudio"}"${mobile ? ` data-i18n-params='{"distance":15}'` : ""}>${mobile ? "Mobil bis 15 km anfragen" : "Im Studio via WhatsApp buchen"}</span>
-        ${arrow}
-      </a>
+      <div class="treatment-card__body">
+        <div class="treatment-card__story">
+          <p class="treatment-card__tagline" data-i18n="${service.taglineKey}">${service.tagline}</p>
+          <p class="treatment-card__copy" data-i18n="${service.descriptionKey}">${service.description}</p>
+          <span class="treatment-card__edition">KWIIN · LOTUS FLOW · ${String(index + 1).padStart(2, "0")}</span>
+        </div>
+        <div class="treatment-card__commerce">
+          ${renderModeSwitch(context)}
+          <ol class="price-list" aria-label="Preise" data-i18n-aria-label="pricing.listAria">
+            ${service.durations.map(({ minutes, price }) => {
+              const shown = mobile ? price + 45 : price;
+              return `<li data-price-row data-minutes="${minutes}" data-base-price="${price}">
+                <span class="price-list__duration" data-duration-label>${minutes} Min.</span>
+                <span class="price-list__rule" aria-hidden="true"></span>
+                <span class="price-list__amount"><small>CHF</small> <strong data-price-value>${shown}</strong></span>
+                <span class="price-list__breakdown" data-price-breakdown>${mobile ? `(plus CHF 45 Anfahrt · bis 15 km)` : ""}</span>
+              </li>`;
+            }).join("")}
+          </ol>
+          <a class="button button--outline treatment-card__book" href="https://wa.me/41779669928" data-service-book>
+            <span data-service-book-label data-i18n="${mobile ? "pricing.ctaMobile" : "pricing.ctaStudio"}"${mobile ? ` data-i18n-params='{"distance":15}'` : ""}>${mobile ? "Mobil bis 15 km anfragen" : "Im Studio via WhatsApp buchen"}</span>
+            ${arrow}
+          </a>
+        </div>
+      </div>
     </article>`;
 }
 
 function renderServices(context) {
   return `<div class="treatment-grid treatment-grid--${context}" data-treatment-grid data-global-price-mode="${context === "mobile" ? "mobile" : "studio"}" data-global-zone="15">
-    ${services.map((service) => renderServiceCard(service, context)).join("")}
+    ${services.map((service, index) => renderServiceCard(service, context, index)).join("")}
   </div>`;
 }
 

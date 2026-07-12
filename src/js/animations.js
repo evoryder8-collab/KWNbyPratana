@@ -61,6 +61,20 @@ function initCounters() {
   });
 }
 
+function initReactiveSurfaces() {
+  if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
+  document.querySelectorAll("[data-reactive]").forEach((surface) => {
+    const setX = gsap.quickSetter(surface, "--spot-x");
+    const setY = gsap.quickSetter(surface, "--spot-y");
+    surface.addEventListener("pointermove", (event) => {
+      const bounds = surface.getBoundingClientRect();
+      setX(`${((event.clientX - bounds.left) / bounds.width) * 100}%`);
+      setY(`${((event.clientY - bounds.top) / bounds.height) * 100}%`);
+    }, { passive: true });
+  });
+}
+
 export function initAnimations() {
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -102,7 +116,16 @@ export function initAnimations() {
     });
   });
 
+  gsap.utils.toArray(".studio-hero__monolith, .mobile-hero__journey").forEach((element) => {
+    gsap.fromTo(element, { y: 24 }, {
+      y: -18,
+      ease: "none",
+      scrollTrigger: { trigger: element.parentElement, start: "top bottom", end: "bottom top", scrub: 1.25 },
+    });
+  });
+
   initPortal();
   initCounters();
+  initReactiveSurfaces();
   ScrollTrigger.refresh();
 }
