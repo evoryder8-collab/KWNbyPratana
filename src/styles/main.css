@@ -54,6 +54,8 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header-h) + 24px);
   background: var(--shell);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -2821,6 +2823,9 @@ em {
   .inner-hero { min-height:auto; }
   .inner-hero__grid { grid-template-columns:1fr; gap:70px; }
   .studio-hero__monolith,.mobile-hero__journey { width:min(86vw,500px); }
+  .heritage__grid,.signature-feature__panel { grid-template-columns:minmax(0,1fr); }
+  .signature-feature__panel { gap:36px; }
+  .signature-feature__art { width:100%; }
   .treatment-card__body { grid-template-columns:1fr; gap:38px; }
   .treatment-card__edition { margin-top:30px; }
   .value-grid { grid-template-columns:repeat(2,1fr); grid-auto-rows:auto; }
@@ -2829,6 +2834,8 @@ em {
 
 @media (max-width: 620px) {
   .portal-section { padding-top:74px; }
+  main :where(.shell > *, [class*="__grid"] > *, [class*="__panel"] > *, fieldset) { min-width:0; }
+  main :where(h1,h2,h3,p,blockquote,a,button,strong,small,label) { max-width:100%; overflow-wrap:anywhere; word-break:normal; }
   .portal { min-height:650px; border-radius:24px; }
   .portal::before { inset:6px; border-radius:18px; }
   .portal-card { padding:24px 10px 27px; }
@@ -2868,7 +2875,8 @@ em {
   .ritual__steps li { min-height:230px; margin:0 0 16px 38px; border-radius:18px 18px 54px 18px; }
   .ritual__steps li::before { top:40px; left:-27px; }
   .signature-feature__panel { min-height:0; padding:36px 25px; border-radius:28px 85px 28px 28px; }
-  .signature-feature__art { min-height:250px; border-right:0; border-bottom:1px solid rgba(255,255,255,.12); }
+  .signature-feature__panel > * { min-width:0; max-width:100%; }
+  .signature-feature__art { width:100%; min-height:250px; border-right:0; border-bottom:1px solid rgba(255,255,255,.12); }
   .treatment-grid { gap:24px; margin-top:46px; }
   .treatment-card,.treatment-card:nth-child(even) { min-height:0; padding:30px 18px 24px; border-radius:25px 68px 25px 25px; }
   .treatment-card__header { display:grid; grid-template-columns:auto 1fr auto; gap:10px; padding-bottom:24px; }
