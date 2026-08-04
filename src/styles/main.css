@@ -3145,6 +3145,16 @@ em {
   color: var(--gold-deep);
 }
 
+.championship__caption {
+  margin: clamp(18px, 3vw, 28px) auto 0;
+  max-width: 44ch;
+  font-family: var(--display);
+  font-size: clamp(1rem, 1.6vw, 1.18rem);
+  font-style: italic;
+  color: var(--ink-soft);
+  text-align: center;
+}
+
 .championship__group { position: relative; margin: clamp(30px, 5vw, 56px) 0 0; }
 .championship__group img {
   display: block;
