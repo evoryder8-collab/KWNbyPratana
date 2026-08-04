@@ -1,4 +1,4 @@
-export const BASE_PATH = "/KWNbyPratana/";
+export const BASE_PATH = "/";
 export const WHATSAPP_NUMBER = "41779669928";
 
 export const contact = {

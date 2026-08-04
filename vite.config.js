@@ -2,7 +2,7 @@ import { defineConfig } from "vite";
 import { resolve } from "node:path";
 import { languages, navItems, services } from "./src/data/site.js";
 
-const base = "/KWNbyPratana/";
+const base = "/";
 
 const lotus = (className = "lotus-mark") => `
   <svg class="${className}" viewBox="0 0 72 52" fill="none" aria-hidden="true">
