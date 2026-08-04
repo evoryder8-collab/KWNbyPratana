@@ -2915,6 +2915,54 @@ em {
   .treatment-card:hover { transform:none; }
 }
 
+/* ── The arrival ─────────────────────────────────────────────────────────
+   Light coming up in a room. A warm wash sits over the hero and lifts, and
+   the hero resolves underneath it. Compositor-only: opacity and transform,
+   nothing that triggers layout. */
+.arrival {
+  position: fixed;
+  z-index: 2000;
+  inset: 0;
+  pointer-events: none;           /* usable from the very first frame */
+  opacity: 1;
+  transition: opacity .9s var(--ease-lux);
+}
+
+.arrival__warmth {
+  position: absolute;
+  inset: -10%;
+  background:
+    radial-gradient(58% 46% at 62% 34%, rgba(255,241,214,.96), rgba(250,235,220,.78) 42%, rgba(243,231,228,.52) 66%, rgba(241,236,236,0) 100%),
+    linear-gradient(178deg, #f7f1ea 0%, #f2eae8 46%, #efe7e6 100%);
+  opacity: 1;
+  transform: scale(1.06);
+  transition: opacity 1.6s var(--ease-lux), transform 1.9s var(--ease-lux);
+}
+
+.arrival.is-lifting .arrival__warmth { opacity: 0; transform: scale(1); }
+.arrival.is-done { opacity: 0; }
+
+/* While the light is coming up, the hero's own content settles in with
+   weight rather than sliding from an edge. */
+.is-arriving .home-hero__copy > *,
+.is-arriving .portrait-stage {
+  animation: arrival-settle 1.5s var(--ease-lux) both;
+}
+.is-arriving .home-hero__copy > *:nth-child(2) { animation-delay: .1s; }
+.is-arriving .home-hero__copy > *:nth-child(3) { animation-delay: .2s; }
+.is-arriving .portrait-stage { animation-delay: .16s; }
+
+@keyframes arrival-settle {
+  from { opacity: 0; transform: translate3d(0, 14px, 0) scale(.994); filter: blur(6px); }
+  to   { opacity: 1; transform: none; filter: blur(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arrival { display: none; }
+  .is-arriving .home-hero__copy > *,
+  .is-arriving .portrait-stage { animation: none; }
+}
+
 /* ── Safe areas ──────────────────────────────────────────────────────────
    The viewport is declared `viewport-fit=cover`, which deliberately extends
    the page under the notch, the rounded corners and the home indicator. That

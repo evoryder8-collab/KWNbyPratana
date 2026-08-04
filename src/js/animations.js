@@ -39,28 +39,6 @@ function initPortal() {
   document.addEventListener("visibilitychange", clearPressed);
 }
 
-function initCounters() {
-  document.querySelectorAll("[data-counter]").forEach((element) => {
-    const target = Number(element.dataset.counter);
-    const suffix = element.dataset.counterSuffix ?? "";
-    const state = { value: 0 };
-    ScrollTrigger.create({
-      trigger: element,
-      start: "top 88%",
-      once: true,
-      onEnter: () => gsap.to(state, {
-        value: target,
-        duration: 1.8,
-        ease: "power3.out",
-        onUpdate: () => {
-          const value = Math.round(state.value);
-          element.textContent = `${value >= 1000 ? value.toLocaleString("de-CH") : value}${suffix}`;
-        },
-      }),
-    });
-  });
-}
-
 function initReactiveSurfaces() {
   if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return;
 
@@ -124,8 +102,9 @@ export function initAnimations() {
     });
   });
 
+  // Counters live in numerals.js and run from the main bundle: they are
+  // content, not decoration, and must not wait on GSAP.
   initPortal();
-  initCounters();
   initReactiveSurfaces();
   ScrollTrigger.refresh();
 }

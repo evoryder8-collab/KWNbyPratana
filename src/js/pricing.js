@@ -1,5 +1,6 @@
 import { bookingTemplates, services, travelZones, WHATSAPP_NUMBER } from "../data/site.js";
 import { getLanguage, t } from "./i18n.js";
+import { animateNumber } from "./numerals.js";
 
 const state = {
   mode: "studio",
@@ -50,14 +51,19 @@ function bookingMessage(kind, serviceName, zone = zoneFor()) {
   });
 }
 
-function animatePrice(element) {
-  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+/**
+ * The amount lifts very slightly as it rolls, so the change registers
+ * peripherally even if the visitor is looking at the radius control rather
+ * than at the number itself.
+ */
+function liftAmount(element) {
+  if (!element || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   element.animate(
     [
-      { opacity: 0.25, transform: "translateY(-5px) scale(0.98)" },
-      { opacity: 1, transform: "translateY(0) scale(1)" },
+      { transform: "translateY(-3px)", filter: "brightness(1.14)" },
+      { transform: "translateY(0)", filter: "brightness(1)" },
     ],
-    { duration: 380, easing: "cubic-bezier(.22,1,.36,1)" },
+    { duration: 620, easing: "cubic-bezier(.16,1,.3,1)" },
   );
 }
 
@@ -93,8 +99,10 @@ function updateCard(card, mode, zone) {
     const breakdown = row.querySelector("[data-price-breakdown]");
     if (durationElement) durationElement.textContent = t("pricing.duration", { minutes });
     if (priceElement && priceElement.textContent !== String(price)) {
-      priceElement.textContent = String(price);
-      animatePrice(priceElement.closest(".price-list__amount"));
+      // Roll from the old amount to the new one so the visitor sees what
+      // their radius choice actually costs.
+      animateNumber(priceElement, price, { duration: 780 });
+      liftAmount(priceElement.closest(".price-list__amount"));
     }
     if (breakdown) {
       breakdown.textContent = effectiveMode === "mobile"

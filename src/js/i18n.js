@@ -1,11 +1,55 @@
-import translationData from "../data/translations.json";
+/**
+ * All eight languages stay available in the menu. What changed is that a
+ * visitor now downloads only the one they are reading: German ships with the
+ * page (it is the default and must render without a round trip), and the
+ * other seven are fetched the moment they are chosen. Previously every
+ * visitor downloaded all eight, ~160 KB of JSON, to use one of them.
+ */
+import de from "../data/locales/de.json";
 import { languages } from "../data/site.js";
+
+// Vite turns this into one lazily-fetched chunk per language.
+const localeLoaders = import.meta.glob("../data/locales/*.json");
+
+/**
+ * The hero prompt cycles through every language as an invitation, and it is
+ * the first thing a visitor reads. Inlining these eight short strings (214
+ * bytes) keeps that gesture instant without pulling eight full packs.
+ */
+const PROMPTS = {
+  de: "Wählen Sie Ihre Sprache",
+  en: "Choose your language",
+  th: "เลือกภาษาของคุณ",
+  fr: "Choisissez votre langue",
+  es: "Elija su idioma",
+  it: "Scelga la sua lingua",
+  ru: "Выберите язык",
+  pt: "Escolha o seu idioma",
+};
 
 const STORAGE_KEY = "kwiin-language";
 const LEGACY_STORAGE_KEY = "kwiin-hero-language";
 const codes = languages.map(({ code }) => code);
-const translations = translationData.translations;
+const translations = { de };
 let currentLanguage = "de";
+
+/** Fetch a language pack once; resolves immediately if already in memory. */
+const inFlight = new Map();
+export function loadLanguage(code) {
+  if (translations[code]) return Promise.resolve(translations[code]);
+  if (inFlight.has(code)) return inFlight.get(code);
+  const loader = localeLoaders[`../data/locales/${code}.json`];
+  if (!loader) return Promise.resolve(null);
+  const task = loader()
+    .then((module) => {
+      translations[code] = module.default ?? module;
+      return translations[code];
+    })
+    .catch(() => null)
+    .finally(() => inFlight.delete(code));
+  inFlight.set(code, task);
+  return task;
+}
 
 function isLanguage(value) {
   return codes.includes(value);
@@ -96,6 +140,17 @@ function syncControls(language) {
 
 export function setLanguage(language, { persist = true, announce = true } = {}) {
   if (!isLanguage(language)) return;
+
+  // If the pack is not in memory yet, fetch it and re-enter once it lands.
+  // The page keeps showing the current language meanwhile rather than
+  // flashing raw keys.
+  if (!translations[language]) {
+    loadLanguage(language).then((pack) => {
+      if (pack) setLanguage(language, { persist, announce });
+    });
+    return;
+  }
+
   currentLanguage = language;
   window.__kwiinLanguage = language;
   document.documentElement.lang = language;
@@ -165,13 +220,13 @@ function initCyclingPrompt() {
     const language = codes[promptIndex];
     prompt.classList.add("is-changing");
     window.setTimeout(() => {
-      prompt.textContent = t("language.prompt", {}, language);
+      prompt.textContent = PROMPTS[language] ?? t("language.prompt", {}, language);
       prompt.lang = language;
       prompt.classList.remove("is-changing");
     }, 185);
   };
 
-  prompt.textContent = t("language.prompt", {}, currentLanguage);
+  prompt.textContent = PROMPTS[currentLanguage] ?? t("language.prompt", {}, currentLanguage);
   prompt.lang = currentLanguage;
   if (!reducedMotion) timer = window.setInterval(nextPrompt, 1225);
 
@@ -182,8 +237,10 @@ function initCyclingPrompt() {
 }
 
 export function initI18n() {
-  currentLanguage = getStoredLanguage();
-  setLanguage(currentLanguage, { persist: false, announce: false });
+  const stored = getStoredLanguage();
+  // German is bundled, so it applies synchronously with no flash. A returning
+  // visitor in another language gets their pack fetched immediately.
+  setLanguage(stored, { persist: false, announce: false });
   initMenus();
   initCyclingPrompt();
   window.__kwiinSetLanguage = (language) => setLanguage(language);
