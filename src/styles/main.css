@@ -2923,6 +2923,93 @@ em {
   .treatment-card:hover { transform:none; }
 }
 
+/* ── Laureate hero (About) ───────────────────────────────────────────────
+   The page opens on the moment the story arrived at: Pratana centre with the
+   trophy, the other two category winners either side. The photograph is
+   soft-masked, so it needs no frame — only warm light behind it and room to
+   breathe. Copy above sets the date and place so the image reads instantly
+   as evidence rather than decoration. */
+.story-hero--laureate {
+  position: relative;
+  padding-bottom: clamp(90px, 11vw, 150px);
+  text-align: center;
+}
+.story-hero--laureate .story-hero__copy { position: relative; z-index: 2; }
+.story-hero--laureate .story-hero__lead { margin-top: 26px; }
+
+.laureate {
+  position: relative;
+  margin: clamp(34px, 5vw, 60px) auto 0;
+  width: min(760px, 88%);
+  isolation: isolate;
+}
+
+.laureate__glow {
+  position: absolute;
+  z-index: -1;
+  top: 46%;
+  left: 50%;
+  width: 122%;
+  aspect-ratio: 1.25;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(255, 240, 205, .72) 0%, rgba(244, 214, 152, .34) 34%,
+    rgba(201, 160, 66, .12) 56%, rgba(201, 160, 66, 0) 74%);
+  filter: blur(10px);
+  animation: laureate-breathe 9s ease-in-out infinite;
+}
+
+.laureate__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 30px 54px rgba(62, 44, 64, .26));
+}
+
+@keyframes laureate-breathe {
+  0%, 100% { opacity: .8;  transform: translate(-50%, -50%) scale(1); }
+  50%      { opacity: 1;   transform: translate(-50%, -50%) scale(1.045); }
+}
+
+.laureate__caption {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: clamp(16px, 2.4vw, 26px);
+}
+.laureate__place {
+  font-family: var(--display);
+  font-size: clamp(1.02rem, 1.9vw, 1.3rem);
+  color: var(--plum);
+  letter-spacing: .02em;
+}
+.laureate__meta {
+  font-size: .62rem;
+  font-weight: 600;
+  letter-spacing: .22em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+}
+
+.story-hero--laureate .story-hero__after {
+  margin-top: clamp(30px, 4vw, 48px);
+  color: var(--ink-soft);
+}
+
+/* The map strip is absolutely positioned in the base hero; here it becomes
+   part of the flow so it cannot land on top of the photograph. */
+.story-hero--laureate .story-hero__map {
+  position: static;
+  width: min(560px, 84%);
+  margin: clamp(34px, 5vw, 56px) auto 0;
+  inset: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .laureate__glow { animation: none; }
+}
+
 /* ── Craft strip (studio) ────────────────────────────────────────────────
    Three working photographs at different depths. They are soft-masked, so
    they float on the page ground rather than sitting in frames — the only
