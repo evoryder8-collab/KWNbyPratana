@@ -2962,12 +2962,20 @@ em {
    re-cutting the file, so the image the browser downloads is byte-for-byte
    the one that was authored. object-fit + object-position crops to the
    subject; nothing is re-encoded, so the feather stays exactly as brushed. */
+/* <picture> is absolutely positioned inside the stage by the base design, so
+   it must take the stage's box exactly. Sizing it from the viewport made it
+   641px tall inside a 530px stage, and the overspill is what was landing on
+   the intro line beneath. Clip to the frame and fade the lower edge so the
+   crop reads as intentional. */
 .portrait-stage picture {
+  position: absolute;
+  inset: 0;
   display: block;
-  height: min(76vh, 860px);    /* drive from height so the hero stays in view */
-  width: auto;
-  aspect-ratio: 1422 / 2500;   /* the subject's own proportions */
-  margin-inline: auto;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, #000 86%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 86%, transparent 100%);
 }
 .portrait-stage picture > img {
   width: 100%;
@@ -2978,15 +2986,47 @@ em {
   transform-origin: 50% 58%;
 }
 
-/* Same original, same approach, in the founder block on the About page. */
+/* The intro line was landing almost against her shoulder on a phone, where
+   the portrait and the copy stack. Give it room to read as its own thought. */
+@media (max-width: 860px) {
+  .home-hero__after { margin-top: clamp(34px, 7vw, 56px); }
+  .home-hero__intro { margin-top: 0; }
+}
+
+/* Same original, same approach, in the founder block on the About page.
+   `contain` was letterboxing a square image inside a tall arch, which is why
+   she appeared postage-stamp sized on a phone. `cover` fills the arch and the
+   scale brings her to the same presence she has in the hero. */
 .founder__portrait > img {
   position: absolute;
-  inset: 4% 0 0;
+  inset: 0;
   width: 100%;
-  height: 96%;
-  object-fit: contain;
-  object-position: bottom;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50.5% 46%;
+  transform: scale(1.34);
+  transform-origin: 50% 64%;
   filter: drop-shadow(0 30px 40px rgba(59,38,57,.2));
+}
+
+/* The founder CTA is its own grid cell so it can sit beneath the copy on a
+   wide screen but *after* the portrait on a phone — a booking button wedged
+   between the biography and her photograph interrupts both. */
+.founder__grid {
+  grid-template-areas: "copy portrait" "cta portrait";
+  align-items: start;
+}
+.founder__copy     { grid-area: copy; }
+.founder__portrait { grid-area: portrait; align-self: center; }
+.founder__cta      { grid-area: cta; margin-top: 34px; }
+
+@media (max-width: 860px) {
+  .founder__grid {
+    grid-template-areas: "copy" "portrait" "cta";
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .founder__cta { margin-top: 40px; }
+  .founder__portrait { min-height: 520px; }
 }
 
 /* ── Laureate hero (About) ───────────────────────────────────────────────
@@ -3134,6 +3174,12 @@ em {
    way: a warm radiance breathing behind the metal, and a very slow sweep of
    light rays. Everything is a sibling layer behind the image, never a filter
    on it, so the soft-masked edges stay clean. */
+/* The radiance layers are deliberately wider than the image, so the section
+   has to clip them. Without this they widened the document by ~88px on a
+   390px screen, which is what pushed the whole page sideways and left dead
+   space to the right. */
+.awards { overflow: hidden; }
+
 .medal-showcase {
   position: relative;
   display: flex;
@@ -3154,9 +3200,9 @@ em {
   transform: translate(-50%, -50%);
   border-radius: 50%;
   background:
-    radial-gradient(circle, rgba(255, 233, 176, .78) 0%, rgba(240, 211, 144, .42) 26%,
-                    rgba(201, 160, 66, .20) 46%, rgba(201, 160, 66, 0) 70%);
-  filter: blur(14px);
+    radial-gradient(circle, rgba(255, 241, 198, .95) 0%, rgba(246, 219, 154, .62) 24%,
+                    rgba(214, 172, 78, .34) 44%, rgba(201, 160, 66, .12) 60%, rgba(201, 160, 66, 0) 74%);
+  filter: blur(12px);
   animation: medal-breathe 7.5s ease-in-out infinite;
 }
 
@@ -3171,17 +3217,17 @@ em {
   transform: translate(-50%, -50%);
   border-radius: 50%;
   background: conic-gradient(from 0deg,
-    rgba(255,226,158,0) 0deg,   rgba(255,226,158,.30) 12deg, rgba(255,226,158,0) 26deg,
-    rgba(255,226,158,0) 60deg,  rgba(255,226,158,.22) 74deg, rgba(255,226,158,0) 92deg,
-    rgba(255,226,158,0) 140deg, rgba(255,226,158,.28) 152deg, rgba(255,226,158,0) 172deg,
-    rgba(255,226,158,0) 214deg, rgba(255,226,158,.20) 226deg, rgba(255,226,158,0) 244deg,
-    rgba(255,226,158,0) 292deg, rgba(255,226,158,.26) 304deg, rgba(255,226,158,0) 326deg,
-    rgba(255,226,158,0) 360deg);
-  -webkit-mask-image: radial-gradient(circle, #000 12%, rgba(0,0,0,.55) 42%, transparent 68%);
-  mask-image: radial-gradient(circle, #000 12%, rgba(0,0,0,.55) 42%, transparent 68%);
-  filter: blur(9px);
-  opacity: .72;
-  animation: medal-rays 64s linear infinite;
+    rgba(255,232,176,0) 0deg,   rgba(255,232,176,.62) 11deg, rgba(255,232,176,0) 26deg,
+    rgba(255,232,176,0) 58deg,  rgba(255,232,176,.46) 72deg, rgba(255,232,176,0) 92deg,
+    rgba(255,232,176,0) 138deg, rgba(255,232,176,.58) 151deg, rgba(255,232,176,0) 172deg,
+    rgba(255,232,176,0) 212deg, rgba(255,232,176,.42) 225deg, rgba(255,232,176,0) 244deg,
+    rgba(255,232,176,0) 290deg, rgba(255,232,176,.54) 303deg, rgba(255,232,176,0) 326deg,
+    rgba(255,232,176,0) 360deg);
+  -webkit-mask-image: radial-gradient(circle, #000 10%, rgba(0,0,0,.7) 40%, transparent 70%);
+  mask-image: radial-gradient(circle, #000 10%, rgba(0,0,0,.7) 40%, transparent 70%);
+  filter: blur(7px);
+  opacity: 1;
+  animation: medal-rays 48s linear infinite;
   will-change: transform;
 }
 
@@ -3208,22 +3254,37 @@ em {
   gap: 10px clamp(14px, 3vw, 30px);
   margin-top: clamp(18px, 3vw, 30px);
 }
+
+/* Once they stack, centring each line individually leaves the medal dots
+   ragged. Below this width they become a left-aligned list that is centred
+   as a block, so the four dots form a column. */
+@media (max-width: 760px) {
+  .medal-legend {
+    display: grid;
+    justify-content: center;
+    justify-items: start;
+    gap: 12px;
+  }
+}
+/* This sits on the dark awards band, so the legend takes its colours from
+   that context. It was inheriting the page's dark ink, which made it very
+   nearly invisible against the plum background. */
 .medal-legend__item {
   display: inline-flex;
   align-items: baseline;
   gap: 9px;
-  font-size: .74rem;
-  letter-spacing: .07em;
-  color: var(--ink-soft);
+  font-size: .78rem;
+  letter-spacing: .05em;
+  color: rgba(255, 250, 242, .82);
 }
 .medal-legend__item b {
   position: relative;
-  padding-left: 15px;
+  padding-left: 16px;
   font-family: var(--display);
-  font-size: .95rem;
+  font-size: 1.02rem;
   font-weight: 600;
-  letter-spacing: .12em;
-  color: var(--ink);
+  letter-spacing: .14em;
+  color: var(--gold-light);
   text-transform: uppercase;
 }
 .medal-legend__item b::before {
