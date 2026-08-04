@@ -3563,10 +3563,29 @@ em {
   to   { opacity: 1; transform: none; filter: blur(0); }
 }
 
-/* Skipping must never leave hero content mid-animation or invisible. */
+/* The language card is the visitor's first control, not part of the hero's
+   settling choreography. Sitting third in the copy column placed it at the
+   end of the arrival's delay chain, so it did not reach full opacity until
+   3335ms — measured, not estimated. It now enters on its own early timing.
+   Nothing about its appearance changes: same shine, same easing curve, same
+   duration. Placed after the nth-child rules so it wins the specificity tie. */
+.is-arriving .home-hero__copy > .hero-language { animation-delay: .42s; }
+@media (hover: none) and (pointer: coarse) {
+  .is-arriving .home-hero__copy > .hero-language { animation-delay: .36s; }
+}
+
+/* Skipping must never leave hero content mid-animation or invisible — but it
+   must not snap to it either. Easing to the finished state preserves the
+   character of the entrance when a visitor interrupts it, which is what made
+   an interrupted arrival feel abrupt rather than smooth. */
 .arrival.is-skipped ~ * .home-hero__copy > *,
 html:not(.is-arriving) .home-hero__copy > *,
 html:not(.is-arriving) .portrait-stage { animation: none; opacity: 1; filter: none; transform: none; }
+
+html:not(.is-arriving) .home-hero__copy > *,
+html:not(.is-arriving) .portrait-stage {
+  transition: opacity .55s var(--ease-lux), transform .55s var(--ease-lux), filter .55s var(--ease-lux);
+}
 
 @media (prefers-reduced-motion: reduce) {
   .arrival { display: none; }
