@@ -1,73 +1,152 @@
 /**
  * The arrival.
  *
- * One idea, executed precisely: light coming up in a room. Warmth arrives
- * before detail. A warm wash sits over the hero at full strength, then lifts
- * — as though someone is slowly raising a dimmer — and as it lifts the hero
- * resolves underneath it. The last frame of the sequence is the first frame
- * of the page, because it is literally the same DOM: nothing is rebuilt or
- * handed over.
+ * Still one idea — light coming up in a room — but staged, so it is actually
+ * witnessed rather than glimpsed. The sequence:
  *
- * Rules this obeys:
- * - First visit only, remembered in sessionStorage. Nobody sits through it
- *   twice.
- * - The page is readable and usable in well under two seconds. The wash is
- *   pointer-events:none from the first frame, so a visitor can click through
- *   it while it is still lifting.
- * - Skippable by any scroll, tap, or key. Skipping lands in the finished
- *   state, never a half-lit one.
- * - Nothing loads behind a blank screen. The hero paints first and the wash
- *   plays *over* content that is already there — if this module never runs,
- *   the page is simply the finished page.
- * - Under prefers-reduced-motion it does not run at all.
+ *   0.00s  A warm luminous field holds the screen. Warmth before detail.
+ *   0.20s  The KWIIN lotus draws itself in gold linework, stroke by stroke.
+ *   1.05s  The wordmark rises beneath it, letterspacing opening as it settles.
+ *   1.70s  The line of the brand appears.
+ *   2.35s  The lockup lifts and dissolves as the light begins to go up.
+ *   2.60s  The hero resolves underneath; the sen network draws its lines in.
+ *   4.00s  Done. The veil is gone and the page is simply the page.
  *
- * The timing is an exhale: a long, decelerating lift rather than a spring.
+ * It resolves *into* the hero rather than handing over: the lotus dissolves
+ * toward the portrait seal's position, and the light lifting is what reveals
+ * the hero, which has been sitting there fully painted the whole time.
+ *
+ * Guarantees kept from the first version:
+ * - First visit per session only, unless explicitly replayed from the logo.
+ * - pointer-events:none throughout, so the page is clickable from frame one.
+ * - Any scroll, tap or key press skips instantly to the finished state.
+ * - Does not run at all under prefers-reduced-motion.
+ * - Nothing loads behind it; it plays over content that has already painted.
  */
 
 const KEY = "kwiin-arrived";
+const REPLAY_KEY = "kwiin-replay-arrival";
 
-export function initArrival() {
+const LOTUS = `
+  <svg class="arrival__lotus" viewBox="0 0 72 52" fill="none" aria-hidden="true">
+    <path d="M36 43C24 37 18 27 18 15c8 3 14 9 18 18 4-9 10-15 18-18 0 12-6 22-18 28Z"/>
+    <path d="M36 41C30 28 30 16 36 5c6 11 6 23 0 36Z"/>
+    <path d="M35 43C21 44 11 39 5 29c10-1 19 2 27 11"/>
+    <path d="M37 43c14 1 24-4 30-14-10-1-19 2-27 11"/>
+    <path d="M19 47c10 3 24 3 34 0"/>
+  </svg>`;
+
+let active = null;
+
+export function playArrival({ force = false } = {}) {
   const hero = document.querySelector(".home-hero");
   if (!hero) return;
-
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-  try {
-    if (sessionStorage.getItem(KEY) === "1") return;
-    sessionStorage.setItem(KEY, "1");
-  } catch {
-    // Private mode: play it once, this visit only.
+  // Never run twice in a session unless the visitor asks for it by tapping
+  // the brand mark.
+  if (!force) {
+    try {
+      if (sessionStorage.getItem(KEY) === "1") return;
+      sessionStorage.setItem(KEY, "1");
+    } catch {
+      /* private mode: play once for this visit */
+    }
   }
+
+  // A replay while one is already running restarts cleanly.
+  if (active) active.cancel();
 
   const veil = document.createElement("div");
   veil.className = "arrival";
   veil.setAttribute("aria-hidden", "true");
-  veil.innerHTML = '<span class="arrival__warmth"></span>';
+  veil.innerHTML = `
+    <span class="arrival__warmth"></span>
+    <span class="arrival__grain"></span>
+    <div class="arrival__lockup">
+      ${LOTUS}
+      <span class="arrival__word">KWIIN</span>
+      <span class="arrival__rule"></span>
+      <span class="arrival__byline">by Pratana Halstrick</span>
+    </div>`;
   document.body.appendChild(veil);
   document.documentElement.classList.add("is-arriving");
 
+  const timers = [];
+  const at = (ms, fn) => timers.push(window.setTimeout(fn, ms));
   let settled = false;
+
+  const cleanup = () => {
+    timers.forEach(clearTimeout);
+    window.removeEventListener("scroll", skip);
+    window.removeEventListener("pointerdown", skip);
+    window.removeEventListener("keydown", skip);
+    document.documentElement.classList.remove("is-arriving");
+    active = null;
+  };
+
   const finish = () => {
     if (settled) return;
     settled = true;
-    document.documentElement.classList.remove("is-arriving");
     veil.classList.add("is-done");
-    // Remove only after the fade completes, so nothing pops.
     veil.addEventListener("transitionend", () => veil.remove(), { once: true });
-    window.setTimeout(() => veil.remove(), 1400);
-    window.removeEventListener("scroll", finish);
-    window.removeEventListener("pointerdown", finish);
-    window.removeEventListener("keydown", finish);
+    window.setTimeout(() => veil.remove(), 1600);
+    cleanup();
   };
 
-  // Any intent to interact ends the sequence immediately, in its final state.
-  window.addEventListener("scroll", finish, { once: true, passive: true });
-  window.addEventListener("pointerdown", finish, { once: true });
-  window.addEventListener("keydown", finish, { once: true });
+  function skip() {
+    if (settled) return;
+    // Jump straight to the finished state, never a half-lit one.
+    veil.classList.add("is-lifting", "is-skipped");
+    window.dispatchEvent(new CustomEvent("kwiin:arrival-reveal", { detail: { instant: true } }));
+    finish();
+  }
 
-  // The lift itself. Kicked off on the next frame so the hero has painted.
+  active = { cancel: () => { settled = true; veil.remove(); cleanup(); } };
+
+  window.addEventListener("scroll", skip, { once: true, passive: true });
+  window.addEventListener("pointerdown", skip, { once: true });
+  window.addEventListener("keydown", skip, { once: true });
+
   requestAnimationFrame(() => {
-    veil.classList.add("is-lifting");
-    window.setTimeout(finish, 1750);
+    veil.classList.add("is-drawing");            // lotus draws, word rises
+    at(2350, () => veil.classList.add("is-lifting"));  // lockup dissolves, light goes up
+    at(2600, () => window.dispatchEvent(new CustomEvent("kwiin:arrival-reveal", { detail: { instant: false } })));
+    at(4000, finish);
   });
+}
+
+/**
+ * The brand mark still navigates home. On the home page it additionally
+ * replays the arrival, and from any other page it navigates home and the
+ * sequence plays on landing. Tapping a logo to see the opening again is a
+ * thing people genuinely try; here it works.
+ */
+export function initArrivalReplay() {
+  document.querySelectorAll(".brand").forEach((brand) => {
+    brand.addEventListener("click", (event) => {
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+
+      if (document.body.dataset.page === "home") {
+        // Already home: stay put, scroll up, replay.
+        event.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        window.setTimeout(() => playArrival({ force: true }), window.scrollY > 40 ? 420 : 0);
+      } else {
+        // Elsewhere: let the navigation happen, and ask home to replay.
+        try { sessionStorage.setItem(REPLAY_KEY, "1"); } catch { /* ignore */ }
+      }
+    });
+  });
+}
+
+export function initArrival() {
+  let replayRequested = false;
+  try {
+    replayRequested = sessionStorage.getItem(REPLAY_KEY) === "1";
+    if (replayRequested) sessionStorage.removeItem(REPLAY_KEY);
+  } catch { /* ignore */ }
+
+  playArrival({ force: replayRequested });
 }

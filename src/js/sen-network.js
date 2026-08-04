@@ -117,6 +117,16 @@ export function initSenNetwork() {
   let originY = 0;
   const pointer = { x: 0, y: 0, cx: 0, cy: 0 };
 
+  // Reveal progress, 0..1. The sen lines draw themselves along their own
+  // length during the arrival, so the network appears to switch on rather
+  // than fade in. Idle state is 1 (fully drawn); if an arrival is already
+  // running we start dark so the lines are never seen complete and then
+  // reset when the reveal fires.
+  let reveal = document.documentElement.classList.contains("is-arriving") ? 0 : 1;
+  let revealFrom = 0;
+  let revealStart = 0;
+  let revealing = false;
+
   function resize() {
     const rect = hero.getBoundingClientRect();
     width = rect.width;
@@ -153,9 +163,15 @@ export function initSenNetwork() {
     ctx.lineWidth = Math.max(1, scale * 0.012);
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
-    for (const curve of curves) {
+    for (let c = 0; c < curves.length; c += 1) {
+      const curve = curves[c];
+      // Stagger each sen line slightly so they light up in sequence.
+      const offset = (c / curves.length) * 0.35;
+      const local = Math.max(0, Math.min(1, (reveal - offset) / (1 - offset || 1)));
+      if (local <= 0) continue;
+      const upTo = Math.max(2, Math.round(curve.length * local));
       ctx.beginPath();
-      for (let i = 0; i < curve.length; i += 1) {
+      for (let i = 0; i < upTo; i += 1) {
         const [px, py] = project(curve[i].x, curve[i].y);
         if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
       }
@@ -165,16 +181,19 @@ export function initSenNetwork() {
     // anchor stars
     ctx.globalCompositeOperation = "lighter";
     for (let i = 0; i < anchors.length; i += 1) {
+      // Anchors ignite in sequence as the reveal passes over them.
+      const ignite = Math.max(0, Math.min(1, (reveal - (i / anchors.length) * 0.55) * 3));
+      if (ignite <= 0) continue;
       const pulse = reducedMotion ? 0.85 : 0.72 + 0.28 * Math.sin(time * 1.35 + i * 0.83);
       const base = (i % 5 === 0 ? 20 : 12 + (i % 3) * 3) * (scale / 46);
-      const size = base * pulse;
+      const size = base * pulse * (0.6 + 0.4 * ignite);
       const [px, py] = project(anchors[i][0], anchors[i][1]);
-      ctx.globalAlpha = Math.min(1, pulse * 0.9);
+      ctx.globalAlpha = Math.min(1, pulse * 0.9 * ignite);
       ctx.drawImage(glow, px - size / 2, py - size / 2, size, size);
     }
 
     // travelling signals: light moving along the sen lines
-    const signalCount = coarse ? 3 : 7;
+    const signalCount = reveal < 0.98 ? 0 : (coarse ? 3 : 7);
     for (let i = 0; i < signalCount; i += 1) {
       const curve = curves[(i * 3 + Math.floor(time * 0.08)) % curves.length];
       const progress = ((time * (0.075 + i * 0.004) + i * 0.19) % 1 + 1) % 1;
@@ -201,11 +220,27 @@ export function initSenNetwork() {
     if (now - previous >= interval) {
       pointer.cx += (pointer.x - pointer.cx) * 0.045;
       pointer.cy += (pointer.y - pointer.cy) * 0.045;
+      if (revealing) {
+        const t = Math.min(1, (now - revealStart) / 1900);
+        reveal = revealFrom + (1 - revealFrom) * (1 - Math.pow(1 - t, 3));
+        if (t >= 1) { reveal = 1; revealing = false; }
+      }
       draw((now - start) / 1000);
       previous = now - ((now - previous) % interval);
     }
     frame = requestAnimationFrame(loop);
   }
+
+  /** Draw the network in from nothing. Called by the arrival sequence. */
+  function playReveal(instant) {
+    if (reducedMotion || instant) { reveal = 1; revealing = false; draw((performance.now() - start) / 1000); return; }
+    reveal = 0;
+    revealFrom = 0;
+    revealStart = performance.now();
+    revealing = true;
+    sync();
+  }
+  window.addEventListener("kwiin:arrival-reveal", (event) => playReveal(event.detail?.instant));
 
   function sync() {
     if (reducedMotion) return; // one still frame only, already drawn

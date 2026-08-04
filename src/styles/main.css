@@ -2928,34 +2928,148 @@ em {
   transition: opacity .9s var(--ease-lux);
 }
 
+/* The luminous field. Opaque at first so there is a real reveal, warm rather
+   than white so it reads as light in a room and not as a loading screen. */
 .arrival__warmth {
   position: absolute;
-  inset: -10%;
+  inset: -12%;
   background:
-    radial-gradient(58% 46% at 62% 34%, rgba(255,241,214,.96), rgba(250,235,220,.78) 42%, rgba(243,231,228,.52) 66%, rgba(241,236,236,0) 100%),
-    linear-gradient(178deg, #f7f1ea 0%, #f2eae8 46%, #efe7e6 100%);
+    radial-gradient(52% 40% at 50% 42%, #fffaf0 0%, #fdf3e4 34%, #f7ece6 58%, #f2e9e7 78%, #efe6e5 100%),
+    linear-gradient(178deg, #f9f3ec 0%, #f3ebe9 46%, #efe7e6 100%);
   opacity: 1;
-  transform: scale(1.06);
-  transition: opacity 1.6s var(--ease-lux), transform 1.9s var(--ease-lux);
+  transform: scale(1.08);
+  transition: opacity 1.5s var(--ease-lux), transform 2.1s var(--ease-lux);
 }
 
+/* Grain that resolves out as the light comes up: noise into clarity. */
+.arrival__grain {
+  position: absolute;
+  inset: 0;
+  opacity: .5;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.42'/%3E%3C/svg%3E");
+  transition: opacity 1.4s var(--ease-lux);
+}
+
+/* ── The brand lockup ── */
+.arrival__lockup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  transform: translate(-50%, -50%);
+  transition: opacity 1.05s var(--ease-lux), transform 1.35s var(--ease-lux), filter 1.05s var(--ease-lux);
+}
+
+.arrival__lotus {
+  width: clamp(76px, 12vw, 124px);
+  height: auto;
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 6px 26px rgba(184,139,53,.28));
+}
+
+/* Each petal draws itself. */
+.arrival__lotus path {
+  stroke-dasharray: 132;
+  stroke-dashoffset: 132;
+}
+.arrival.is-drawing .arrival__lotus path {
+  animation: arrival-draw 1.25s var(--ease-lux) forwards;
+}
+.arrival.is-drawing .arrival__lotus path:nth-child(1) { animation-delay: .20s; }
+.arrival.is-drawing .arrival__lotus path:nth-child(2) { animation-delay: .34s; }
+.arrival.is-drawing .arrival__lotus path:nth-child(3) { animation-delay: .48s; }
+.arrival.is-drawing .arrival__lotus path:nth-child(4) { animation-delay: .58s; }
+.arrival.is-drawing .arrival__lotus path:nth-child(5) { animation-delay: .74s; }
+
+@keyframes arrival-draw { to { stroke-dashoffset: 0; } }
+
+.arrival__word {
+  font-family: var(--display);
+  font-size: clamp(2.1rem, 6.4vw, 3.5rem);
+  font-weight: 300;
+  line-height: 1;
+  color: var(--ink);
+  letter-spacing: .12em;
+  opacity: 0;
+  transform: translateY(10px);
+}
+.arrival.is-drawing .arrival__word {
+  animation: arrival-word 1.5s var(--ease-lux) 1.05s forwards;
+}
+@keyframes arrival-word {
+  from { opacity: 0; transform: translateY(10px); letter-spacing: .12em; }
+  to   { opacity: 1; transform: translateY(0);   letter-spacing: .42em; }
+}
+
+.arrival__rule {
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0;
+}
+.arrival.is-drawing .arrival__rule {
+  animation: arrival-rule 1.2s var(--ease-lux) 1.55s forwards;
+}
+@keyframes arrival-rule {
+  from { width: 0; opacity: 0; }
+  to   { width: clamp(120px, 22vw, 240px); opacity: 1; }
+}
+
+.arrival__byline {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: clamp(.82rem, 2vw, 1.02rem);
+  color: var(--ink-soft);
+  opacity: 0;
+}
+.arrival.is-drawing .arrival__byline {
+  animation: arrival-byline 1.2s var(--ease-lux) 1.75s forwards;
+}
+@keyframes arrival-byline { to { opacity: .9; } }
+
+/* ── The lift ── */
 .arrival.is-lifting .arrival__warmth { opacity: 0; transform: scale(1); }
+.arrival.is-lifting .arrival__grain  { opacity: 0; }
+.arrival.is-lifting .arrival__lockup {
+  opacity: 0;
+  transform: translate(-50%, -58%) scale(1.09);
+  filter: blur(3px);
+}
 .arrival.is-done { opacity: 0; }
 
-/* While the light is coming up, the hero's own content settles in with
-   weight rather than sliding from an edge. */
+/* Skipping collapses every stage at once, landing in the finished state. */
+.arrival.is-skipped,
+.arrival.is-skipped * { transition-duration: .28s !important; animation: none !important; }
+
+/* The hero settles in *under* the lifting light, with weight rather than
+   sliding from an edge. Timed to begin as the lockup dissolves, so the two
+   read as one movement. */
 .is-arriving .home-hero__copy > *,
 .is-arriving .portrait-stage {
-  animation: arrival-settle 1.5s var(--ease-lux) both;
+  animation: arrival-settle 1.7s var(--ease-lux) both;
 }
-.is-arriving .home-hero__copy > *:nth-child(2) { animation-delay: .1s; }
-.is-arriving .home-hero__copy > *:nth-child(3) { animation-delay: .2s; }
-.is-arriving .portrait-stage { animation-delay: .16s; }
+.is-arriving .home-hero__copy > *:nth-child(1) { animation-delay: 2.50s; }
+.is-arriving .home-hero__copy > *:nth-child(2) { animation-delay: 2.62s; }
+.is-arriving .home-hero__copy > *:nth-child(3) { animation-delay: 2.76s; }
+.is-arriving .portrait-stage                   { animation-delay: 2.56s; }
 
 @keyframes arrival-settle {
-  from { opacity: 0; transform: translate3d(0, 14px, 0) scale(.994); filter: blur(6px); }
+  from { opacity: 0; transform: translate3d(0, 20px, 0) scale(.988); filter: blur(9px); }
   to   { opacity: 1; transform: none; filter: blur(0); }
 }
+
+/* Skipping must never leave hero content mid-animation or invisible. */
+.arrival.is-skipped ~ * .home-hero__copy > *,
+html:not(.is-arriving) .home-hero__copy > *,
+html:not(.is-arriving) .portrait-stage { animation: none; opacity: 1; filter: none; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
   .arrival { display: none; }

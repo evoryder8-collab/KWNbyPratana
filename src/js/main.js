@@ -3,13 +3,15 @@ import { initI18n } from "./i18n.js";
 import { initNavigation } from "./navigation.js";
 import { initPricing } from "./pricing.js";
 import { initCounters } from "./numerals.js";
-import { initArrival } from "./arrival.js";
+import { initArrival, initArrivalReplay } from "./arrival.js";
 
 document.documentElement.classList.add("js");
 
-// Arrival runs first so the wash is in place on the same frame the hero
+// Arrival runs first so the light is in place on the same frame the hero
 // paints; it is a no-op on every page but the home page's first visit.
 if (document.body.dataset.page === "home") initArrival();
+// The brand mark replays it, from any page.
+initArrivalReplay();
 
 initI18n();
 initNavigation();
