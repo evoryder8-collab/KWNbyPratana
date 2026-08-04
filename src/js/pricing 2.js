@@ -17,25 +17,6 @@ function zoneFor(distance = state.distance) {
   return travelZones.find((zone) => zone.distance === Number(distance)) ?? travelZones[0];
 }
 
-/**
- * Adopt whatever the browser has actually put in the zone <select>.
- *
- * Browsers restore form control values on history navigation, and they do it
- * *after* our module has initialised. Without this, a visitor returning via the
- * back button sees "30 km" selected while the price, the breakdown and the
- * prefilled WhatsApp message all still say 15 km, so they book, and are quoted,
- * the wrong travel zone. The DOM is the source of truth for restored state.
- */
-function adoptRestoredZone() {
-  const select = document.querySelector("[data-zone-select]");
-  if (!select) return false;
-  const restored = Number(select.value);
-  if (!Number.isFinite(restored) || restored === state.distance) return false;
-  if (!travelZones.some((zone) => zone.distance === restored)) return false;
-  state.distance = restored;
-  return true;
-}
-
 function whatsappUrl(message) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }
@@ -112,16 +93,12 @@ function updateCard(card, mode, zone) {
   const bookLink = card.querySelector("[data-service-book]");
   const bookLabel = card.querySelector("[data-service-book-label]");
   if (bookLink && bookLabel) {
-    // Include the subtitle so the message names the treatment exactly as the
-    // card does. "Booster Muscles" and "Booster Muscles Sport" are the same
-    // product, but only the second one is unambiguous in an inbox.
-    const serviceName = [service.title, service.subtitle].filter(Boolean).join(" ");
     if (effectiveMode === "mobile") {
       bookLabel.textContent = t("pricing.ctaMobile", { distance: zone.distance });
-      bookLink.href = whatsappUrl(bookingMessage("mobile", serviceName, zone));
+      bookLink.href = whatsappUrl(bookingMessage("mobile", service.title, zone));
     } else {
       bookLabel.textContent = t("pricing.ctaStudio");
-      bookLink.href = whatsappUrl(bookingMessage("studio", serviceName, zone));
+      bookLink.href = whatsappUrl(bookingMessage("studio", service.title, zone));
     }
   }
 }
@@ -162,16 +139,6 @@ export function initPricing() {
   window.addEventListener("kwiin:language-change", () => {
     updateAll();
     updateGenericLinks();
-  });
-
-  // History restores <select> values after this module initialises, so adopt
-  // the restored value on the next frame and again on every bfcache restore.
-  requestAnimationFrame(() => {
-    if (adoptRestoredZone()) updateAll();
-  });
-
-  window.addEventListener("pageshow", () => {
-    if (adoptRestoredZone()) updateAll();
   });
 
   updateAll();
