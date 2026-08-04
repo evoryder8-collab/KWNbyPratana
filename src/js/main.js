@@ -3,6 +3,7 @@ import { initI18n } from "./i18n.js";
 import { initNavigation } from "./navigation.js";
 import { initPricing } from "./pricing.js";
 import { initCounters } from "./numerals.js";
+import { initReveals } from "./reveal.js";
 import { initArrival, initArrivalReplay } from "./arrival.js";
 
 document.documentElement.classList.add("js");
@@ -17,6 +18,7 @@ initI18n();
 initNavigation();
 initPricing();
 initCounters();
+initReveals();
 
 let animationsStarted = false;
 const startAnimations = () => {

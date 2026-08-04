@@ -2289,12 +2289,33 @@ em {
 .site-footer__legal { position:relative; display:flex; align-items:center; justify-content:space-between; gap:25px; padding-top:24px; font-size:.58rem; }
 .site-footer__legal p:last-child { color:var(--gold-light); font-family:var(--display); font-size:.95rem; font-style:italic; }
 
-/* Reveal states */
+/* Reveal states.
+   These are driven by a small IntersectionObserver in the main bundle, not
+   by the animation chunk. Content must never be waiting on a 44 KB library
+   to become visible — if that chunk is slow or fails, the page would sit
+   blank below the fold. The transition lives here so the whole effect is
+   CSS; JS only adds the class. */
 .js [data-reveal],
 .js [data-stagger] > * {
   opacity: 0;
   transform: translateY(28px);
+  transition: opacity .85s var(--ease-lux), transform .85s var(--ease-lux);
 }
+.js [data-reveal].is-revealed,
+.js [data-stagger] > .is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* Belt and braces: if scripting is on but the observer never runs for any
+   reason, nothing stays hidden past the first few seconds. */
+@keyframes reveal-failsafe { to { opacity: 1; transform: none; } }
+.js [data-reveal],
+.js [data-stagger] > * {
+  animation: reveal-failsafe .01s linear 6s forwards;
+}
+.js [data-reveal].is-revealed,
+.js [data-stagger] > .is-revealed { animation: none; }
 
 /* Responsive */
 @media (max-width: 1120px) {
@@ -2914,6 +2935,17 @@ em {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior:auto; }
   *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; scroll-behavior:auto!important; transition-duration:.01ms!important; }
+
+  /* Deliberate exception: the values ribbon is a line of words, and a
+     stationary one just reads as cut-off text. It keeps moving, but at
+     roughly a third of the speed — slow enough to be readable rather than
+     attention-grabbing, which is what the preference is actually asking for. */
+  .values-ribbon__track {
+    animation-name: marquee !important;
+    animation-duration: 96s !important;
+    animation-timing-function: linear !important;
+    animation-iteration-count: infinite !important;
+  }
   body::before { transform:none; }
   .js [data-reveal],.js [data-stagger] > * { opacity:1; transform:none; }
 }
@@ -2921,6 +2953,40 @@ em {
 @media (hover: none) and (pointer: coarse) {
   .portal-card { will-change:auto; }
   .treatment-card:hover { transform:none; }
+}
+
+/* ── Hero portrait framing ───────────────────────────────────────────────
+   The portrait file is the untouched original: a square canvas with the
+   subject occupying roughly the middle third, surrounded by transparent
+   space from the soft mask. Framing is done here in CSS rather than by
+   re-cutting the file, so the image the browser downloads is byte-for-byte
+   the one that was authored. object-fit + object-position crops to the
+   subject; nothing is re-encoded, so the feather stays exactly as brushed. */
+.portrait-stage picture {
+  display: block;
+  height: min(76vh, 860px);    /* drive from height so the hero stays in view */
+  width: auto;
+  aspect-ratio: 1422 / 2500;   /* the subject's own proportions */
+  margin-inline: auto;
+}
+.portrait-stage picture > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50.5% 52%;  /* subject centre within the square canvas */
+  transform: scale(1.5);       /* fills the frame without touching pixels */
+  transform-origin: 50% 58%;
+}
+
+/* Same original, same approach, in the founder block on the About page. */
+.founder__portrait > img {
+  position: absolute;
+  inset: 4% 0 0;
+  width: 100%;
+  height: 96%;
+  object-fit: contain;
+  object-position: bottom;
+  filter: drop-shadow(0 30px 40px rgba(59,38,57,.2));
 }
 
 /* ── Laureate hero (About) ───────────────────────────────────────────────

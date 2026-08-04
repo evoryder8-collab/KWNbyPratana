@@ -56,34 +56,11 @@ function initReactiveSurfaces() {
 export function initAnimations() {
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  if (reducedMotion) {
-    document.querySelectorAll("[data-reveal], [data-stagger] > *").forEach((element) => {
-      element.style.opacity = "1";
-      element.style.transform = "none";
-    });
-    return;
-  }
+  // Reveals are handled in the main bundle (reveal.js); this chunk only
+  // adds the scrubbed parallax and pointer-reactive flourishes.
+  if (reducedMotion) return;
 
-  gsap.utils.toArray("[data-reveal]").forEach((element) => {
-    gsap.to(element, {
-      y: 0,
-      opacity: 1,
-      duration: 1,
-      ease: "power3.out",
-      scrollTrigger: { trigger: element, start: "top 88%", once: true },
-    });
-  });
 
-  gsap.utils.toArray("[data-stagger]").forEach((group) => {
-    gsap.to(group.children, {
-      y: 0,
-      opacity: 1,
-      duration: 0.85,
-      stagger: 0.1,
-      ease: "power3.out",
-      scrollTrigger: { trigger: group, start: "top 86%", once: true },
-    });
-  });
 
   gsap.utils.toArray(".inner-hero__art span, .services-hero__ribbons span, .contact-hero__rings span").forEach((element, index) => {
     gsap.to(element, {
