@@ -843,6 +843,14 @@ em {
   width: 100%;
   height: 100%;
   opacity: 0.82;
+  /* Promote the sen network onto its own compositor layer. Without this it
+     is painted inside the hero sky's negative-z group, so every animated
+     frame forces the four gradient layers, both blurred orbs and the
+     page-wide grain to be re-composited with it. On its own layer the GPU
+     swaps a texture instead. */
+  transform: translateZ(0);
+  will-change: transform;
+  contain: paint;
 }
 
 .home-hero__grain {
