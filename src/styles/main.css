@@ -2923,6 +2923,251 @@ em {
   .treatment-card:hover { transform:none; }
 }
 
+/* ── Craft strip (studio) ────────────────────────────────────────────────
+   Three working photographs at different depths. They are soft-masked, so
+   they float on the page ground rather than sitting in frames — the only
+   structure is the rhythm of their sizes. */
+.craft { position: relative; overflow: hidden; }
+.craft__wash {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(50% 40% at 12% 26%, rgba(120,186,192,.14), transparent 62%),
+    radial-gradient(54% 46% at 88% 72%, rgba(201,146,143,.14), transparent 62%);
+  pointer-events: none;
+}
+.craft__copy {
+  max-width: 46ch;
+  margin-inline: auto;
+  margin-top: 14px;
+  color: var(--ink-soft);
+}
+
+.craft__strip {
+  display: grid;
+  gap: clamp(14px, 2.6vw, 30px);
+  margin-top: clamp(30px, 5vw, 56px);
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+}
+@media (min-width: 861px) {
+  .craft__strip { grid-template-columns: 1fr 1.35fr 1fr; }
+  .craft__figure--tall { transform: translateY(-16px); }
+  .craft__figure:last-child { transform: translateY(18px); }
+}
+@media (max-width: 560px) {
+  .craft__strip { grid-template-columns: 1fr; }
+}
+
+.craft__figure { position: relative; margin: 0; }
+.craft__figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 20px 40px rgba(62, 44, 64, .20));
+  transition: transform .9s var(--ease-lux), filter .9s var(--ease-lux);
+}
+.craft__figure:hover img {
+  transform: scale(1.015);
+  filter: drop-shadow(0 28px 52px rgba(62, 44, 64, .26));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .craft__figure img { transition: none; }
+}
+
+/* ── The medals ──────────────────────────────────────────────────────────
+   The photograph carries the achievement, so the treatment stays out of its
+   way: a warm radiance breathing behind the metal, and a very slow sweep of
+   light rays. Everything is a sibling layer behind the image, never a filter
+   on it, so the soft-masked edges stay clean. */
+.medal-showcase {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: clamp(34px, 5vw, 62px) auto 0;
+  max-width: min(760px, 92%);
+  isolation: isolate;
+}
+
+.medal-showcase__radiance {
+  position: absolute;
+  z-index: -2;
+  top: 42%;
+  left: 50%;
+  width: min(150%, 900px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(255, 233, 176, .78) 0%, rgba(240, 211, 144, .42) 26%,
+                    rgba(201, 160, 66, .20) 46%, rgba(201, 160, 66, 0) 70%);
+  filter: blur(14px);
+  animation: medal-breathe 7.5s ease-in-out infinite;
+}
+
+/* Slow rotating rays. Conic gradients are cheap and stay on the compositor. */
+.medal-showcase__rays {
+  position: absolute;
+  z-index: -3;
+  top: 42%;
+  left: 50%;
+  width: min(170%, 1040px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: conic-gradient(from 0deg,
+    rgba(255,226,158,0) 0deg,   rgba(255,226,158,.30) 12deg, rgba(255,226,158,0) 26deg,
+    rgba(255,226,158,0) 60deg,  rgba(255,226,158,.22) 74deg, rgba(255,226,158,0) 92deg,
+    rgba(255,226,158,0) 140deg, rgba(255,226,158,.28) 152deg, rgba(255,226,158,0) 172deg,
+    rgba(255,226,158,0) 214deg, rgba(255,226,158,.20) 226deg, rgba(255,226,158,0) 244deg,
+    rgba(255,226,158,0) 292deg, rgba(255,226,158,.26) 304deg, rgba(255,226,158,0) 326deg,
+    rgba(255,226,158,0) 360deg);
+  -webkit-mask-image: radial-gradient(circle, #000 12%, rgba(0,0,0,.55) 42%, transparent 68%);
+  mask-image: radial-gradient(circle, #000 12%, rgba(0,0,0,.55) 42%, transparent 68%);
+  filter: blur(9px);
+  opacity: .72;
+  animation: medal-rays 64s linear infinite;
+  will-change: transform;
+}
+
+.medal-showcase__image {
+  position: relative;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 26px 44px rgba(92, 66, 28, .30));
+}
+
+@keyframes medal-breathe {
+  0%, 100% { opacity: .74; transform: translate(-50%, -50%) scale(1); }
+  50%      { opacity: 1;   transform: translate(-50%, -50%) scale(1.06); }
+}
+@keyframes medal-rays {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* The engraved category names, read straight off the medals. */
+.medal-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px clamp(14px, 3vw, 30px);
+  margin-top: clamp(18px, 3vw, 30px);
+}
+.medal-legend__item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 9px;
+  font-size: .74rem;
+  letter-spacing: .07em;
+  color: var(--ink-soft);
+}
+.medal-legend__item b {
+  position: relative;
+  padding-left: 15px;
+  font-family: var(--display);
+  font-size: .95rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink);
+  text-transform: uppercase;
+}
+.medal-legend__item b::before {
+  position: absolute;
+  top: .42em;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  content: "";
+}
+.medal-legend__item[data-tone="gold"] b::before   { background: linear-gradient(145deg, #f0d390, #b8862c); }
+.medal-legend__item[data-tone="silver"] b::before { background: linear-gradient(145deg, #e8e8ea, #9a9aa2); }
+.medal-legend__item[data-tone="bronze"] b::before { background: linear-gradient(145deg, #e0a878, #97552c); }
+
+/* ── Championship gallery ────────────────────────────────────────────────
+   The photographs are soft-masked, so they sit directly on the page with a
+   warm ground beneath rather than inside hard frames. */
+.championship { position: relative; overflow: hidden; }
+.championship__wash {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(60% 42% at 22% 18%, rgba(201,160,66,.10), transparent 62%),
+    radial-gradient(52% 44% at 82% 74%, rgba(170,162,202,.14), transparent 62%);
+  pointer-events: none;
+}
+
+.championship__grid {
+  display: grid;
+  gap: clamp(16px, 3vw, 34px);
+  margin-top: clamp(30px, 5vw, 54px);
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (min-width: 861px) {
+  .championship__grid { grid-template-columns: 1.25fr 1fr 1fr; align-items: end; }
+}
+@media (max-width: 560px) {
+  .championship__grid { grid-template-columns: 1fr; }
+}
+
+.championship__figure { position: relative; margin: 0; }
+.championship__figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 20px 38px rgba(62, 44, 64, .20));
+  transition: transform .8s var(--ease-lux), filter .8s var(--ease-lux);
+}
+.championship__figure:hover img {
+  transform: translateY(-6px) scale(1.012);
+  filter: drop-shadow(0 30px 52px rgba(62, 44, 64, .26));
+}
+.championship__figure--hero img { filter: drop-shadow(0 26px 46px rgba(62,44,64,.24)); }
+
+.championship__figure figcaption {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 12px;
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .2em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+}
+.championship__figure figcaption b {
+  font-family: var(--display);
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: .04em;
+  color: var(--gold-deep);
+}
+
+.championship__group { position: relative; margin: clamp(30px, 5vw, 56px) 0 0; }
+.championship__group img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 22px 44px rgba(62, 44, 64, .18));
+}
+.championship__group figcaption {
+  margin-top: 14px;
+  font-size: .62rem;
+  font-weight: 600;
+  letter-spacing: .28em;
+  color: var(--ink-faint);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .medal-showcase__radiance,
+  .medal-showcase__rays { animation: none; }
+  .championship__figure img { transition: none; }
+}
+
 /* ── The arrival ─────────────────────────────────────────────────────────
    Light coming up in a room. A warm wash sits over the hero and lifts, and
    the hero resolves underneath it. Compositor-only: opacity and transform,
