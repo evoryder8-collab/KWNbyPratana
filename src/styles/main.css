@@ -3273,6 +3273,15 @@ em {
   position: fixed;
   z-index: 2000;
   inset: 0;
+  /* iOS Safari: a fixed inset:0 layer is sized to the *layout* viewport, so
+     when the address bar collapses a strip of the page is revealed beneath
+     it. Overshoot generously and pin to the large viewport height so the
+     veil always covers, whatever the browser chrome is doing. */
+  height: 100vh;
+  height: 100lvh;
+  min-height: 100dvh;
+  margin-top: -8vh;
+  padding-bottom: 16vh;
   pointer-events: none;           /* usable from the very first frame */
   opacity: 1;
   transition: opacity .9s var(--ease-lux);
@@ -3410,6 +3419,17 @@ em {
 .is-arriving .home-hero__copy > *:nth-child(2) { animation-delay: 2.62s; }
 .is-arriving .home-hero__copy > *:nth-child(3) { animation-delay: 2.76s; }
 .is-arriving .portrait-stage                   { animation-delay: 2.56s; }
+
+/* Phones run a shorter sequence (see arrival.js), so the hero has to settle
+   sooner or it would still be fading in after the veil has gone. */
+@media (hover: none) and (pointer: coarse) {
+  .is-arriving .home-hero__copy > *,
+  .is-arriving .portrait-stage { animation-duration: 1.2s; }
+  .is-arriving .home-hero__copy > *:nth-child(1) { animation-delay: 1.55s; }
+  .is-arriving .home-hero__copy > *:nth-child(2) { animation-delay: 1.65s; }
+  .is-arriving .home-hero__copy > *:nth-child(3) { animation-delay: 1.76s; }
+  .is-arriving .portrait-stage                   { animation-delay: 1.60s; }
+}
 
 @keyframes arrival-settle {
   from { opacity: 0; transform: translate3d(0, 20px, 0) scale(.988); filter: blur(9px); }

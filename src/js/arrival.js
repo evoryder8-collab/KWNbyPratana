@@ -76,11 +76,14 @@ export function playArrival({ force = false } = {}) {
   const at = (ms, fn) => timers.push(window.setTimeout(fn, ms));
   let settled = false;
 
+  // Touch devices fire touchstart/touchmove long before a scroll event, and
+  // on iOS a rubber-band drag may produce no scroll event at all. Listening
+  // for the intent rather than the result is what makes the skip reliable.
+  const SKIP_EVENTS = ["scroll", "wheel", "touchstart", "touchmove", "pointerdown", "keydown", "click"];
+
   const cleanup = () => {
     timers.forEach(clearTimeout);
-    window.removeEventListener("scroll", skip);
-    window.removeEventListener("pointerdown", skip);
-    window.removeEventListener("keydown", skip);
+    SKIP_EVENTS.forEach((type) => window.removeEventListener(type, skip));
     document.documentElement.classList.remove("is-arriving");
     active = null;
   };
@@ -104,15 +107,25 @@ export function playArrival({ force = false } = {}) {
 
   active = { cancel: () => { settled = true; veil.remove(); cleanup(); } };
 
-  window.addEventListener("scroll", skip, { once: true, passive: true });
-  window.addEventListener("pointerdown", skip, { once: true });
-  window.addEventListener("keydown", skip, { once: true });
+  SKIP_EVENTS.forEach((type) =>
+    window.addEventListener(type, skip, { once: true, passive: true })
+  );
+
+  // Phones get a noticeably shorter sequence. On a small screen the lockup
+  // reads immediately, and four seconds of held attention that you cannot
+  // interact with feels like a stall rather than an arrival.
+  const coarse = matchMedia("(hover: none) and (pointer: coarse)").matches;
+  const T = coarse
+    ? { lift: 1500, reveal: 1700, done: 2700 }
+    : { lift: 2350, reveal: 2600, done: 4000 };
 
   requestAnimationFrame(() => {
-    veil.classList.add("is-drawing");            // lotus draws, word rises
-    at(2350, () => veil.classList.add("is-lifting"));  // lockup dissolves, light goes up
-    at(2600, () => window.dispatchEvent(new CustomEvent("kwiin:arrival-reveal", { detail: { instant: false } })));
-    at(4000, finish);
+    veil.classList.add("is-drawing");                  // lotus draws, word rises
+    at(T.lift, () => veil.classList.add("is-lifting")); // lockup dissolves, light goes up
+    at(T.reveal, () => window.dispatchEvent(new CustomEvent("kwiin:arrival-reveal", { detail: { instant: false } })));
+    at(T.done, finish);
+    // Hard backstop: whatever happens above, the veil is gone by now.
+    at(T.done + 2000, () => { veil.remove(); cleanup(); });
   });
 }
 

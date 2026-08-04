@@ -102,6 +102,7 @@ function renderFooter() {
           <h2 data-i18n="footer.contact">Kontakt</h2>
           <a href="https://wa.me/41779669928" data-whatsapp="studioGeneric">+41 77 966 99 28</a>
           <p><span data-i18n="footer.general">Allgemeiner Kontakt:</span><br>+41 76 728 21 22</p>
+          <a href="mailto:health@kwiin.ch">health@kwiin.ch</a>
           <a href="https://www.instagram.com/kwiinspa/" target="_blank" rel="noopener noreferrer">Instagram&nbsp; @kwiinspa</a>
         </div>
       </div>
