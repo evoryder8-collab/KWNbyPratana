@@ -2955,6 +2955,62 @@ em {
   .treatment-card:hover { transform:none; }
 }
 
+/* ── Fluid heading scale ─────────────────────────────────────────────────
+   The clamp *minimums* were the fault, not the vw terms: a floor of 3.75rem
+   on the hero H1 meant a 320px screen rendered it at 60px regardless of the
+   viewport term, which is why three-word headlines wrapped. Floors are now
+   set from the longest languages — Russian and Thai, not English — so the
+   intended line count survives translation.
+
+   Applied late in the file so these win over the earlier breakpoint blocks
+   without needing !important. */
+@media (max-width: 620px) {
+  /* Sized so Russian — "Снова почувствуйте себя собой.", the longest of the
+     eight — holds two lines rather than three at every width in this range. */
+  .home-hero h1                      { font-size: clamp(2.35rem, 11.1vw, 4.85rem); }
+  .portal-card h3                    { font-size: clamp(1.55rem, 7.6vw, 3rem); }
+  .manifesto h2,
+  .thai-roots h2,
+  .invitation h2                     { font-size: clamp(2.1rem, 10.6vw, 5rem); }
+  .touch__header h2                  { font-size: clamp(1.95rem, 9.8vw, 3.3rem); }
+  .inner-hero h1, .services-hero h1,
+  .story-hero h1, .contact-hero h1   { font-size: clamp(2.35rem, 11.4vw, 5.1rem); }
+  .treatment-card__header h2         { font-size: clamp(1.75rem, 8.8vw, 3.4rem); }
+  .awards h2                         { font-size: clamp(2rem, 10.2vw, 5.8rem); }
+  .voices h2, .section-heading h2    { font-size: clamp(1.95rem, 9.6vw, 4.6rem); }
+  .name-story__words                 { font-size: clamp(2.6rem, 13vw, 10rem); }
+  .championship h2, .craft h2        { font-size: clamp(1.95rem, 9.6vw, 4rem); }
+}
+
+/* Below 360 the longest languages need one more step down. */
+@media (max-width: 360px) {
+  .home-hero h1                      { font-size: clamp(2.25rem, 11.6vw, 3rem); }
+  .manifesto h2,
+  .thai-roots h2,
+  .invitation h2                     { font-size: clamp(1.95rem, 10vw, 2.6rem); }
+  .inner-hero h1, .services-hero h1,
+  .story-hero h1, .contact-hero h1   { font-size: clamp(2.1rem, 10.6vw, 2.8rem); }
+}
+
+/* Balanced wrapping everywhere a heading can run to two lines, so the break
+   falls evenly instead of stranding one word. `pretty` on body copy stops
+   single-word orphans on the last line. */
+h1, h2, h3,
+.name-story__words,
+.laureate__place,
+.story-hero__lead,
+.hero-language__prompt {
+  text-wrap: balance;
+}
+p, blockquote, figcaption, .portal-card__copy, .treatment-card__copy {
+  text-wrap: pretty;
+}
+
+/* Tracking tightens as the display face grows — at hero sizes the default
+   spacing reads loose, and at small sizes it reads cramped. */
+h1 { letter-spacing: clamp(-0.022em, -0.4vw + 0.02em, 0em); }
+h2 { letter-spacing: clamp(-0.016em, -0.3vw + 0.02em, 0em); }
+
 /* ── Hero portrait framing ───────────────────────────────────────────────
    The portrait file is the untouched original: a square canvas with the
    subject occupying roughly the middle third, surrounded by transparent
