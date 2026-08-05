@@ -2955,6 +2955,211 @@ em {
   .treatment-card:hover { transform:none; }
 }
 
+/* ══ ELEVATION ═══════════════════════════════════════════════════════════
+   Extending three things the site already establishes, and nothing else:
+   · palette — pearl and shell neutrals, aqua/lavender/rose pastels over plum
+     ink, one gold accent
+   · type    — Cormorant Garamond display with italic gold accents, against
+     Manrope for anything functional
+   · gesture — soft luminous washes: radial pools of light and glass
+     surfaces, edged with thin gold hairlines
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Background life ──────────────────────────────────────────────────
+   The existing orbs run at 14s and 17s, which the eye reads as animation
+   because the loop is short enough to recognise. Breath is slower and
+   smaller. These three pools drift on deliberately non-harmonic periods
+   (97s, 131s, 173s), so the composite does not visibly repeat for over an
+   hour, at an amplitude low enough that you notice the room has changed
+   rather than that something moved. Compositor-only: transform and opacity. */
+.ambient-life {
+  position: absolute;
+  z-index: 0;
+  inset: -20%;
+  pointer-events: none;
+  overflow: hidden;
+  contain: strict;
+}
+.ambient-life span {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform, opacity;
+}
+.ambient-life span:nth-child(1) {
+  top: -6%; left: -12%;
+  width: 62vmax; height: 62vmax;
+  background: radial-gradient(circle, rgba(120,186,192,.16), transparent 64%);
+  animation: drift-a 97s ease-in-out infinite alternate;
+}
+.ambient-life span:nth-child(2) {
+  right: -16%; bottom: -10%;
+  width: 70vmax; height: 70vmax;
+  background: radial-gradient(circle, rgba(201,146,143,.14), transparent 62%);
+  animation: drift-b 131s ease-in-out infinite alternate;
+}
+.ambient-life span:nth-child(3) {
+  top: 26%; left: 34%;
+  width: 54vmax; height: 54vmax;
+  background: radial-gradient(circle, rgba(170,162,202,.13), transparent 66%);
+  animation: drift-c 173s ease-in-out infinite alternate;
+}
+@keyframes drift-a {
+  0%   { transform: translate3d(0,0,0) scale(1);      opacity: .72; }
+  100% { transform: translate3d(4%, 3%, 0) scale(1.06); opacity: 1; }
+}
+@keyframes drift-b {
+  0%   { transform: translate3d(0,0,0) scale(1.04);   opacity: 1; }
+  100% { transform: translate3d(-3%, -4%, 0) scale(1); opacity: .7; }
+}
+@keyframes drift-c {
+  0%   { transform: translate3d(0,0,0) scale(1);       opacity: .6; }
+  100% { transform: translate3d(-5%, 2%, 0) scale(1.08); opacity: .95; }
+}
+
+/* The hero's own orbs slow to the same register so nothing on the page
+   moves at a rate the eye can time. */
+.home-hero__orb--a { animation-duration: 79s !important; }
+.home-hero__orb--b { animation-duration: 103s !important; }
+
+/* ── 2. Depth ────────────────────────────────────────────────────────────
+   One light source, high and slightly left, applied consistently: a bright
+   top edge, a soft occlusion beneath, and shadow tinted with the plum ink
+   rather than neutral grey. This replaces per-card drop shadows with a
+   coherent model. */
+:root {
+  --lift-1: 0 1px 0 rgba(255,255,255,.75) inset, 0 2px 6px rgba(58,40,64,.05), 0 10px 26px rgba(58,40,64,.07);
+  --lift-2: 0 1px 0 rgba(255,255,255,.82) inset, 0 4px 12px rgba(58,40,64,.07), 0 22px 52px rgba(58,40,64,.10);
+  --lift-3: 0 1px 0 rgba(255,255,255,.9) inset,  0 8px 22px rgba(58,40,64,.09), 0 40px 90px rgba(58,40,64,.13);
+}
+/* Applied only where a component had no considered shadow of its own. The
+   panels and the founder arch already carry bespoke inset glows tuned to
+   their shapes; overwriting those with a generic token flattened them, so
+   they keep what they had. */
+.voice-grid figure,
+.treatment-card { box-shadow: var(--lift-2); }
+
+/* ── 3. Interaction weight ───────────────────────────────────────────────
+   Anything a finger touches responds on press, not on release, and settles
+   with a spring rather than a linear ease. Damping is deliberately just shy
+   of overshoot on large surfaces and slightly springy on small controls, so
+   a button feels lighter in the hand than a card. */
+:root {
+  --spring-firm: cubic-bezier(.22, 1.12, .36, 1);
+  --spring-soft: cubic-bezier(.34, 1.28, .52, 1);
+}
+.button, .portal-card, .treatment-card__book,
+.language-option, .header-book, .menu-toggle, .text-link {
+  transition: transform .42s var(--spring-soft), box-shadow .42s var(--ease-out),
+              background-color .3s ease, color .3s ease, border-color .3s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.button:active, .treatment-card__book:active,
+.header-book:active, .language-option:active {
+  transform: scale(.968) translateZ(0);
+  transition-duration: .08s;          /* press is immediate, release springs */
+}
+.menu-toggle:active { transform: scale(.92); transition-duration: .08s; }
+.text-link:active   { transform: translateX(2px) scale(.99); transition-duration: .08s; }
+.portal-card:active { transform: scale(.992) translateZ(0); transition-duration: .1s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-life span { animation: none; }
+  .button, .portal-card, .treatment-card__book,
+  .language-option, .header-book, .menu-toggle, .text-link { transition: none; }
+}
+
+/* ── The lotus ───────────────────────────────────────────────────────────
+   Nineteen petals in four depth planes, drawn as bezier geometry rather than
+   assembled from an icon: each flank uses unequal control weights so no
+   petal mirrors itself, and every angle, length and curl carries authored
+   jitter so the bloom reads as drawn.
+
+   Composed with the portrait rather than placed behind it — the back planes
+   open around her shoulders, and two petals cross in front of the figure at
+   the base so she sits *within* the bloom. Stroke weight increases and
+   opacity rises as the planes come forward, which is what gives it depth.
+
+   Colour is drawn from the existing palette only: lavender and plum for the
+   receding planes, gold for the nearest. Everything is low-opacity line, so
+   it never sits between the eye and her face or any text. */
+.lotus-frame {
+  position: absolute;
+  z-index: 0;
+  bottom: -4%;
+  left: 50%;
+  width: min(148%, 1180px);
+  transform: translateX(-50%) rotate(-3.5deg);   /* off-axis, deliberately */
+  transform-origin: 50% 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+.lotus-petal {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+/* Weight and opacity climb as the planes come forward — that gradient is
+   what makes it read as a bloom with depth rather than as flat linework. */
+.lotus-petal--back  { stroke: rgba(160,150,196,.42); stroke-width: 1.15; }
+.lotus-petal--mid   { stroke: rgba(109,76,112,.38);  stroke-width: 1.55; }
+.lotus-petal--front { stroke: rgba(178,132,48,.52);  stroke-width: 2;    }
+.lotus-petal--cross { stroke: rgba(178,132,48,.34);  stroke-width: 1.35; }
+
+/* Two petals pass in front of her at the base, which is what seats the
+   figure inside the bloom instead of in front of a backdrop. They are held
+   to a low opacity and kept to the lower third, well clear of her face. */
+.portrait-stage > .lotus-frame { z-index: 0; }
+.portrait-stage picture        { z-index: 1; }
+.lotus-frame--fore {
+  z-index: 2;
+  -webkit-mask-image: linear-gradient(to top, #000 34%, transparent 62%);
+  mask-image: linear-gradient(to top, #000 34%, transparent 62%);
+}
+
+/* Slow stroke draw on first view. Long dash so each petal draws as one
+   continuous line rather than ticking through segments. */
+.lotus-petal {
+  stroke-dasharray: 2600;
+  stroke-dashoffset: 2600;
+  animation: lotus-draw 2.6s var(--ease-lux) forwards;
+}
+.lotus-frame__back  .lotus-petal { animation-delay: .35s; }
+.lotus-frame__mid   .lotus-petal { animation-delay: .70s; }
+.lotus-frame__front .lotus-petal { animation-delay: 1.05s; }
+.lotus-frame__cross .lotus-petal { animation-delay: 1.35s; }
+@keyframes lotus-draw { to { stroke-dashoffset: 0; } }
+
+/* Afterwards it breathes at the same amplitude as the background life —
+   long, non-harmonic, barely perceptible. */
+.lotus-frame__back  { animation: lotus-sway-a 119s ease-in-out infinite alternate; transform-origin: 50% 92%; }
+.lotus-frame__mid   { animation: lotus-sway-b 151s ease-in-out infinite alternate; transform-origin: 50% 92%; }
+.lotus-frame__front { animation: lotus-sway-a 167s ease-in-out infinite alternate; transform-origin: 50% 92%; }
+@keyframes lotus-sway-a {
+  0%   { transform: rotate(-.5deg) scale(1);     opacity: .92; }
+  100% { transform: rotate(.6deg)  scale(1.015); opacity: 1; }
+}
+@keyframes lotus-sway-b {
+  0%   { transform: rotate(.45deg) scale(1.012); opacity: 1; }
+  100% { transform: rotate(-.55deg) scale(1);    opacity: .9; }
+}
+
+/* Reduced motion gets the finished composition, fully drawn and still. */
+@media (prefers-reduced-motion: reduce) {
+  .lotus-petal { stroke-dashoffset: 0; animation: none; }
+  .lotus-frame__back, .lotus-frame__mid, .lotus-frame__front { animation: none; }
+}
+
+/* The portrait crop changes at each breakpoint, so the bloom is re-seated
+   to keep petals clear of her face at every width. */
+@media (max-width: 860px) {
+  .lotus-frame { width: min(168%, 900px); bottom: -2%; transform: translateX(-50%) rotate(-2.5deg); }
+}
+@media (max-width: 620px) {
+  .lotus-frame { width: min(184%, 620px); bottom: 0; transform: translateX(-50%) rotate(-2deg); }
+  .lotus-petal--back { stroke-width: .9; }
+}
+
 /* ── Fluid heading scale ─────────────────────────────────────────────────
    The clamp *minimums* were the fault, not the vw terms: a floor of 3.75rem
    on the hero H1 meant a 320px screen rendered it at 60px regardless of the
