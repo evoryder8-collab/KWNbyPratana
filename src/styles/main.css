@@ -2307,12 +2307,15 @@ em {
   transform: none;
 }
 
-/* Belt and braces: if scripting is on but the observer never runs for any
-   reason, nothing stays hidden past the first few seconds. */
+/* Belt and braces: if scripting is on but the observer never runs, nothing
+   stays hidden. Six seconds was far too long to be a safety net — it was
+   acting as the actual reveal mechanism whenever the observer lagged, which
+   is exactly the "content appears late" symptom. 1.4s is long enough for the
+   observer to win normally and short enough that a visitor never waits. */
 @keyframes reveal-failsafe { to { opacity: 1; transform: none; } }
 .js [data-reveal],
 .js [data-stagger] > * {
-  animation: reveal-failsafe .01s linear 6s forwards;
+  animation: reveal-failsafe .5s var(--ease-lux) 1.4s forwards;
 }
 .js [data-reveal].is-revealed,
 .js [data-stagger] > .is-revealed { animation: none; }

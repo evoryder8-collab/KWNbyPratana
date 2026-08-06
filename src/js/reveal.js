@@ -30,43 +30,61 @@ export function initReveals() {
     return;
   }
 
+  const show = (el) => {
+    if (el.classList.contains(REVEALED)) return;
+    if (el.hasAttribute("data-stagger")) {
+      // Children arrive in sequence, capped so a long list never trails.
+      [...el.children].forEach((child, i) => {
+        child.style.transitionDelay = `${Math.min(i * 90, 540)}ms`;
+        child.classList.add(REVEALED);
+      });
+    } else {
+      el.classList.add(REVEALED);
+    }
+  };
+
+  /**
+   * A generous positive root margin is the whole point: elements are told to
+   * appear a full viewport *before* they scroll into view. The previous
+   * negative margin did the opposite — it delayed the reveal until an element
+   * was already well inside the viewport, and on a phone a fast momentum
+   * scroll outruns that easily, so you arrive at a section before it has been
+   * told to exist and scroll through blank space until it catches up.
+   */
   const observer = new IntersectionObserver((entries) => {
     for (const entry of entries) {
       if (!entry.isIntersecting) continue;
-      const el = entry.target;
-      observer.unobserve(el);
-
-      if (el.hasAttribute("data-stagger")) {
-        // Children arrive in sequence, capped so a long list never trails.
-        [...el.children].forEach((child, i) => {
-          child.style.transitionDelay = `${Math.min(i * 90, 540)}ms`;
-          child.classList.add(REVEALED);
-        });
-      } else {
-        el.classList.add(REVEALED);
-      }
+      observer.unobserve(entry.target);
+      show(entry.target);
     }
-  }, { rootMargin: "0px 0px -8% 0px", threshold: 0.05 });
+  }, { rootMargin: "120% 0px 120% 0px", threshold: 0 });
 
   blocks.forEach((el) => observer.observe(el));
   groups.forEach((el) => observer.observe(el));
 
-  // Anything already in view on load should not wait for a scroll event.
-  requestAnimationFrame(() => {
+  /**
+   * IntersectionObserver callbacks are throttled during iOS momentum
+   * scrolling, so the observer alone is not a guarantee. This scroll handler
+   * is the safety net: it is passive, rAF-throttled, reads nothing it has not
+   * already been given, and reveals anything within two viewports. Once every
+   * element is shown it removes itself.
+   */
+  let pending = false;
+  const sweep = () => {
+    pending = false;
     const vh = window.innerHeight;
+    let remaining = 0;
     [...blocks, ...groups].forEach((el) => {
+      if (el.classList.contains(REVEALED)) return;
       const r = el.getBoundingClientRect();
-      if (r.top < vh && r.bottom > 0) {
-        observer.unobserve(el);
-        if (el.hasAttribute("data-stagger")) {
-          [...el.children].forEach((c, i) => {
-            c.style.transitionDelay = `${Math.min(i * 90, 540)}ms`;
-            c.classList.add(REVEALED);
-          });
-        } else {
-          el.classList.add(REVEALED);
-        }
-      }
+      if (r.top < vh * 2 && r.bottom > -vh) { observer.unobserve(el); show(el); }
+      else remaining += 1;
     });
-  });
+    if (!remaining) window.removeEventListener("scroll", onScroll);
+  };
+  const onScroll = () => { if (!pending) { pending = true; requestAnimationFrame(sweep); } };
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  // And anything already near the viewport on load never waits at all.
+  requestAnimationFrame(sweep);
 }
