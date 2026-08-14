@@ -3,7 +3,6 @@ import { getLanguage, t } from "./i18n.js";
 import { animateNumber } from "./numerals.js";
 
 const state = {
-  mode: "studio",
   distance: travelZones[0].distance,
 };
 
@@ -67,24 +66,9 @@ function liftAmount(element) {
   );
 }
 
-function updateCard(card, mode, zone) {
-  const context = card.dataset.priceContext;
-  const effectiveMode = context === "studio" ? "studio" : context === "mobile" ? "mobile" : mode;
+function updateCard(card, zone) {
   const service = services.find(({ id }) => id === card.dataset.serviceId);
   if (!service) return;
-
-  card.querySelectorAll("[data-price-mode]").forEach((button) => {
-    const active = button.dataset.priceMode === effectiveMode;
-    button.classList.toggle("is-active", active);
-    button.setAttribute("aria-pressed", String(active));
-  });
-
-  const travelPanel = card.querySelector("[data-travel-zone]");
-  if (travelPanel) {
-    const visible = effectiveMode === "mobile";
-    travelPanel.hidden = !visible;
-    travelPanel.classList.toggle("is-visible", visible);
-  }
 
   card.querySelectorAll("[data-zone-select]").forEach((select) => {
     select.value = String(zone.distance);
@@ -93,7 +77,7 @@ function updateCard(card, mode, zone) {
   card.querySelectorAll("[data-price-row]").forEach((row) => {
     const minutes = Number(row.dataset.minutes);
     const basePrice = Number(row.dataset.basePrice);
-    const price = effectiveMode === "mobile" ? basePrice + zone.fee : basePrice;
+    const price = basePrice + zone.fee;
     const priceElement = row.querySelector("[data-price-value]");
     const durationElement = row.querySelector("[data-duration-label]");
     const breakdown = row.querySelector("[data-price-breakdown]");
@@ -105,15 +89,11 @@ function updateCard(card, mode, zone) {
       liftAmount(priceElement.closest(".price-list__amount"));
     }
     if (breakdown) {
-      breakdown.textContent = effectiveMode === "mobile"
-        ? t("pricing.breakdown", { fee: zone.fee, distance: zone.distance })
-        : "";
+      breakdown.textContent = t("pricing.breakdown", { fee: zone.fee, distance: zone.distance });
     }
     row.setAttribute(
       "aria-label",
-      effectiveMode === "mobile"
-        ? t("pricing.rowMobile", { minutes, price, fee: zone.fee, distance: zone.distance })
-        : t("pricing.rowStudio", { minutes, price }),
+      t("pricing.rowMobile", { minutes, price, fee: zone.fee, distance: zone.distance }),
     );
   });
 
@@ -124,19 +104,14 @@ function updateCard(card, mode, zone) {
     // card does. "Booster Muscles" and "Booster Muscles Sport" are the same
     // product, but only the second one is unambiguous in an inbox.
     const serviceName = [service.title, service.subtitle].filter(Boolean).join(" ");
-    if (effectiveMode === "mobile") {
-      bookLabel.textContent = t("pricing.ctaMobile", { distance: zone.distance });
-      bookLink.href = whatsappUrl(bookingMessage("mobile", serviceName, zone));
-    } else {
-      bookLabel.textContent = t("pricing.ctaStudio");
-      bookLink.href = whatsappUrl(bookingMessage("studio", serviceName, zone));
-    }
+    bookLabel.textContent = t("pricing.ctaMobile", { distance: zone.distance });
+    bookLink.href = whatsappUrl(bookingMessage("mobile", serviceName, zone));
   }
 }
 
 function updateAll() {
   const zone = zoneFor();
-  document.querySelectorAll("[data-service-card]").forEach((card) => updateCard(card, state.mode, zone));
+  document.querySelectorAll("[data-service-card]").forEach((card) => updateCard(card, zone));
 }
 
 function updateGenericLinks() {
@@ -149,16 +124,6 @@ function updateGenericLinks() {
 }
 
 export function initPricing() {
-  const mobileOnly = document.querySelector('[data-price-context="mobile"]');
-  state.mode = mobileOnly ? "mobile" : "studio";
-
-  document.addEventListener("click", (event) => {
-    const modeButton = event.target.closest("[data-price-mode]");
-    if (!modeButton) return;
-    state.mode = modeButton.dataset.priceMode;
-    updateAll();
-  });
-
   document.addEventListener("change", (event) => {
     const select = event.target.closest("[data-zone-select]");
     if (!select) return;

@@ -20,7 +20,6 @@ export const languages = [
 ];
 
 export const navItems = [
-  { key: "nav.signature", label: "Signature", href: "studio/" },
   { key: "nav.mobile", label: "Mobile Spa", href: "mobile-spa/" },
   { key: "nav.services", label: "Behandlungen", href: "services/" },
   { key: "nav.about", label: "Über KWIIN", href: "about/" },
@@ -152,51 +151,35 @@ export const awards = [
 
 export const bookingTemplates = {
   de: {
-    studio: "Hallo Pratana, ich möchte {service} im Studio in Dübendorf buchen.",
     mobile: "Hallo Pratana, ich möchte {service} als Mobile Spa für bis zu {distance} km anfragen. Die Anfahrt von CHF {fee} ist mir bekannt.",
-    studioGeneric: "Hallo Pratana, ich möchte einen Termin im Studio in Dübendorf anfragen.",
-    mobileGeneric: "Hallo Pratana, ich möchte einen Mobile Spa Termin anfragen.",
+    mobileGeneric: "Hallo Pratana, ich möchte einen Mobile Spa Termin bei mir zuhause anfragen.",
   },
   en: {
-    studio: "Hello Pratana, I would like to book {service} at the studio in Dübendorf.",
     mobile: "Hello Pratana, I would like to ask about {service} as a Mobile Spa visit within {distance} km. I understand that travel costs CHF {fee}.",
-    studioGeneric: "Hello Pratana, I would like to ask about an appointment at the studio in Dübendorf.",
-    mobileGeneric: "Hello Pratana, I would like to ask about a Mobile Spa appointment.",
+    mobileGeneric: "Hello Pratana, I would like to ask about a Mobile Spa appointment at my home.",
   },
   th: {
-    studio: "สวัสดีค่ะ Pratana ฉันต้องการจอง {service} ที่สตูดิโอใน Dübendorf",
     mobile: "สวัสดีค่ะ Pratana ฉันสนใจ {service} แบบ Mobile Spa ในระยะ {distance} กม. และทราบว่าค่าเดินทางคือ CHF {fee}",
-    studioGeneric: "สวัสดีค่ะ Pratana ฉันต้องการสอบถามคิวนวดที่สตูดิโอใน Dübendorf",
-    mobileGeneric: "สวัสดีค่ะ Pratana ฉันต้องการสอบถามคิวนวด Mobile Spa",
+    mobileGeneric: "สวัสดีค่ะ Pratana ฉันต้องการสอบถามคิวนวด Mobile Spa ที่บ้าน",
   },
   fr: {
-    studio: "Bonjour Pratana, je souhaite réserver {service} au studio de Dübendorf.",
     mobile: "Bonjour Pratana, je souhaite réserver {service} en Mobile Spa dans un rayon de {distance} km. Je sais que le déplacement coûte CHF {fee}.",
-    studioGeneric: "Bonjour Pratana, je souhaite demander un rendez-vous au studio de Dübendorf.",
-    mobileGeneric: "Bonjour Pratana, je souhaite demander un rendez-vous Mobile Spa.",
+    mobileGeneric: "Bonjour Pratana, je souhaite demander un rendez-vous Mobile Spa chez moi.",
   },
   es: {
-    studio: "Hola Pratana, me gustaría reservar {service} en el estudio de Dübendorf.",
     mobile: "Hola Pratana, me gustaría reservar {service} como Mobile Spa en un radio de {distance} km. Sé que el desplazamiento cuesta CHF {fee}.",
-    studioGeneric: "Hola Pratana, me gustaría pedir una cita en el estudio de Dübendorf.",
-    mobileGeneric: "Hola Pratana, me gustaría pedir una cita de Mobile Spa.",
+    mobileGeneric: "Hola Pratana, me gustaría pedir una cita de Mobile Spa en mi casa.",
   },
   it: {
-    studio: "Ciao Pratana, vorrei prenotare {service} nello studio di Dübendorf.",
     mobile: "Ciao Pratana, vorrei prenotare {service} come Mobile Spa entro {distance} km. So che la trasferta costa CHF {fee}.",
-    studioGeneric: "Ciao Pratana, vorrei chiedere un appuntamento nello studio di Dübendorf.",
-    mobileGeneric: "Ciao Pratana, vorrei chiedere un appuntamento Mobile Spa.",
+    mobileGeneric: "Ciao Pratana, vorrei chiedere un appuntamento Mobile Spa a casa mia.",
   },
   ru: {
-    studio: "Здравствуйте, Пратана. Я хочу записаться на {service} в студии в Дюбендорфе.",
     mobile: "Здравствуйте, Пратана. Я хочу заказать {service} с выездом в пределах {distance} км. Я знаю, что выезд стоит CHF {fee}.",
-    studioGeneric: "Здравствуйте, Пратана. Я хочу записаться в студию в Дюбендорфе.",
-    mobileGeneric: "Здравствуйте, Пратана. Я хочу записаться на Mobile Spa.",
+    mobileGeneric: "Здравствуйте, Пратана. Я хочу записаться на Mobile Spa у себя дома.",
   },
   pt: {
-    studio: "Olá Pratana, gostaria de marcar {service} no estúdio em Dübendorf.",
     mobile: "Olá Pratana, gostaria de marcar {service} como Mobile Spa num raio de {distance} km. Sei que a deslocação custa CHF {fee}.",
-    studioGeneric: "Olá Pratana, gostaria de pedir uma marcação no estúdio em Dübendorf.",
-    mobileGeneric: "Olá Pratana, gostaria de pedir uma marcação de Mobile Spa.",
+    mobileGeneric: "Olá Pratana, gostaria de pedir uma marcação de Mobile Spa em minha casa.",
   },
 };

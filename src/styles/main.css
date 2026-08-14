@@ -3885,3 +3885,546 @@ html:not(.is-arriving) .portrait-stage {
     padding-right: max(var(--shell-pad, 0px), env(safe-area-inset-right));
   }
 }
+
+/* Mobile Spa only repositioning */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+main > section {
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+/* The portrait remains the human centre of the opening, but no longer takes
+   over the whole screen. The original large lotus is the only lotus framing
+   this image. */
+@media (min-width: 861px) {
+  .home-hero__layout {
+    min-height: calc(max(720px, 100svh) - var(--header-h));
+    grid-template-columns: minmax(0, 1.16fr) minmax(300px, .64fr);
+    gap: clamp(34px, 5vw, 74px);
+  }
+
+  .portrait-stage {
+    width: min(36vw, 520px);
+    height: min(66vh, 620px);
+    min-height: 490px;
+    justify-self: end;
+  }
+
+  .portrait-stage__halo { width: min(36vw, 500px); }
+  .portrait-stage__rings { width: min(38vw, 525px); }
+  .portrait-stage .lotus-frame { width: min(160%, 760px); }
+}
+
+/* A single premium mobile arrival instead of two competing destination
+   cards. The route is decorative, while the copy and actions stay plain HTML. */
+.mobile-arrival {
+  position: relative;
+  padding-block: clamp(88px, 11vw, 150px);
+  background:
+    radial-gradient(70% 52% at 14% 12%, rgba(111, 190, 190, .2), transparent 66%),
+    radial-gradient(62% 48% at 88% 84%, rgba(192, 138, 169, .19), transparent 68%),
+    linear-gradient(180deg, rgba(244, 239, 237, .74), rgba(225, 237, 234, .7));
+}
+
+.mobile-arrival::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  opacity: .28;
+  background-image: radial-gradient(rgba(103, 71, 101, .42) .55px, transparent .55px);
+  background-size: 7px 7px;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 24%, #000 76%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 24%, #000 76%, transparent);
+}
+
+.mobile-arrival__frame {
+  --spot-x: 50%;
+  --spot-y: 22%;
+  position: relative;
+  display: grid;
+  overflow: hidden;
+  grid-template-columns: minmax(0, .82fr) minmax(430px, 1.18fr);
+  gap: clamp(44px, 6vw, 92px);
+  padding: clamp(42px, 6.5vw, 86px);
+  color: #fff9f1;
+  border: 1px solid rgba(244, 211, 143, .3);
+  border-radius: 46px 150px 46px 46px;
+  background:
+    radial-gradient(circle at var(--spot-x) var(--spot-y), rgba(239, 202, 124, .18), transparent 24%),
+    radial-gradient(circle at 9% 90%, rgba(100, 187, 188, .2), transparent 30%),
+    linear-gradient(138deg, #211925, #49314b 53%, #244b50);
+  box-shadow: 0 46px 110px rgba(47, 30, 48, .22), inset 0 1px rgba(255,255,255,.18);
+  isolation: isolate;
+}
+
+.mobile-arrival__frame::before {
+  position: absolute;
+  z-index: -1;
+  inset: 13px;
+  content: "";
+  pointer-events: none;
+  border: 1px solid rgba(255, 247, 232, .1);
+  border-radius: 35px 138px 35px 35px;
+}
+
+.mobile-arrival__frame::after {
+  position: absolute;
+  z-index: -1;
+  top: -45%;
+  right: -8%;
+  width: 54%;
+  aspect-ratio: 1;
+  content: "";
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 231, 176, .17), transparent 70%);
+}
+
+.mobile-arrival__copy {
+  position: relative;
+  z-index: 2;
+  align-self: center;
+}
+
+.mobile-arrival__copy .eyebrow { color: var(--gold-light); }
+.mobile-arrival__copy .eyebrow::before,
+.mobile-arrival__copy .eyebrow::after { background: linear-gradient(90deg, transparent, var(--gold-light)); }
+
+.mobile-arrival__copy h2 {
+  max-width: 8.5ch;
+  margin-top: 24px;
+  color: #fff;
+  font-size: clamp(4.1rem, 7vw, 7.2rem);
+  line-height: .82;
+}
+
+.mobile-arrival__copy h2 em {
+  display: block;
+  color: var(--gold-light);
+}
+
+.mobile-arrival__copy > p:last-of-type {
+  max-width: 39rem;
+  margin-top: 28px;
+  color: rgba(255, 249, 241, .74);
+  font-family: var(--display);
+  font-size: clamp(1.2rem, 1.7vw, 1.5rem);
+  line-height: 1.45;
+}
+
+.mobile-arrival__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px 26px;
+  margin-top: 36px;
+}
+
+.text-link--light { color: rgba(255, 247, 233, .8); }
+.text-link--light:hover { color: #fff; }
+
+.mobile-arrival__journey {
+  position: relative;
+  min-width: 0;
+  min-height: 470px;
+  overflow: hidden;
+  align-self: stretch;
+  border: 1px solid rgba(244, 214, 151, .2);
+  border-radius: 34px 110px 34px 34px;
+  background:
+    radial-gradient(circle at 78% 32%, rgba(218, 184, 230, .18), transparent 30%),
+    radial-gradient(circle at 18% 82%, rgba(99, 195, 194, .17), transparent 32%),
+    rgba(255,255,255,.035);
+  box-shadow: inset 0 1px rgba(255,255,255,.09), inset 0 0 70px rgba(11, 8, 14, .18);
+}
+
+.mobile-arrival__journey::after {
+  position: absolute;
+  top: 11%;
+  right: 8%;
+  width: 34%;
+  aspect-ratio: 1;
+  content: "";
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(240, 208, 143, .2), transparent 68%);
+  animation: mobile-arrival-breathe 8s ease-in-out infinite;
+}
+
+.mobile-arrival__meta {
+  position: absolute;
+  z-index: 2;
+  top: 28px;
+  right: 34px;
+  left: 34px;
+  display: flex;
+  justify-content: space-between;
+  color: rgba(255, 245, 225, .5);
+  font-size: .54rem;
+  letter-spacing: .21em;
+}
+
+.mobile-arrival__journey > svg {
+  position: absolute;
+  inset: 52px 16px 50px;
+  width: calc(100% - 32px);
+  height: calc(100% - 102px);
+  overflow: visible;
+}
+
+.mobile-arrival__route {
+  stroke: rgba(243, 211, 147, .5);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 9 13;
+  animation: mobile-arrival-flow 17s linear infinite;
+}
+
+.mobile-arrival__route--b {
+  stroke: rgba(145, 210, 209, .27);
+  animation-direction: reverse;
+  animation-duration: 23s;
+}
+
+.mobile-arrival__table,
+.mobile-arrival__home {
+  stroke: rgba(255, 237, 199, .72);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mobile-arrival__home { stroke: rgba(221, 199, 235, .84); }
+.mobile-arrival__node { fill: #f4ce79; filter: drop-shadow(0 0 8px rgba(244, 206, 121, .82)); }
+.mobile-arrival__signal {
+  fill: #fff0b9;
+  filter: drop-shadow(0 0 12px #eab958);
+  transform-origin: 254px 196px;
+  animation: mobile-arrival-signal 3.8s ease-in-out infinite;
+}
+
+.mobile-arrival__distance {
+  position: absolute;
+  z-index: 2;
+  right: 28px;
+  bottom: 25px;
+  left: 28px;
+  color: rgba(255, 246, 232, .6);
+  font-size: .56rem;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.mobile-arrival__facts {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 244, 223, .13);
+  border-radius: 24px;
+  background: rgba(255,255,255,.1);
+}
+
+.mobile-arrival__facts article {
+  position: relative;
+  min-width: 0;
+  min-height: 190px;
+  padding: 30px;
+  background: rgba(23, 17, 27, .42);
+}
+
+.mobile-arrival__facts article > span {
+  color: rgba(239, 207, 140, .42);
+  font-family: var(--display);
+  font-size: 2.6rem;
+}
+
+.mobile-arrival__facts h3 {
+  margin-top: 17px;
+  color: var(--gold-light);
+  font-size: 2rem;
+}
+
+.mobile-arrival__facts p {
+  margin-top: 12px;
+  color: rgba(255, 249, 241, .66);
+  font-size: .78rem;
+  line-height: 1.65;
+}
+
+.mobile-arrival__travel {
+  grid-column: 1 / -1;
+  margin: -8px auto 0;
+  color: rgba(255, 246, 230, .58);
+  font-size: .66rem;
+  letter-spacing: .04em;
+  text-align: center;
+}
+
+@keyframes mobile-arrival-flow { to { stroke-dashoffset: -220; } }
+@keyframes mobile-arrival-signal { 50% { opacity: .45; transform: scale(1.8); } }
+@keyframes mobile-arrival-breathe { 50% { opacity: .62; transform: scale(1.09); } }
+
+/* One travel choice controls every treatment. */
+.treatment-grid > .travel-zone--global {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(260px, 1fr) minmax(290px, .82fr);
+  align-items: center;
+  gap: 18px 32px;
+  margin: 0 0 10px;
+  padding: clamp(22px, 3vw, 34px);
+  border-color: rgba(115, 78, 109, .25);
+  border-radius: 26px 76px 26px 26px;
+  background:
+    radial-gradient(circle at 92% 18%, rgba(235, 204, 137, .23), transparent 30%),
+    linear-gradient(132deg, rgba(255,255,255,.9), rgba(224, 237, 234, .82) 54%, rgba(232, 220, 232, .82));
+  box-shadow: 0 24px 60px rgba(57, 40, 59, .1), inset 0 1px #fff;
+}
+
+.travel-zone--global label { gap: 16px; }
+.travel-zone--global .travel-zone__icon {
+  width: 48px;
+  flex-basis: 48px;
+  background: linear-gradient(145deg, rgba(113, 79, 116, .15), rgba(184, 130, 45, .12));
+}
+.travel-zone--global .travel-zone__icon svg { width: 24px; }
+.travel-zone--global strong { color: var(--ink); font-size: .74rem; letter-spacing: .13em; }
+.travel-zone--global small { margin-top: 5px; font-size: .68rem; }
+.travel-zone--global select {
+  min-height: 58px;
+  margin-top: 0;
+  padding-inline: 18px 48px;
+  border-radius: 17px;
+  background-color: rgba(255, 253, 250, .92);
+  font-size: .82rem;
+}
+.travel-zone__hint {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--ink-faint);
+  font-size: .6rem;
+  letter-spacing: .04em;
+  text-align: center;
+}
+
+/* Visible, answer-first content helps visitors and makes every core mobile
+   service fact available as crawlable HTML. */
+.mobile-faq {
+  position: relative;
+  background:
+    radial-gradient(55% 46% at 10% 14%, rgba(104, 191, 192, .18), transparent 70%),
+    radial-gradient(50% 42% at 90% 88%, rgba(196, 142, 171, .17), transparent 70%),
+    #f5f0ee;
+}
+
+.mobile-faq__grid {
+  display: grid;
+  grid-template-columns: minmax(260px, .72fr) minmax(0, 1.28fr);
+  align-items: start;
+  gap: clamp(50px, 9vw, 130px);
+}
+
+.mobile-faq__heading {
+  position: sticky;
+  top: calc(var(--header-h) + 34px);
+}
+
+.mobile-faq__heading h2 {
+  margin-top: 23px;
+  font-size: clamp(3.6rem, 6vw, 6.2rem);
+  line-height: .86;
+}
+.mobile-faq__heading h2 em { display: block; color: var(--gold-deep); }
+.mobile-faq__heading > p:last-child {
+  max-width: 35rem;
+  margin-top: 28px;
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-size: 1.25rem;
+  line-height: 1.48;
+}
+
+.mobile-faq__list {
+  overflow: hidden;
+  border: 1px solid rgba(80, 55, 79, .18);
+  border-radius: 28px 88px 28px 28px;
+  background: rgba(255,255,255,.62);
+  box-shadow: 0 28px 70px rgba(58, 40, 60, .1), inset 0 1px #fff;
+}
+
+.mobile-faq__list details { border-bottom: 1px solid rgba(80, 55, 79, .13); }
+.mobile-faq__list details:last-child { border-bottom: 0; }
+.mobile-faq__list summary {
+  position: relative;
+  min-height: 76px;
+  padding: 25px 72px 22px 28px;
+  color: var(--ink);
+  cursor: pointer;
+  font-family: var(--display);
+  font-size: clamp(1.35rem, 2.1vw, 1.8rem);
+  line-height: 1.22;
+  list-style: none;
+}
+.mobile-faq__list summary::-webkit-details-marker { display: none; }
+.mobile-faq__list summary::after {
+  position: absolute;
+  top: 50%;
+  right: 27px;
+  display: grid;
+  width: 34px;
+  aspect-ratio: 1;
+  place-items: center;
+  content: "+";
+  color: var(--gold-deep);
+  border: 1px solid rgba(151, 104, 36, .3);
+  border-radius: 50%;
+  font-family: var(--sans);
+  font-size: 1.2rem;
+  transform: translateY(-50%);
+  transition: transform .42s var(--ease-lux), background .3s ease;
+}
+.mobile-faq__list details[open] summary::after {
+  color: #fff;
+  background: var(--plum);
+  transform: translateY(-50%) rotate(45deg);
+}
+.mobile-faq__list details[open] summary { color: var(--plum); }
+.mobile-faq__list details > p {
+  max-width: 54rem;
+  padding: 0 72px 28px 28px;
+  color: var(--ink-soft);
+  font-size: .87rem;
+  line-height: 1.7;
+  animation: faq-answer-in .42s var(--ease-out) both;
+}
+@keyframes faq-answer-in { from { opacity: 0; transform: translateY(-7px); } }
+
+@media (max-width: 980px) {
+  .mobile-arrival__frame { grid-template-columns: 1fr; border-radius: 40px 120px 40px 40px; }
+  .mobile-arrival__copy h2 { max-width: 11ch; }
+  .mobile-arrival__journey { min-height: 440px; }
+  .mobile-faq__grid { grid-template-columns: 1fr; gap: 45px; }
+  .mobile-faq__heading { position: static; }
+}
+
+@media (max-width: 860px) {
+  .home-hero { min-height: max(850px, 100svh); }
+  .portrait-stage {
+    width: min(76vw, 450px);
+    height: 430px;
+    margin: 12px auto 0;
+  }
+  .portrait-stage__halo { top: 48%; width: min(76vw, 420px); }
+  .portrait-stage__rings { top: 48%; width: min(80vw, 450px); }
+  .portrait-stage .lotus-frame { bottom: -3%; width: min(164%, 700px); }
+  .home-hero__after { margin-top: 24px; }
+}
+
+@media (max-width: 700px) {
+  .mobile-arrival__frame {
+    gap: 36px;
+    padding: 34px 22px;
+    border-radius: 29px 82px 29px 29px;
+  }
+  .mobile-arrival__frame::before { inset: 8px; border-radius: 22px 72px 22px 22px; }
+  .mobile-arrival__copy { text-align: center; }
+  .mobile-arrival__copy .eyebrow,
+  .mobile-arrival__actions { justify-content: center; }
+  .mobile-arrival__copy h2 { max-width: 100%; font-size: clamp(3.2rem, 14vw, 5rem); }
+  .mobile-arrival__copy > p:last-of-type { margin-inline: auto; font-size: 1.16rem; }
+  .mobile-arrival__journey { min-height: 330px; border-radius: 24px 64px 24px 24px; }
+  .mobile-arrival__meta { top: 22px; right: 22px; left: 22px; }
+  .mobile-arrival__journey > svg { inset: 44px 7px 42px; width: calc(100% - 14px); height: calc(100% - 86px); }
+  .mobile-arrival__distance { right: 17px; bottom: 18px; left: 17px; font-size: .46rem; }
+  .mobile-arrival__facts { grid-template-columns: 1fr; }
+  .mobile-arrival__facts article { min-height: 0; padding: 25px; }
+  .mobile-arrival__facts article > span { font-size: 2rem; }
+  .mobile-arrival__facts h3 { margin-top: 9px; font-size: 1.8rem; }
+  .mobile-arrival__travel { margin-top: 0; font-size: .59rem; }
+
+  .treatment-grid > .travel-zone--global { grid-template-columns: 1fr; gap: 18px; border-radius: 22px 58px 22px 22px; }
+  .travel-zone--global select { width: 100%; }
+  .travel-zone__hint { text-align: left; }
+
+  .mobile-faq__list { border-radius: 22px 62px 22px 22px; }
+  .mobile-faq__list summary { min-height: 68px; padding: 22px 60px 20px 22px; }
+  .mobile-faq__list summary::after { right: 18px; width: 31px; }
+  .mobile-faq__list details > p { padding: 0 22px 24px; }
+}
+
+@media (max-width: 620px) {
+  .home-hero { min-height: max(780px, 100svh); }
+  .home-hero__copy { padding-top: 38px; }
+  .portrait-stage {
+    width: min(76vw, 335px);
+    height: 325px;
+    margin-top: 7px;
+  }
+  .portrait-stage__halo { top: 49%; width: min(74vw, 325px); }
+  .portrait-stage__rings { top: 49%; width: min(79vw, 350px); }
+  .portrait-stage picture > img { transform: scale(1.48); }
+  .portrait-stage .lotus-frame { bottom: -4%; width: min(165%, 555px); }
+  .home-hero__after { margin-top: 20px; padding-bottom: 52px; }
+  .home-hero__intro { font-size: 1.18rem; }
+
+  .mobile-arrival { padding-block: 72px; }
+  .mobile-arrival__actions .button,
+  .mobile-arrival__actions .text-link { width: 100%; justify-content: center; }
+
+  .treatment-card,
+  .treatment-card:nth-child(even) { overflow: hidden; }
+  .treatment-card__header {
+    position: relative;
+    grid-template-columns: minmax(0, 1fr) 34px;
+    grid-template-rows: auto auto;
+  }
+  .treatment-card__number {
+    grid-row: 1;
+    grid-column: 1;
+    align-self: start;
+    color: var(--gold-deep);
+    font-family: var(--sans);
+    font-size: .56rem;
+    font-weight: 600;
+    letter-spacing: .18em;
+  }
+  .treatment-card__header > div { grid-row: 2; grid-column: 1; min-width: 0; }
+  .treatment-card__lotus { grid-row: 1 / span 2; grid-column: 2; }
+  .treatment-card__header h2 { font-size: clamp(2rem, 10.3vw, 3.25rem); overflow-wrap: break-word; }
+  .treatment-card__body,
+  .treatment-card__commerce,
+  .price-list { min-width: 0; }
+  .price-list__amount strong { font-size: clamp(1.5rem, 7vw, 1.8rem); }
+  .price-list__breakdown { max-width: 100%; }
+}
+
+@media (max-width: 360px) {
+  .home-hero { min-height: 760px; }
+  .portrait-stage { width: 250px; height: 285px; }
+  .hero-language { gap: 7px; }
+  .hero-language__prompt { width: 132px; flex-basis: 132px; }
+  .language-menu--hero > summary { min-width: 142px; padding-inline: 10px; }
+  .mobile-arrival__frame { padding-inline: 17px; }
+  .mobile-arrival__journey { min-height: 285px; }
+  .travel-zone--global label { align-items: flex-start; }
+  .travel-zone--global .travel-zone__icon { width: 42px; flex-basis: 42px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-arrival__route,
+  .mobile-arrival__signal,
+  .mobile-arrival__journey::after { animation: none; }
+}

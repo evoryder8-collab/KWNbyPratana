@@ -71,13 +71,20 @@ export function getLanguage() {
   return currentLanguage;
 }
 
-function getStoredLanguage() {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY) ?? localStorage.getItem(LEGACY_STORAGE_KEY);
-    return isLanguage(stored) ? stored : "de";
-  } catch {
-    return "de";
-  }
+function getPathLanguage() {
+  const firstSegment = window.location.pathname.split("/").filter(Boolean)[0];
+  return isLanguage(firstSegment) && firstSegment !== "de" ? firstSegment : "de";
+}
+
+function routeWithoutLanguage() {
+  const segments = window.location.pathname.split("/").filter(Boolean);
+  if (segments.length && isLanguage(segments[0])) segments.shift();
+  return segments.length ? `/${segments.join("/")}/` : "/";
+}
+
+function localizedPath(language) {
+  const route = routeWithoutLanguage();
+  return language === "de" ? route : `/${language}${route}`;
 }
 
 function readParams(element) {
@@ -132,9 +139,10 @@ function syncControls(language) {
     element.textContent = meta.name;
     element.lang = meta.code;
   });
-  document.querySelectorAll("button[data-language]").forEach((option) => {
+  document.querySelectorAll("[data-language]").forEach((option) => {
     const selected = option.dataset.language === language;
     option.setAttribute("aria-selected", String(selected));
+    if (option instanceof HTMLAnchorElement) option.href = localizedPath(option.dataset.language);
   });
 }
 
@@ -142,9 +150,14 @@ export function setLanguage(language, { persist = true, announce = true } = {}) 
   if (!isLanguage(language)) return;
 
   // If the pack is not in memory yet, fetch it and re-enter once it lands.
-  // The page keeps showing the current language meanwhile rather than
-  // flashing raw keys.
+  // Localized routes already contain translated HTML, so only the controls
+  // need to sync while the small language chunk arrives.
   if (!translations[language]) {
+    currentLanguage = language;
+    window.__kwiinLanguage = language;
+    document.documentElement.lang = language;
+    document.body.dataset.language = language;
+    syncControls(language);
     loadLanguage(language).then((pack) => {
       if (pack) setLanguage(language, { persist, announce });
     });
@@ -176,14 +189,18 @@ export function setLanguage(language, { persist = true, announce = true } = {}) 
 function initMenus() {
   const menus = [...document.querySelectorAll("[data-language-menu]")];
 
-  document.querySelectorAll("button[data-language]").forEach((option) => {
+  document.querySelectorAll("[data-language]").forEach((option) => {
     option.addEventListener("click", () => {
       const language = option.dataset.language;
       if (!isLanguage(language)) return;
       document.body.classList.add("is-language-switching");
-      setLanguage(language);
+      try {
+        localStorage.setItem(STORAGE_KEY, language);
+        localStorage.removeItem(LEGACY_STORAGE_KEY);
+      } catch {
+        // The explicit language URL still works when storage is unavailable.
+      }
       menus.forEach((menu) => { menu.open = false; });
-      requestAnimationFrame(() => document.body.classList.remove("is-language-switching"));
     });
   });
 
@@ -237,10 +254,10 @@ function initCyclingPrompt() {
 }
 
 export function initI18n() {
-  const stored = getStoredLanguage();
-  // German is bundled, so it applies synchronously with no flash. A returning
-  // visitor in another language gets their pack fetched immediately.
-  setLanguage(stored, { persist: false, announce: false });
+  const initial = getPathLanguage();
+  // Every language has its own crawlable URL. German is the default root and
+  // the other seven routes are statically translated during the build.
+  setLanguage(initial, { persist: false, announce: false });
   initMenus();
   initCyclingPrompt();
   window.__kwiinSetLanguage = (language) => setLanguage(language);

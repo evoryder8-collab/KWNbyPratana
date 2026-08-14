@@ -1,5 +1,4 @@
 const pageToPath = {
-  studio: "/studio/",
   mobile: "/mobile-spa/",
   services: "/services/",
   about: "/about/",

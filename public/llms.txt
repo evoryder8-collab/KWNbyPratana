@@ -1,0 +1,21 @@
+# KWIIN Mobile Spa
+
+KWIIN is Pratana Halstrick's mobile Thai massage service for homes, hotels, private suites, and offices in the Zurich region, Switzerland.
+
+## Canonical pages
+
+- Home: https://kwiin.ch/
+- Mobile Spa: https://kwiin.ch/mobile-spa/
+- Treatments and prices: https://kwiin.ch/services/
+- About Pratana: https://kwiin.ch/about/
+- Contact and booking: https://kwiin.ch/contact/
+
+## Key facts
+
+- Pratana brings a professional massage table, oils, and fresh towels.
+- Travel up to 15 km costs CHF 45 in addition to the treatment price.
+- Travel up to 30 km costs CHF 100 in addition to the treatment price.
+- Longer distances can be requested directly.
+- Booking is handled personally on WhatsApp at +41 77 966 99 28.
+- The website is available in German, English, Thai, French, Spanish, Italian, Russian, and Portuguese.
+For full, current service details and prices, use the canonical pages above.

@@ -16,23 +16,12 @@ const arrow = `
     <path d="M4 12h15M14 6l6 6-6 6"/>
   </svg>`;
 
-const studioIcon = `
-  <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
-    <path d="M5 27h22M7 27V9h18v18M7 14h18M11 9V5h10v4M11 27v-8h6v8M21 18h1"/>
-  </svg>`;
-
-const mobileIcon = `
-  <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
-    <path d="M5 27V13l11-8 11 8v14M3 27h26M11 27v-9h10v9"/>
-    <path d="M2 9h7M4 5h8" class="motion-lines"/>
-  </svg>`;
-
 function renderLanguageOptions(className = "language-menu__options") {
   return `<div class="${className}" role="listbox" data-language-options>
     ${languages.map((language) => `
-      <button class="language-option" type="button" role="option" data-language="${language.code}" aria-selected="${language.code === "de"}">
+      <a class="language-option" href="/" role="option" data-language="${language.code}" aria-selected="${language.code === "de"}">
         <span>${language.name}</span><span>${language.short}</span>
-      </button>`).join("")}
+      </a>`).join("")}
   </div>`;
 }
 
@@ -61,7 +50,7 @@ function renderHeader() {
               ${renderLanguageOptions()}
             </div>
           </details>
-          <a class="header-book" href="https://wa.me/41779669928" data-whatsapp="studioGeneric">
+          <a class="header-book" href="https://wa.me/41779669928" data-whatsapp="mobileGeneric">
             <span data-i18n="nav.book">Termin via WhatsApp</span>${arrow}
           </a>
           <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-navigation" aria-label="Menü öffnen" data-i18n-aria-label="nav.menuOpen">
@@ -76,7 +65,7 @@ function renderHeader() {
         ${navItems.map((item, index) => `<a href="${base}${item.href}" data-nav-link><span>0${index + 1}</span><strong data-i18n="${item.key}">${item.label}</strong>${arrow}</a>`).join("")}
       </nav>
       <div class="mobile-navigation__footer">
-        <a href="https://wa.me/41779669928" class="button button--gold" data-whatsapp="studioGeneric"><span data-i18n="nav.book">Termin via WhatsApp</span>${arrow}</a>
+        <a href="https://wa.me/41779669928" class="button button--gold" data-whatsapp="mobileGeneric"><span data-i18n="nav.book">Termin via WhatsApp</span>${arrow}</a>
         <p data-i18n="common.tagline">Zurück zu sich.</p>
       </div>
     </div>`;
@@ -89,7 +78,7 @@ function renderFooter() {
       <div class="shell site-footer__grid">
         <div class="site-footer__brand">
           <a class="brand brand--footer" href="${base}">${lotus("brand__lotus")}<span class="brand__word">KWIIN</span></a>
-          <p data-i18n="footer.description">Traditionelle Thai Massage mit persönlicher Betreuung. Im Studio in Dübendorf und bei Ihnen in der Region Zürich.</p>
+          <p data-i18n="footer.description">Preisgekrönte Thai Massage als persönlicher Mobile Spa Service bei Ihnen zuhause, im Hotel oder im Büro in der Region Zürich.</p>
           <span class="site-footer__signature" data-i18n="common.tagline">Zurück zu sich.</span>
         </div>
         <div>
@@ -100,14 +89,11 @@ function renderFooter() {
         </div>
         <div>
           <h2 data-i18n="footer.contact">Kontakt</h2>
-          <a href="https://wa.me/41779669928" data-whatsapp="studioGeneric">+41 77 966 99 28</a>
+          <a href="https://wa.me/41779669928" data-whatsapp="mobileGeneric">+41 77 966 99 28</a>
           <p><span data-i18n="footer.general">Allgemeiner Kontakt:</span><br>+41 76 728 21 22</p>
           <a href="mailto:health@kwiin.ch">health@kwiin.ch</a>
           <a href="https://www.instagram.com/kwiinspa/" target="_blank" rel="noopener noreferrer">Instagram&nbsp; @kwiinspa</a>
         </div>
-      </div>
-      <div class="shell site-footer__partner">
-        <p data-i18n="common.partnerFooter">Studio Termine finden derzeit in einer offiziellen Partnerlocation in Dübendorf statt: Suriya Spa.</p>
       </div>
       <div class="shell site-footer__legal">
         <p>© <span data-year>2026</span> Barbu Media Switzerland. <span data-i18n="common.rights">Alle Rechte vorbehalten.</span></p>
@@ -136,38 +122,9 @@ function renderHeroLanguageSelector() {
     </div>`;
 }
 
-function renderModeSwitch(context) {
-  if (context === "studio") return "";
-  if (context === "mobile") return `
-    <div class="travel-zone is-visible" data-travel-zone>
-      <label>
-        <span class="travel-zone__icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 22s7-6.1 7-13a7 7 0 1 0-14 0c0 6.9 7 13 7 13Z"/><circle cx="12" cy="9" r="2.5"/></svg></span>
-        <span><strong data-i18n="pricing.zoneTitle">Anfahrtszone wählen</strong><small data-i18n="pricing.zoneCopy">Die Anfahrt ist direkt im Gesamtpreis enthalten</small></span>
-      </label>
-      <select data-zone-select aria-label="Anfahrtszone für Mobile Spa" data-i18n-aria-label="pricing.zoneAria">
-        <option value="15" data-i18n="pricing.zone15">Bis 15 km · plus CHF 45</option>
-        <option value="30" data-i18n="pricing.zone30">Bis 30 km · plus CHF 100</option>
-      </select>
-    </div>`;
-
+function renderTravelZone() {
   return `
-    <fieldset class="price-mode" data-price-mode-group>
-      <legend class="sr-only" data-i18n="pricing.legend">Preis nach Behandlungsort auswählen</legend>
-      <div class="price-mode__heading"><span data-i18n="pricing.intro">Preis anzeigen für</span><span data-i18n="pricing.tap">Antippen zum Wechseln</span></div>
-      <div class="price-mode__options">
-        <button class="price-mode__option is-active" type="button" data-price-mode="studio" aria-pressed="true">
-          <span class="price-mode__icon">${studioIcon}</span>
-          <span><strong data-i18n="pricing.studio">Im Studio</strong><small data-i18n="pricing.studioPlace">Dübendorf</small></span>
-          <span class="price-mode__check"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 10 3 3 7-7"/></svg></span>
-        </button>
-        <button class="price-mode__option" type="button" data-price-mode="mobile" aria-pressed="false">
-          <span class="price-mode__icon">${mobileIcon}</span>
-          <span><strong data-i18n="pricing.mobile">Mobil</strong><small data-i18n="pricing.mobilePlace">bei Ihnen · Anfahrt inklusive</small></span>
-          <span class="price-mode__check"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 10 3 3 7-7"/></svg></span>
-        </button>
-      </div>
-    </fieldset>
-    <div class="travel-zone" data-travel-zone hidden>
+    <div class="travel-zone travel-zone--global is-visible" data-travel-zone>
       <label>
         <span class="travel-zone__icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 22s7-6.1 7-13a7 7 0 1 0-14 0c0 6.9 7 13 7 13Z"/><circle cx="12" cy="9" r="2.5"/></svg></span>
         <span><strong data-i18n="pricing.zoneTitle">Anfahrtszone wählen</strong><small data-i18n="pricing.zoneCopy">Die Anfahrt ist direkt im Gesamtpreis enthalten</small></span>
@@ -176,14 +133,13 @@ function renderModeSwitch(context) {
         <option value="15" data-i18n="pricing.zone15">Bis 15 km · plus CHF 45</option>
         <option value="30" data-i18n="pricing.zone30">Bis 30 km · plus CHF 100</option>
       </select>
-    </div>
-    <p class="price-mode__hint" data-i18n="pricing.hint">Die Auswahl gilt für alle Behandlungen auf dieser Seite.</p>`;
+      <p class="travel-zone__hint" data-i18n="pricing.hint">Die Auswahl gilt für alle Behandlungen auf dieser Seite.</p>
+    </div>`;
 }
 
-function renderServiceCard(service, context, index) {
-  const mobile = context === "mobile";
+function renderServiceCard(service, index) {
   return `
-    <article class="treatment-card${service.knownFor ? " treatment-card--signature" : ""}" data-service-card data-reactive data-service-id="${service.id}" data-price-context="${context}" data-reveal>
+    <article class="treatment-card${service.knownFor ? " treatment-card--signature" : ""}" data-service-card data-reactive data-service-id="${service.id}" data-price-context="mobile" data-reveal>
       <div class="treatment-card__atmosphere" aria-hidden="true"><span></span><span></span></div>
       ${service.knownFor ? `<span class="treatment-card__ribbon" data-i18n="pricing.signature">Signature</span>` : ""}
       <header class="treatment-card__header">
@@ -201,20 +157,19 @@ function renderServiceCard(service, context, index) {
           <span class="treatment-card__edition">KWIIN · LOTUS FLOW · ${String(index + 1).padStart(2, "0")}</span>
         </div>
         <div class="treatment-card__commerce">
-          ${renderModeSwitch(context)}
           <ol class="price-list" aria-label="Preise" data-i18n-aria-label="pricing.listAria">
             ${service.durations.map(({ minutes, price }) => {
-              const shown = mobile ? price + 45 : price;
+              const shown = price + 45;
               return `<li data-price-row data-minutes="${minutes}" data-base-price="${price}">
                 <span class="price-list__duration" data-duration-label>${minutes} Min.</span>
                 <span class="price-list__rule" aria-hidden="true"></span>
                 <span class="price-list__amount"><small>CHF</small> <strong data-price-value>${shown}</strong></span>
-                <span class="price-list__breakdown" data-price-breakdown>${mobile ? `(plus CHF 45 Anfahrt · bis 15 km)` : ""}</span>
+                <span class="price-list__breakdown" data-price-breakdown>(plus CHF 45 Anfahrt · bis 15 km)</span>
               </li>`;
             }).join("")}
           </ol>
           <a class="button button--outline treatment-card__book" href="https://wa.me/41779669928" data-service-book>
-            <span data-service-book-label data-i18n="${mobile ? "pricing.ctaMobile" : "pricing.ctaStudio"}"${mobile ? ` data-i18n-params='{"distance":15}'` : ""}>${mobile ? "Mobil bis 15 km anfragen" : "Im Studio via WhatsApp buchen"}</span>
+            <span data-service-book-label data-i18n="pricing.ctaMobile" data-i18n-params='{"distance":15}'>Mobil bis 15 km anfragen</span>
             ${arrow}
           </a>
         </div>
@@ -222,9 +177,10 @@ function renderServiceCard(service, context, index) {
     </article>`;
 }
 
-function renderServices(context) {
-  return `<div class="treatment-grid treatment-grid--${context}" data-treatment-grid data-global-price-mode="${context === "mobile" ? "mobile" : "studio"}" data-global-zone="15">
-    ${services.map((service, index) => renderServiceCard(service, context, index)).join("")}
+function renderServices() {
+  return `<div class="treatment-grid treatment-grid--mobile" data-treatment-grid data-global-price-mode="mobile" data-global-zone="15">
+    ${renderTravelZone()}
+    ${services.map((service, index) => renderServiceCard(service, index)).join("")}
   </div>`;
 }
 
@@ -235,9 +191,8 @@ const htmlPartials = {
       .replace("<!-- KWIIN_HEADER -->", renderHeader())
       .replace("<!-- KWIIN_FOOTER -->", renderFooter())
       .replaceAll("<!-- KWIIN_LANGUAGE_SELECTOR -->", renderHeroLanguageSelector())
-      .replaceAll("<!-- KWIIN_SERVICES:all -->", renderServices("all"))
-      .replaceAll("<!-- KWIIN_SERVICES:studio -->", renderServices("studio"))
-      .replaceAll("<!-- KWIIN_SERVICES:mobile -->", renderServices("mobile"));
+      .replaceAll("<!-- KWIIN_SERVICES:all -->", renderServices())
+      .replaceAll("<!-- KWIIN_SERVICES:mobile -->", renderServices());
   },
 };
 
