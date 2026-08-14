@@ -3071,20 +3071,10 @@ em {
   .language-option, .header-book, .menu-toggle, .text-link { transition: none; }
 }
 
-/* ── The lotus ───────────────────────────────────────────────────────────
-   Nineteen petals in four depth planes, drawn as bezier geometry rather than
-   assembled from an icon: each flank uses unequal control weights so no
-   petal mirrors itself, and every angle, length and curl carries authored
-   jitter so the bloom reads as drawn.
-
-   Composed with the portrait rather than placed behind it — the back planes
-   open around her shoulders, and two petals cross in front of the figure at
-   the base so she sits *within* the bloom. Stroke weight increases and
-   opacity rises as the planes come forward, which is what gives it depth.
-
-   Colour is drawn from the existing palette only: lavender and plum for the
-   receding planes, gold for the nearest. Everything is low-opacity line, so
-   it never sits between the eye and her face or any text. */
+/* ── The portrait lotus ──────────────────────────────────────────────────
+   One large, quiet outer bloom frames the portrait. Keeping a single plane
+   preserves the recognisable lotus silhouette without layering a second,
+   sharper emblem over the figure. */
 .lotus-frame {
   position: absolute;
   z-index: 0;
@@ -3102,23 +3092,9 @@ em {
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
 }
-/* Weight and opacity climb as the planes come forward — that gradient is
-   what makes it read as a bloom with depth rather than as flat linework. */
 .lotus-petal--back  { stroke: rgba(160,150,196,.42); stroke-width: 1.15; }
-.lotus-petal--mid   { stroke: rgba(109,76,112,.38);  stroke-width: 1.55; }
-.lotus-petal--front { stroke: rgba(178,132,48,.52);  stroke-width: 2;    }
-.lotus-petal--cross { stroke: rgba(178,132,48,.34);  stroke-width: 1.35; }
-
-/* Two petals pass in front of her at the base, which is what seats the
-   figure inside the bloom instead of in front of a backdrop. They are held
-   to a low opacity and kept to the lower third, well clear of her face. */
 .portrait-stage > .lotus-frame { z-index: 0; }
 .portrait-stage picture        { z-index: 1; }
-.lotus-frame--fore {
-  z-index: 2;
-  -webkit-mask-image: linear-gradient(to top, #000 34%, transparent 62%);
-  mask-image: linear-gradient(to top, #000 34%, transparent 62%);
-}
 
 /* Slow stroke draw on first view. Long dash so each petal draws as one
    continuous line rather than ticking through segments. */
@@ -3128,29 +3104,20 @@ em {
   animation: lotus-draw 2.6s var(--ease-lux) forwards;
 }
 .lotus-frame__back  .lotus-petal { animation-delay: .35s; }
-.lotus-frame__mid   .lotus-petal { animation-delay: .70s; }
-.lotus-frame__front .lotus-petal { animation-delay: 1.05s; }
-.lotus-frame__cross .lotus-petal { animation-delay: 1.35s; }
 @keyframes lotus-draw { to { stroke-dashoffset: 0; } }
 
 /* Afterwards it breathes at the same amplitude as the background life —
    long, non-harmonic, barely perceptible. */
 .lotus-frame__back  { animation: lotus-sway-a 119s ease-in-out infinite alternate; transform-origin: 50% 92%; }
-.lotus-frame__mid   { animation: lotus-sway-b 151s ease-in-out infinite alternate; transform-origin: 50% 92%; }
-.lotus-frame__front { animation: lotus-sway-a 167s ease-in-out infinite alternate; transform-origin: 50% 92%; }
 @keyframes lotus-sway-a {
   0%   { transform: rotate(-.5deg) scale(1);     opacity: .92; }
   100% { transform: rotate(.6deg)  scale(1.015); opacity: 1; }
-}
-@keyframes lotus-sway-b {
-  0%   { transform: rotate(.45deg) scale(1.012); opacity: 1; }
-  100% { transform: rotate(-.55deg) scale(1);    opacity: .9; }
 }
 
 /* Reduced motion gets the finished composition, fully drawn and still. */
 @media (prefers-reduced-motion: reduce) {
   .lotus-petal { stroke-dashoffset: 0; animation: none; }
-  .lotus-frame__back, .lotus-frame__mid, .lotus-frame__front { animation: none; }
+  .lotus-frame__back { animation: none; }
 }
 
 /* The portrait crop changes at each breakpoint, so the bloom is re-seated
@@ -4427,4 +4394,47 @@ main > section {
   .mobile-arrival__route,
   .mobile-arrival__signal,
   .mobile-arrival__journey::after { animation: none; }
+}
+
+/* Keep each touch statement as one precisely centred thought. The star is
+   taken out of the text flow so it cannot push the sentence off centre. */
+.touch__lines > p {
+  position: relative;
+  padding-inline: 1.5rem;
+  font-size: clamp(1.7rem, 2.8vw, 2.5rem);
+  text-align: center;
+  white-space: nowrap;
+}
+.touch__lines > p:hover { padding-left: 1.5rem; }
+.touch__lines > p::before {
+  position: absolute;
+  top: 50%;
+  left: .3rem;
+  width: auto;
+  margin: 0;
+  transform: translateY(-50%);
+}
+
+@media (max-width: 620px) {
+  .touch__lines > p {
+    padding: 26px 1.15rem;
+    font-size: clamp(.82rem, 4.2vw, 1.25rem);
+    letter-spacing: -.018em;
+    line-height: 1.15;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+  .touch__lines > p:hover { padding-left: 1.15rem; }
+  .touch__lines > p::before {
+    left: 0;
+    font-size: .42rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .touch__lines > p {
+    padding-inline: 1rem;
+    font-size: clamp(.76rem, 4.05vw, .96rem);
+  }
+  .touch__lines > p:hover { padding-left: 1rem; }
 }
