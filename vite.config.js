@@ -66,7 +66,7 @@ function renderHeader() {
       </nav>
       <div class="mobile-navigation__footer">
         <a href="https://wa.me/41779669928" class="button button--gold" data-whatsapp="mobileGeneric"><span data-i18n="nav.book">Termin via WhatsApp</span>${arrow}</a>
-        <p data-i18n="common.tagline">Zurück zu sich.</p>
+        <p data-i18n="common.tagline">Mobile Spa Zürich, direkt bei Ihnen.</p>
       </div>
     </div>`;
 }
@@ -79,7 +79,7 @@ function renderFooter() {
         <div class="site-footer__brand">
           <a class="brand brand--footer" href="${base}">${lotus("brand__lotus")}<span class="brand__word">KWIIN</span></a>
           <p data-i18n="footer.description">Preisgekrönte Thai Massage als persönlicher Mobile Spa Service bei Ihnen zuhause, im Hotel oder im Büro in der Region Zürich.</p>
-          <span class="site-footer__signature" data-i18n="common.tagline">Zurück zu sich.</span>
+          <span class="site-footer__signature" data-i18n="common.tagline">Mobile Spa Zürich, direkt bei Ihnen.</span>
         </div>
         <div>
           <h2 data-i18n="footer.explore">Entdecken</h2>

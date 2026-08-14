@@ -3083,8 +3083,8 @@ em {
    Applied late in the file so these win over the earlier breakpoint blocks
    without needing !important. */
 @media (max-width: 620px) {
-  /* Sized so Russian — "Снова почувствуйте себя собой.", the longest of the
-     eight — holds two lines rather than three at every width in this range. */
+  /* Sized against the longest translated Mobile Spa Zürich headlines so
+     every language keeps an intentional line count on narrow phones. */
   .home-hero h1                      { font-size: clamp(2.35rem, 11.1vw, 4.85rem); }
   .portal-card h3                    { font-size: clamp(1.55rem, 7.6vw, 3rem); }
   .manifesto h2,
