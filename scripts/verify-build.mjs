@@ -110,8 +110,7 @@ if (schemaBlocks !== 40) fail(`Expected 40 JSON-LD blocks, found ${schemaBlocks}
 
 const home = await readFile(resolve(dist, "index.html"), "utf8");
 if (!home.includes("class=\"mobile-arrival")) fail("Home page is missing the mobile-only arrival section");
-if ([...home.matchAll(/class="lotus-frame"/g)].length !== 1) fail("Home portrait must contain exactly one lotus frame");
-if (/lotus-frame__(?:mid|front)/.test(home)) fail("Home portrait contains a secondary nested lotus");
+if (/lotus-frame|lotus-petal/.test(home)) fail("Home portrait contains the retired sharp lotus SVG");
 
 const servicesPage = await readFile(resolve(dist, "services/index.html"), "utf8");
 if ([...servicesPage.matchAll(/data-zone-select/g)].length !== 1) fail("Treatments page must contain one global travel selector");

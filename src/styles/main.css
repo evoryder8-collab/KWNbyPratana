@@ -3071,64 +3071,7 @@ em {
   .language-option, .header-book, .menu-toggle, .text-link { transition: none; }
 }
 
-/* ── The portrait lotus ──────────────────────────────────────────────────
-   One large, quiet outer bloom frames the portrait. Keeping a single plane
-   preserves the recognisable lotus silhouette without layering a second,
-   sharper emblem over the figure. */
-.lotus-frame {
-  position: absolute;
-  z-index: 0;
-  bottom: -4%;
-  left: 50%;
-  width: min(148%, 1180px);
-  transform: translateX(-50%) rotate(-3.5deg);   /* off-axis, deliberately */
-  transform-origin: 50% 100%;
-  pointer-events: none;
-  overflow: visible;
-}
-.lotus-petal {
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  vector-effect: non-scaling-stroke;
-}
-.lotus-petal--back  { stroke: rgba(160,150,196,.42); stroke-width: 1.15; }
-.portrait-stage > .lotus-frame { z-index: 0; }
 .portrait-stage picture        { z-index: 1; }
-
-/* Slow stroke draw on first view. Long dash so each petal draws as one
-   continuous line rather than ticking through segments. */
-.lotus-petal {
-  stroke-dasharray: 2600;
-  stroke-dashoffset: 2600;
-  animation: lotus-draw 2.6s var(--ease-lux) forwards;
-}
-.lotus-frame__back  .lotus-petal { animation-delay: .35s; }
-@keyframes lotus-draw { to { stroke-dashoffset: 0; } }
-
-/* Afterwards it breathes at the same amplitude as the background life —
-   long, non-harmonic, barely perceptible. */
-.lotus-frame__back  { animation: lotus-sway-a 119s ease-in-out infinite alternate; transform-origin: 50% 92%; }
-@keyframes lotus-sway-a {
-  0%   { transform: rotate(-.5deg) scale(1);     opacity: .92; }
-  100% { transform: rotate(.6deg)  scale(1.015); opacity: 1; }
-}
-
-/* Reduced motion gets the finished composition, fully drawn and still. */
-@media (prefers-reduced-motion: reduce) {
-  .lotus-petal { stroke-dashoffset: 0; animation: none; }
-  .lotus-frame__back { animation: none; }
-}
-
-/* The portrait crop changes at each breakpoint, so the bloom is re-seated
-   to keep petals clear of her face at every width. */
-@media (max-width: 860px) {
-  .lotus-frame { width: min(168%, 900px); bottom: -2%; transform: translateX(-50%) rotate(-2.5deg); }
-}
-@media (max-width: 620px) {
-  .lotus-frame { width: min(184%, 620px); bottom: 0; transform: translateX(-50%) rotate(-2deg); }
-  .lotus-petal--back { stroke-width: .9; }
-}
 
 /* ── Fluid heading scale ─────────────────────────────────────────────────
    The clamp *minimums* were the fault, not the vw terms: a floor of 3.75rem
@@ -3886,7 +3829,6 @@ main > section {
 
   .portrait-stage__halo { width: min(36vw, 500px); }
   .portrait-stage__rings { width: min(38vw, 525px); }
-  .portrait-stage .lotus-frame { width: min(160%, 760px); }
 }
 
 /* A single premium mobile arrival instead of two competing destination
@@ -4296,7 +4238,6 @@ main > section {
   }
   .portrait-stage__halo { top: 48%; width: min(76vw, 420px); }
   .portrait-stage__rings { top: 48%; width: min(80vw, 450px); }
-  .portrait-stage .lotus-frame { bottom: -3%; width: min(164%, 700px); }
   .home-hero__after { margin-top: 24px; }
 }
 
@@ -4343,7 +4284,6 @@ main > section {
   .portrait-stage__halo { top: 49%; width: min(74vw, 325px); }
   .portrait-stage__rings { top: 49%; width: min(79vw, 350px); }
   .portrait-stage picture > img { transform: scale(1.48); }
-  .portrait-stage .lotus-frame { bottom: -4%; width: min(165%, 555px); }
   .home-hero__after { margin-top: 20px; padding-bottom: 52px; }
   .home-hero__intro { font-size: 1.18rem; }
 
