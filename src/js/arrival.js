@@ -5,14 +5,15 @@
  * witnessed rather than glimpsed. The sequence:
  *
  *   0.00s  A warm luminous field holds the screen. Warmth before detail.
- *   0.20s  The KWIIN lotus draws itself in gold linework, stroke by stroke.
+ *   0.20s  The KWIIN emblem settles into a precious-metal finish.
+ *   0.62s  A single golden light wave travels across its original colour.
  *   1.05s  The wordmark rises beneath it, letterspacing opening as it settles.
  *   1.70s  The line of the brand appears.
  *   2.35s  The lockup lifts and dissolves as the light begins to go up.
  *   2.60s  The hero resolves underneath; the sen network draws its lines in.
  *   4.00s  Done. The veil is gone and the page is simply the page.
  *
- * It resolves *into* the hero rather than handing over: the lotus dissolves
+ * It resolves *into* the hero rather than handing over: the emblem dissolves
  * toward the portrait seal's position, and the light lifting is what reveals
  * the hero, which has been sitting there fully painted the whole time.
  *
@@ -27,14 +28,11 @@
 const KEY = "kwiin-arrived";
 const REPLAY_KEY = "kwiin-replay-arrival";
 
-const LOTUS = `
-  <svg class="arrival__lotus" viewBox="0 0 72 52" fill="none" aria-hidden="true">
-    <path d="M36 43C24 37 18 27 18 15c8 3 14 9 18 18 4-9 10-15 18-18 0 12-6 22-18 28Z"/>
-    <path d="M36 41C30 28 30 16 36 5c6 11 6 23 0 36Z"/>
-    <path d="M35 43C21 44 11 39 5 29c10-1 19 2 27 11"/>
-    <path d="M37 43c14 1 24-4 30-14-10-1-19 2-27 11"/>
-    <path d="M19 47c10 3 24 3 34 0"/>
-  </svg>`;
+const EMBLEM = `
+  <span class="arrival__emblem" aria-hidden="true">
+    <img class="arrival__logo" src="/assets/kwiin-logo.png" alt="" width="768" height="768" decoding="async">
+    <span class="arrival__gleam"></span>
+  </span>`;
 
 let active = null;
 
@@ -64,7 +62,7 @@ export function playArrival({ force = false } = {}) {
     <span class="arrival__warmth"></span>
     <span class="arrival__grain"></span>
     <div class="arrival__lockup">
-      ${LOTUS}
+      ${EMBLEM}
       <span class="arrival__word">KWIIN</span>
       <span class="arrival__rule"></span>
       <span class="arrival__byline">by Pratana Halstrick</span>
@@ -120,7 +118,7 @@ export function playArrival({ force = false } = {}) {
     : { lift: 2350, reveal: 2600, done: 4000 };
 
   requestAnimationFrame(() => {
-    veil.classList.add("is-drawing");                  // lotus draws, word rises
+    veil.classList.add("is-drawing");                  // emblem gleams, word rises
     at(T.lift, () => veil.classList.add("is-lifting")); // lockup dissolves, light goes up
     at(T.reveal, () => window.dispatchEvent(new CustomEvent("kwiin:arrival-reveal", { detail: { instant: false } })));
     at(T.done, finish);

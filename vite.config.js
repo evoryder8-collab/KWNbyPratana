@@ -4,12 +4,8 @@ import { languages, navItems, services } from "./src/data/site.js";
 
 const base = "/";
 
-const lotus = (className = "lotus-mark") => `
-  <svg class="${className}" viewBox="0 0 72 52" fill="none" aria-hidden="true">
-    <path d="M36 43C24 37 18 27 18 15c8 3 14 9 18 18 4-9 10-15 18-18 0 12-6 22-18 28Z"/>
-    <path d="M36 41C30 28 30 16 36 5c6 11 6 23 0 36Z"/>
-    <path d="M35 43C21 44 11 39 5 29c10-1 19 2 27 11M37 43c14 1 24-4 30-14-10-1-19 2-27 11M19 47c10 3 24 3 34 0"/>
-  </svg>`;
+const brandMark = (className = "brand-mark") => `
+  <img class="${className}" src="/assets/kwiin-logo.png" alt="" width="768" height="768" aria-hidden="true" decoding="async">`;
 
 const arrow = `
   <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -31,7 +27,7 @@ function renderHeader() {
     <header class="site-header" data-site-header>
       <div class="site-header__inner">
         <a class="brand" href="${base}">
-          ${lotus("brand__lotus")}
+          ${brandMark("brand__logo")}
           <span class="brand__word">KWIIN</span>
           <span class="brand__byline">by Pratana</span>
         </a>
@@ -77,7 +73,7 @@ function renderFooter() {
       <div class="site-footer__halo" aria-hidden="true"></div>
       <div class="shell site-footer__grid">
         <div class="site-footer__brand">
-          <a class="brand brand--footer" href="${base}">${lotus("brand__lotus")}<span class="brand__word">KWIIN</span></a>
+          <a class="brand brand--footer" href="${base}">${brandMark("brand__logo")}<span class="brand__word">KWIIN</span></a>
           <p data-i18n="footer.description">Preisgekrönte Thai Massage als persönlicher Mobile Spa Service bei Ihnen zuhause, im Hotel oder im Büro in der Region Zürich.</p>
           <span class="site-footer__signature" data-i18n="common.tagline">Mobile Spa Zürich, direkt bei Ihnen.</span>
         </div>
@@ -148,7 +144,7 @@ function renderServiceCard(service, index) {
           <p class="eyebrow eyebrow--bare" data-i18n="${service.categoryKey}">${service.category}</p>
           <h2>${service.title}${service.subtitle ? ` <em>${service.subtitle}</em>` : ""}</h2>
         </div>
-        ${lotus("treatment-card__lotus")}
+        ${brandMark("treatment-card__logo")}
       </header>
       <div class="treatment-card__body">
         <div class="treatment-card__story">

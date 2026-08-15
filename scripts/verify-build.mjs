@@ -71,6 +71,13 @@ for (const { code, name, short } of languages) {
     if (!html.includes(`data-current-language>${short}<`)) fail(`${output}: incorrect visible language code`);
     if ([...html.matchAll(/hreflang="([^"]+)"/g)].length !== 9) fail(`${output}: incomplete hreflang set`);
     if (!/<link\b[^>]*rel="canonical" href="https:\/\/kwiin\.ch\//.test(html)) fail(`${output}: missing canonical URL`);
+    if (!html.includes('href="/favicon.png"') || !html.includes('href="/apple-touch-icon.png"')) {
+      fail(`${output}: missing the new KWIIN browser icons`);
+    }
+    if (!html.includes('class="brand__logo"') || !html.includes('/assets/kwiin-logo.png')) {
+      fail(`${output}: missing the new KWIIN brand mark`);
+    }
+    if (html.includes('/favicon.svg')) fail(`${output}: retired KWIIN favicon found`);
     if (html.includes("—")) fail(`${output}: em dash found in visible HTML`);
     if (/d(?:ü|u)bendorf|suriya spa|partnerlocation/i.test(html)) fail(`${output}: retired location reference found`);
     if (/data-price-mode|price-mode__options|data-portal-card/.test(html)) fail(`${output}: retired studio or dual-choice control found`);
@@ -115,6 +122,7 @@ if (/lotus-frame|lotus-petal/.test(home)) fail("Home portrait contains the retir
 const servicesPage = await readFile(resolve(dist, "services/index.html"), "utf8");
 if ([...servicesPage.matchAll(/data-zone-select/g)].length !== 1) fail("Treatments page must contain one global travel selector");
 if (!servicesPage.includes("data-global-price-mode=\"mobile\"")) fail("Treatments page is not locked to mobile pricing");
+if ([...servicesPage.matchAll(/class="treatment-card__logo"/g)].length !== 6) fail("Every treatment card must use the new KWIIN logo");
 
 const sitemap = await readFile(resolve(dist, "sitemap.xml"), "utf8");
 const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);

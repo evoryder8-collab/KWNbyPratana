@@ -385,12 +385,11 @@ em {
   background: linear-gradient(90deg, var(--line-gold), transparent);
 }
 
-.ornament svg {
-  width: 38px;
-  stroke: currentColor;
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.ornament img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 11px rgba(62,48,82,.14));
 }
 
 /* Header */
@@ -433,14 +432,12 @@ em {
   color: var(--ink);
 }
 
-.brand__lotus {
+.brand__logo {
   grid-row: 1 / 3;
-  width: 48px;
-  color: var(--gold);
-  stroke: currentColor;
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 12px rgba(61, 48, 74, .12));
 }
 
 .brand__word {
@@ -1990,14 +1987,13 @@ em {
   font-style: italic;
 }
 
-.treatment-card__lotus {
+.treatment-card__logo {
   width: 46px;
+  height: 46px;
   flex: 0 0 46px;
-  color: rgba(154,104,32,.55);
-  stroke: currentColor;
-  stroke-width:1.5;
-  stroke-linecap:round;
-  stroke-linejoin:round;
+  object-fit: contain;
+  opacity: .9;
+  filter: drop-shadow(0 7px 13px rgba(65, 52, 85, .14));
 }
 
 .treatment-card__tagline {
@@ -2277,7 +2273,7 @@ em {
 .site-footer__halo { position:absolute; top:-50%; left:50%; width:70vw; aspect-ratio:1; border-radius:50%; background:radial-gradient(circle,rgba(229,195,126,.12),transparent 64%); transform:translateX(-50%); }
 .site-footer__grid { position:relative; display:grid; grid-template-columns:1.5fr .7fr .8fr; gap:70px; }
 .brand--footer { color:#fff; }
-.brand--footer .brand__lotus { color:var(--gold-light); }
+.brand--footer .brand__logo { filter:brightness(1.18) saturate(1.05) drop-shadow(0 8px 22px rgba(211,190,233,.2)); }
 .site-footer__brand > p { max-width:450px; margin-top:24px; font-size:.82rem; }
 .site-footer__signature { display:block; margin-top:22px; color:var(--gold-light); font-family:var(--display); font-size:1.4rem; font-style:italic; }
 .site-footer h2 { color:var(--gold-light); font-family:var(--sans); font-size:.62rem; font-weight:600; letter-spacing:.17em; text-transform:uppercase; }
@@ -2337,7 +2333,7 @@ em {
 @media (max-width: 860px) {
   :root { --header-h:76px; }
   .site-header__inner,.shell,.shell--narrow { width:min(100% - 28px,1240px); }
-  .brand__lotus { width:40px; }
+  .brand__logo { width:44px; height:44px; }
   .brand__word { font-size:1.5rem; }
   .brand__byline { display:none; }
   .language-menu--compact { display:none; }
@@ -2473,7 +2469,7 @@ em {
   .treatment-card { padding:31px 18px 24px; border-radius:24px; }
   .treatment-card__header { gap:10px; }
   .treatment-card__header h2 { font-size:clamp(2.55rem,13vw,3.4rem); }
-  .treatment-card__lotus { width:36px; flex-basis:36px; }
+  .treatment-card__logo { width:36px; height:36px; flex-basis:36px; }
   .treatment-card__copy { font-size:.86rem; }
   .price-mode__heading { align-items:flex-start; font-size:clamp(.49rem,2.25vw,.58rem); letter-spacing:.07em; }
   .price-mode__heading span:last-child { text-align:right; }
@@ -2518,7 +2514,7 @@ em {
 
 @media (max-width: 370px) {
   .shell,.shell--narrow,.site-header__inner { width:calc(100% - 20px); }
-  .brand__lotus { width:34px; }
+  .brand__logo { width:38px; height:38px; }
   .brand__word { font-size:1.3rem; letter-spacing:.16em; }
   .portal { min-height:570px; }
   .portal-card { padding-inline:8px; }
@@ -2723,7 +2719,7 @@ em {
 .mobile-hero__trail { stroke:rgba(240,210,151,.52); stroke-width:2; stroke-linecap:round; stroke-dasharray:8 11; animation:monolith-flow 14s linear infinite; }
 .mobile-hero__trail--echo { stroke:rgba(158,216,215,.28); animation-direction:reverse; }
 .mobile-hero__home { color:#d8c2e7; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
-.mobile-hero__lotus { color:var(--gold-light); stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.mobile-hero__logo { opacity:.82; filter:drop-shadow(0 12px 24px rgba(219,190,225,.22)); }
 .mobile-hero__node { fill:#fff0bc; stroke:#fff; stroke-width:3; }
 .mobile-hero__signal { fill:#f7d783; filter:drop-shadow(0 0 10px #e6b755); animation:portal-signal 3.4s ease-in-out infinite; transform-origin:199px 227px; }
 .mobile-hero__journey-footer { bottom:32px; }
@@ -2767,7 +2763,7 @@ em {
 .treatment-card__number { align-self:center; margin-right:clamp(15px,3vw,45px); color:rgba(68,47,68,.17); font-family:var(--display); font-size:clamp(4rem,7vw,7rem); line-height:.7; }
 .treatment-card__header > div { flex:1; }
 .treatment-card__header h2 { font-size:clamp(3.5rem,6vw,6rem); }
-.treatment-card__lotus { width:62px; flex-basis:62px; }
+.treatment-card__logo { width:62px; height:62px; flex-basis:62px; }
 .treatment-card__body { position:relative; z-index:1; display:grid; grid-template-columns:minmax(220px,.72fr) minmax(380px,1.28fr); gap:clamp(45px,8vw,110px); padding-top:38px; }
 .treatment-card__story { display:flex; flex-direction:column; }
 .treatment-card__tagline { margin-top:0; font-size:1.55rem; }
@@ -2914,7 +2910,7 @@ em {
   .treatment-card__header { display:grid; grid-template-columns:auto 1fr auto; gap:10px; padding-bottom:24px; }
   .treatment-card__number { margin-right:0; font-size:3.4rem; }
   .treatment-card__header h2 { font-size:clamp(2.7rem,13vw,3.5rem); }
-  .treatment-card__lotus { width:36px; flex-basis:36px; }
+  .treatment-card__logo { width:36px; height:36px; flex-basis:36px; }
   .treatment-card__body { gap:28px; padding-top:25px; }
   .treatment-card__tagline { font-size:1.28rem; }
   .treatment-card__copy { font-size:.86rem; }
@@ -3624,32 +3620,67 @@ h2 { letter-spacing: clamp(-0.016em, -0.3vw + 0.02em, 0em); }
   transition: opacity 1.05s var(--ease-lux), transform 1.35s var(--ease-lux), filter 1.05s var(--ease-lux);
 }
 
-.arrival__lotus {
-  width: clamp(76px, 12vw, 124px);
-  height: auto;
-  fill: none;
-  stroke: var(--gold);
-  stroke-width: 1.4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  filter: drop-shadow(0 6px 26px rgba(184,139,53,.28));
+.arrival__emblem {
+  position: relative;
+  display: block;
+  width: clamp(126px, 15vw, 178px);
+  aspect-ratio: 1;
+  opacity: 0;
+  transform: perspective(600px) rotateX(8deg) translateY(8px) scale(.94);
+  filter: drop-shadow(0 14px 30px rgba(62, 48, 82, .16));
 }
 
-/* Each petal draws itself. */
-.arrival__lotus path {
-  stroke-dasharray: 132;
-  stroke-dashoffset: 132;
+.arrival__logo,
+.arrival__gleam {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
-.arrival.is-drawing .arrival__lotus path {
-  animation: arrival-draw 1.25s var(--ease-lux) forwards;
-}
-.arrival.is-drawing .arrival__lotus path:nth-child(1) { animation-delay: .20s; }
-.arrival.is-drawing .arrival__lotus path:nth-child(2) { animation-delay: .34s; }
-.arrival.is-drawing .arrival__lotus path:nth-child(3) { animation-delay: .48s; }
-.arrival.is-drawing .arrival__lotus path:nth-child(4) { animation-delay: .58s; }
-.arrival.is-drawing .arrival__lotus path:nth-child(5) { animation-delay: .74s; }
 
-@keyframes arrival-draw { to { stroke-dashoffset: 0; } }
+.arrival__logo {
+  display: block;
+  object-fit: contain;
+}
+
+/* A second, perfectly alpha-masked layer sends one warm reflection across
+   the supplied cool-metal artwork. The base image never changes colour. */
+.arrival__gleam {
+  background:
+    linear-gradient(108deg,
+      transparent 25%,
+      rgba(197, 143, 45, .08) 35%,
+      rgba(244, 207, 123, .9) 45%,
+      rgba(255, 249, 213, 1) 50%,
+      rgba(196, 132, 29, .72) 57%,
+      transparent 69%);
+  background-position: 170% 0;
+  background-size: 260% 100%;
+  opacity: 0;
+  -webkit-mask: url("/assets/kwiin-logo.png") center / contain no-repeat;
+  mask: url("/assets/kwiin-logo.png") center / contain no-repeat;
+}
+
+.arrival.is-drawing .arrival__emblem {
+  animation: arrival-emblem-in .82s var(--ease-lux) .14s both;
+}
+
+.arrival.is-drawing .arrival__gleam {
+  animation: arrival-golden-wave 1.18s cubic-bezier(.32, 0, .2, 1) .28s both;
+}
+
+@keyframes arrival-emblem-in {
+  from { opacity: 0; transform: perspective(600px) rotateX(8deg) translateY(8px) scale(.94); filter:blur(3px) drop-shadow(0 8px 22px rgba(62,48,82,.08)); }
+  to { opacity: 1; transform: perspective(600px) rotateX(0) translateY(0) scale(1); filter:blur(0) drop-shadow(0 16px 34px rgba(62,48,82,.18)); }
+}
+
+@keyframes arrival-golden-wave {
+  0% { background-position: 170% 0; opacity: 0; }
+  12% { opacity: .2; }
+  48% { opacity: .96; }
+  88% { opacity: .18; }
+  100% { background-position: -75% 0; opacity: 0; }
+}
 
 .arrival__word {
   font-family: var(--display);
@@ -4309,7 +4340,7 @@ main > section {
     letter-spacing: .18em;
   }
   .treatment-card__header > div { grid-row: 2; grid-column: 1; min-width: 0; }
-  .treatment-card__lotus { grid-row: 1 / span 2; grid-column: 2; }
+  .treatment-card__logo { grid-row: 2; grid-column: 2; align-self: start; margin-top: 12px; }
   .treatment-card__header h2 { font-size: clamp(2rem, 10.3vw, 3.25rem); overflow-wrap: break-word; }
   .treatment-card__body,
   .treatment-card__commerce,

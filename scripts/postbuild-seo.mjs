@@ -200,7 +200,7 @@ function structuredData(page, code, pack) {
       name: "KWIIN Mobile Spa by Pratana Halstrick",
       alternateName: "KWIIN",
       url: siteUrl,
-      logo: `${siteUrl}/favicon.svg`,
+      logo: `${siteUrl}/assets/kwiin-logo.png`,
       image: `${siteUrl}/assets/og-kwiin.jpg`,
       description: translate(pack, "footer.description"),
       email: "health@kwiin.ch",
