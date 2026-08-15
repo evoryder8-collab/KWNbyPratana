@@ -2333,8 +2333,9 @@ em {
 @media (max-width: 860px) {
   :root { --header-h:76px; }
   .site-header__inner,.shell,.shell--narrow { width:min(100% - 28px,1240px); }
-  .brand__logo { width:44px; height:44px; }
-  .brand__word { font-size:1.5rem; }
+  .brand { grid-template-rows:1fr; align-items:center; }
+  .brand__logo { grid-row:1; width:44px; height:44px; align-self:center; }
+  .brand__word { align-self:center; margin:0; font-size:1.5rem; line-height:1; }
   .brand__byline { display:none; }
   .language-menu--compact { display:none; }
   .home-hero { min-height:max(1080px,100svh); }
