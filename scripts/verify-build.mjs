@@ -71,13 +71,18 @@ for (const { code, name, short } of languages) {
     if (!html.includes(`data-current-language>${short}<`)) fail(`${output}: incorrect visible language code`);
     if ([...html.matchAll(/hreflang="([^"]+)"/g)].length !== 9) fail(`${output}: incomplete hreflang set`);
     if (!/<link\b[^>]*rel="canonical" href="https:\/\/kwiin\.ch\//.test(html)) fail(`${output}: missing canonical URL`);
-    if (!html.includes('href="/favicon.png"') || !html.includes('href="/apple-touch-icon.png"')) {
+    if (!html.includes('href="/favicon-kwiin-v2.png"') || !html.includes('href="/apple-touch-icon-kwiin-v2.png"')) {
       fail(`${output}: missing the new KWIIN browser icons`);
     }
     if (!html.includes('class="brand__logo"') || !html.includes('/assets/kwiin-logo.png')) {
       fail(`${output}: missing the new KWIIN brand mark`);
     }
     if (html.includes('/favicon.svg')) fail(`${output}: retired KWIIN favicon found`);
+    if (!html.includes('content="https://kwiin.ch/assets/og-kwiin-pratana-2026.jpg"')) fail(`${output}: missing the new KWIIN sharing card`);
+    if (!html.includes('property="og:image:width" content="1200"') || !html.includes('property="og:image:height" content="630"')) {
+      fail(`${output}: incorrect sharing card dimensions`);
+    }
+    if (!html.includes('property="og:image:alt"') || !html.includes('name="twitter:image:alt"')) fail(`${output}: sharing card alt text is missing`);
     if (html.includes("—")) fail(`${output}: em dash found in visible HTML`);
     if (/d(?:ü|u)bendorf|suriya spa|partnerlocation/i.test(html)) fail(`${output}: retired location reference found`);
     if (/data-price-mode|price-mode__options|data-portal-card/.test(html)) fail(`${output}: retired studio or dual-choice control found`);

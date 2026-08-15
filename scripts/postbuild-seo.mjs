@@ -6,6 +6,7 @@ import { languages, services, travelZones } from "../src/data/site.js";
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = resolve(root, "dist");
 const siteUrl = "https://kwiin.ch";
+const shareImage = `${siteUrl}/assets/og-kwiin-pratana-2026.jpg`;
 const buildDate = "2026-08-14";
 
 const pages = [
@@ -201,7 +202,7 @@ function structuredData(page, code, pack) {
       alternateName: "KWIIN",
       url: siteUrl,
       logo: `${siteUrl}/assets/kwiin-logo.png`,
-      image: `${siteUrl}/assets/og-kwiin.jpg`,
+      image: shareImage,
       description: translate(pack, "footer.description"),
       email: "health@kwiin.ch",
       telephone: "+41779669928",
@@ -357,8 +358,16 @@ function localizeDocument(source, page, code) {
   html = setMeta(html, "property", "og:description", description);
   html = setMeta(html, "property", "og:url", canonical);
   html = setMeta(html, "property", "og:locale", ogLocale[code]);
+  html = setMeta(html, "property", "og:image", shareImage);
+  html = setMeta(html, "property", "og:image:secure_url", shareImage);
+  html = setMeta(html, "property", "og:image:type", "image/jpeg");
+  html = setMeta(html, "property", "og:image:width", "1200");
+  html = setMeta(html, "property", "og:image:height", "630");
+  html = setMeta(html, "property", "og:image:alt", translate(pack, "meta.shareImageAlt"));
   html = setMeta(html, "name", "twitter:title", title);
   html = setMeta(html, "name", "twitter:description", description);
+  html = setMeta(html, "name", "twitter:image", shareImage);
+  html = setMeta(html, "name", "twitter:image:alt", translate(pack, "meta.shareImageAlt"));
   html = setMeta(html, "name", "geo.region", "CH-ZH");
   html = setMeta(html, "name", "geo.placename", "Zürich");
   html = html.replace(/<link\b[^>]*\brel="canonical"[^>]*>/i, (tag) => setAttribute(tag, "href", canonical));
