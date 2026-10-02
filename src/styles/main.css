@@ -4034,7 +4034,6 @@ main > section {
   animation-duration: 23s;
 }
 
-.mobile-arrival__table,
 .mobile-arrival__home {
   stroke: rgba(255, 237, 199, .72);
   stroke-width: 2.2;
@@ -4047,7 +4046,7 @@ main > section {
 .mobile-arrival__signal {
   fill: #fff0b9;
   filter: drop-shadow(0 0 12px #eab958);
-  transform-origin: 254px 196px;
+  transform-origin: 199px 227px;
   animation: mobile-arrival-signal 3.8s ease-in-out infinite;
 }
 

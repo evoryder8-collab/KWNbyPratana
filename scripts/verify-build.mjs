@@ -63,6 +63,13 @@ for (const { code, name, short } of languages) {
     const output = localizedFile(code, file);
     const html = await readFile(output, "utf8");
     translatedPages += 1;
+    if (file === "index.html") {
+      const journey = html.match(/<div class="mobile-arrival__journey"[\s\S]*?<\/svg>/)?.[0] ?? "";
+      if (!journey.includes('class="mobile-arrival__logo"') || !journey.includes('href="/assets/kwiin-logo.png"')) {
+        fail(`${output}: homepage journey must retain Pratana's logo`);
+      }
+      if (journey.includes('class="mobile-arrival__table"')) fail(`${output}: table must not replace the homepage logo`);
+    }
 
     if (!html.includes(`<html lang="${code}"`)) fail(`${output}: incorrect html language`);
     if (!html.includes(`data-static-language="${code}"`)) fail(`${output}: missing static language marker`);
