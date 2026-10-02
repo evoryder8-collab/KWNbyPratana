@@ -1,5 +1,5 @@
 import { bookingTemplates, services, travelZones, WHATSAPP_NUMBER } from "../data/site.js";
-import { getLanguage, t } from "./i18n.js";
+import { getLanguage, isLanguageLoaded, t } from "./i18n.js";
 import { animateNumber } from "./numerals.js";
 
 const state = {
@@ -77,7 +77,8 @@ function updateCard(card, zone) {
   card.querySelectorAll("[data-price-row]").forEach((row) => {
     const minutes = Number(row.dataset.minutes);
     const basePrice = Number(row.dataset.basePrice);
-    const price = basePrice + zone.fee;
+    const addon = row.dataset.addon === "true";
+    const price = basePrice + (addon ? 0 : zone.fee);
     const priceElement = row.querySelector("[data-price-value]");
     const durationElement = row.querySelector("[data-duration-label]");
     const breakdown = row.querySelector("[data-price-breakdown]");
@@ -89,11 +90,11 @@ function updateCard(card, zone) {
       liftAmount(priceElement.closest(".price-list__amount"));
     }
     if (breakdown) {
-      breakdown.textContent = t("pricing.breakdown", { fee: zone.fee, distance: zone.distance });
+      breakdown.textContent = addon ? t("pricing.addon") : t("pricing.breakdown", { fee: zone.fee, distance: zone.distance });
     }
     row.setAttribute(
       "aria-label",
-      t("pricing.rowMobile", { minutes, price, fee: zone.fee, distance: zone.distance }),
+      t(addon ? "pricing.addonRow" : "pricing.rowMobile", { minutes, price, fee: zone.fee, distance: zone.distance }),
     );
   });
 
@@ -121,6 +122,12 @@ function updateGenericLinks() {
     const kind = link.dataset.whatsapp;
     if (localized[kind]) link.href = whatsappUrl(localized[kind]);
   });
+  // The build already supplies translated links. Preserve them while a
+  // language chunk loads, and if it fails on a slow/offline connection.
+  if (!isLanguageLoaded()) return;
+  document.querySelectorAll("[data-enquiry]").forEach((link) => {
+    link.href = whatsappUrl(t(link.dataset.enquiry));
+  });
 }
 
 export function initPricing() {
@@ -147,6 +154,6 @@ export function initPricing() {
     if (adoptRestoredZone()) updateAll();
   });
 
-  updateAll();
+  if (isLanguageLoaded()) updateAll();
   updateGenericLinks();
 }

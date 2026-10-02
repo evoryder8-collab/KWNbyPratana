@@ -71,6 +71,10 @@ export function getLanguage() {
   return currentLanguage;
 }
 
+export function isLanguageLoaded(language = currentLanguage) {
+  return Boolean(translations[language]);
+}
+
 function getPathLanguage() {
   const firstSegment = window.location.pathname.split("/").filter(Boolean)[0];
   return isLanguage(firstSegment) && firstSegment !== "de" ? firstSegment : "de";
@@ -188,6 +192,22 @@ export function setLanguage(language, { persist = true, announce = true } = {}) 
 
 function initMenus() {
   const menus = [...document.querySelectorAll("[data-language-menu]")];
+  const fitOpenMenus = () => {
+    menus.filter(menu => menu.open).forEach(menu => {
+      const panel = menu.querySelector(".language-menu__popover");
+      if (!panel) return;
+      const available = (window.visualViewport?.height ?? window.innerHeight) - panel.getBoundingClientRect().top - 16;
+      panel.style.setProperty("--menu-available-height", `${Math.max(100, available)}px`);
+    });
+  };
+  menus.forEach(menu => menu.addEventListener("toggle", () => {
+    if (menu.open) {
+      menus.filter(other => other !== menu).forEach(other => { other.open = false; });
+      requestAnimationFrame(fitOpenMenus);
+    }
+  }));
+  window.addEventListener("resize", fitOpenMenus, { passive: true });
+  window.addEventListener("scroll", fitOpenMenus, { passive: true });
 
   document.querySelectorAll("[data-language]").forEach((option) => {
     option.addEventListener("click", () => {
@@ -257,7 +277,8 @@ export function initI18n() {
   const initial = getPathLanguage();
   // Every language has its own crawlable URL. German is the default root and
   // the other seven routes are statically translated during the build.
-  setLanguage(initial, { persist: false, announce: false });
+  // Let pricing and enquiry controls refresh when a lazy language pack lands.
+  setLanguage(initial, { persist: false, announce: true });
   initMenus();
   initCyclingPrompt();
   window.__kwiinSetLanguage = (language) => setLanguage(language);

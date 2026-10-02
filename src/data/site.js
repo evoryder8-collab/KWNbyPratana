@@ -23,6 +23,9 @@ export const navItems = [
   { key: "nav.mobile", label: "Mobile Spa", href: "mobile-spa/" },
   { key: "nav.services", label: "Behandlungen", href: "services/" },
   { key: "nav.about", label: "Über KWIIN", href: "about/" },
+  { key: "nav.international", label: "International", href: "international/" },
+  { key: "nav.courses", label: "Kurse", href: "courses/" },
+  { key: "nav.shop", label: "Shop", href: "shop/" },
   { key: "nav.contact", label: "Kontakt", href: "contact/" },
 ];
 
@@ -45,9 +48,17 @@ export const services = [
     knownFor: true,
     durations: [
       { minutes: 60, price: 165 },
-      { minutes: 90, price: 240 },
-      { minutes: 120, price: 295 },
+      { minutes: 90, price: 340 },
+      { minutes: 120, price: 400 },
     ],
+  },
+  {
+    id: "sleeping-kwiin", title: "Sleeping KWIIN", subtitle: "",
+    categoryKey: "service.sleeping.category", category: "Sanfte Entspannung",
+    taglineKey: "service.sleeping.tagline", tagline: "Zeit, zur Ruhe zu kommen.",
+    descriptionKey: "service.sleeping.description",
+    description: "Eine sanfte Massage mit ruhigen Bewegungen und leichtem Druck. Zum Abschalten, Entspannen und Ausruhen.",
+    durations: [{ minutes: 60, price: 190 }, { minutes: 90, price: 275 }, { minutes: 120, price: 360 }],
   },
   {
     id: "booster-muscles-sport",
@@ -62,8 +73,8 @@ export const services = [
     knownFor: false,
     durations: [
       { minutes: 60, price: 155 },
-      { minutes: 90, price: 225 },
-      { minutes: 120, price: 275 },
+      { minutes: 90, price: 290 },
+      { minutes: 120, price: 380 },
     ],
   },
   {
@@ -79,9 +90,18 @@ export const services = [
     knownFor: false,
     durations: [
       { minutes: 60, price: 150 },
-      { minutes: 90, price: 210 },
-      { minutes: 120, price: 265 },
+      { minutes: 90, price: 280 },
+      { minutes: 120, price: 370 },
     ],
+  },
+  {
+    id: "slim-essence", title: "Slim Essence", subtitle: "",
+    categoryKey: "service.slim.category", category: "Körperpflege",
+    taglineKey: "service.slim.tagline", tagline: "Gezielte Pflege für Ihre Haut.",
+    descriptionKey: "service.slim.description",
+    description: "Eine Körpermassage mit Fokus auf Bereiche mit Cellulite. Druck und Ablauf werden auf Sie abgestimmt.",
+    badgeKey: "pricing.bestSeller",
+    durations: [{ minutes: 60, price: 280 }, { minutes: 90, price: 410 }, { minutes: 120, price: 540 }],
   },
   {
     id: "back-serenity",
@@ -95,13 +115,14 @@ export const services = [
     description: "Eine fokussierte Behandlung für Verspannungen durch Stress, Arbeit am Schreibtisch oder körperliche Belastung.",
     knownFor: false,
     durations: [
-      { minutes: 30, price: 85 },
       { minutes: 60, price: 140 },
-      { minutes: 90, price: 195 },
+      { minutes: 90, price: 270 },
+      { minutes: 120, price: 350 },
     ],
   },
   {
     id: "crown-serenity-head",
+    addonMinutes: [30],
     title: "Crown Serenity",
     subtitle: "Head",
     categoryKey: "service.crown.category",
@@ -119,6 +140,7 @@ export const services = [
   },
   {
     id: "bata-flow-foot",
+    addonMinutes: [30],
     title: "Bata Flow",
     subtitle: "Foot",
     categoryKey: "service.bata.category",

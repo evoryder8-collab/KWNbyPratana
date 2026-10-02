@@ -1,4 +1,5 @@
 import "../styles/main.css";
+import "../styles/client-refinements.css";
 import { initI18n } from "./i18n.js";
 import { initNavigation } from "./navigation.js";
 import { initPricing } from "./pricing.js";

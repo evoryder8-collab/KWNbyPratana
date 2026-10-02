@@ -1,13 +1,13 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { languages, services, travelZones } from "../src/data/site.js";
+import { languages, services, travelZones, bookingTemplates, WHATSAPP_NUMBER } from "../src/data/site.js";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = resolve(root, "dist");
 const siteUrl = "https://kwiin.ch";
 const shareImage = `${siteUrl}/assets/og-kwiin-pratana-2026.jpg`;
-const buildDate = "2026-08-14";
+const buildDate = "2026-10-02";
 
 const pages = [
   { key: "home", file: "index.html", route: "/", nameKey: "common.tagline" },
@@ -15,6 +15,7 @@ const pages = [
   { key: "services", file: "services/index.html", route: "/services/", nameKey: "nav.services" },
   { key: "about", file: "about/index.html", route: "/about/", nameKey: "nav.about" },
   { key: "contact", file: "contact/index.html", route: "/contact/", nameKey: "nav.contact" },
+  ...["international", "courses", "shop", "terms"].map(key => ({ key, file: `${key}/index.html`, route: `/${key}/`, nameKey: `nav.${key}` })),
 ];
 
 const hreflang = {
@@ -149,6 +150,10 @@ function localizeLinks(html, code, currentPage) {
   return html.replace(/<a\b[^>]*>/gi, (tag) => {
     const hrefMatch = tag.match(/\shref=(['"])(.*?)\1/i);
     if (!hrefMatch) return tag;
+    const enquiryKey = tag.match(/\bdata-enquiry="([^"]+)"/)?.[1];
+    const whatsappKind = tag.match(/\bdata-whatsapp="([^"]+)"/)?.[1];
+    const message = enquiryKey ? packs[code][enquiryKey] : bookingTemplates[code]?.[whatsappKind];
+    if (message) return setAttribute(tag, "href", `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`);
     const targetLanguage = tag.match(/\bdata-language="([^"]+)"/i)?.[1];
     const href = targetLanguage
       ? languageRoute(targetLanguage, currentPage.route)
@@ -177,7 +182,7 @@ function serviceArea(pack) {
 }
 
 function allOffers(service) {
-  return service.durations.flatMap(({ minutes, price }) => travelZones.map(({ distance, fee }) => ({
+  return service.durations.filter(({minutes}) => !service.addonMinutes?.includes(minutes)).flatMap(({ minutes, price }) => travelZones.map(({ distance, fee }) => ({
     "@type": "Offer",
     name: `${service.title}${service.subtitle ? ` ${service.subtitle}` : ""}, ${minutes} min, up to ${distance} km`,
     price: String(price + fee),
@@ -186,6 +191,10 @@ function allOffers(service) {
     url: `${siteUrl}/services/`,
   })));
 }
+
+const standalonePrices = services.flatMap(service => allOffers(service)).map(offer => Number(offer.price));
+const lowestPrice = Math.min(...standalonePrices);
+const highestPrice = Math.max(...standalonePrices);
 
 function structuredData(page, code, pack) {
   const canonical = absoluteUrl(code, page.route);
@@ -206,7 +215,7 @@ function structuredData(page, code, pack) {
       description: translate(pack, "footer.description"),
       email: "health@kwiin.ch",
       telephone: "+41779669928",
-      priceRange: "CHF 130 to CHF 395",
+      priceRange: `CHF ${lowestPrice} to CHF ${highestPrice}`,
       areaServed: serviceArea(pack),
       founder: { "@id": personId },
       sameAs: ["https://www.instagram.com/kwiinspa/"],
@@ -272,10 +281,10 @@ function structuredData(page, code, pack) {
       areaServed: serviceArea(pack),
       offers: {
         "@type": "AggregateOffer",
-        lowPrice: "130",
-        highPrice: "395",
+        lowPrice: String(lowestPrice),
+        highPrice: String(highestPrice),
         priceCurrency: "CHF",
-        offerCount: "36",
+        offerCount: String(standalonePrices.length),
         url: absoluteUrl(code, "/services/"),
       },
     });

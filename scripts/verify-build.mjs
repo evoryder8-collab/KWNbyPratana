@@ -1,11 +1,12 @@
 import { access, readFile, readdir } from "node:fs/promises";
 import { join, resolve } from "node:path";
-import { languages } from "../src/data/site.js";
+import { languages, services } from "../src/data/site.js";
 
 const root = resolve(import.meta.dirname, "..");
 const dist = resolve(root, "dist");
-const routeFiles = ["index.html", "mobile-spa/index.html", "services/index.html", "about/index.html", "contact/index.html"];
-const pageRoutes = ["/", "/mobile-spa/", "/services/", "/about/", "/contact/"];
+const routeFiles = ["index.html", "mobile-spa/index.html", "services/index.html", "about/index.html", "contact/index.html", ...["international", "courses", "shop", "terms"].map(page => `${page}/index.html`)];
+const pageRoutes = routeFiles.map(file => `/${file.replace("index.html", "")}`);
+const expectedPages = routeFiles.length * languages.length;
 const packs = Object.fromEntries(await Promise.all(languages.map(async ({ code }) => [
   code,
   JSON.parse(await readFile(resolve(root, `src/data/locales/${code}.json`), "utf8")),
@@ -114,11 +115,16 @@ for (const { code, name, short } of languages) {
       await access(target);
       internalLinks += 1;
     }
+    for (const match of html.matchAll(/<a\b[^>]*data-enquiry="([^"]+)"[^>]*>/gi)) {
+      const href = match[0].match(/href="([^"]+)"/)?.[1];
+      const message = new URL(decodeHtml(href)).searchParams.get("text");
+      if (message !== pack[match[1]]) fail(`${output}: enquiry message is not localized`);
+    }
   }
 }
 
-if (translatedPages !== 40) fail(`Expected 40 localized pages, found ${translatedPages}`);
-if (schemaBlocks !== 40) fail(`Expected 40 JSON-LD blocks, found ${schemaBlocks}`);
+if (translatedPages !== expectedPages) fail(`Expected ${expectedPages} localized pages, found ${translatedPages}`);
+if (schemaBlocks !== expectedPages) fail(`Expected ${expectedPages} JSON-LD blocks, found ${schemaBlocks}`);
 
 const home = await readFile(resolve(dist, "index.html"), "utf8");
 if (!home.includes("class=\"mobile-arrival")) fail("Home page is missing the mobile-only arrival section");
@@ -127,11 +133,11 @@ if (/lotus-frame|lotus-petal/.test(home)) fail("Home portrait contains the retir
 const servicesPage = await readFile(resolve(dist, "services/index.html"), "utf8");
 if ([...servicesPage.matchAll(/data-zone-select/g)].length !== 1) fail("Treatments page must contain one global travel selector");
 if (!servicesPage.includes("data-global-price-mode=\"mobile\"")) fail("Treatments page is not locked to mobile pricing");
-if ([...servicesPage.matchAll(/class="treatment-card__logo"/g)].length !== 6) fail("Every treatment card must use the new KWIIN logo");
+if ([...servicesPage.matchAll(/class="treatment-card__logo"/g)].length !== services.length) fail("Every treatment card must use the new KWIIN logo");
 
 const sitemap = await readFile(resolve(dist, "sitemap.xml"), "utf8");
 const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-if (sitemapUrls.length !== 40 || new Set(sitemapUrls).size !== 40) fail("Sitemap must contain 40 unique canonical URLs");
+if (sitemapUrls.length !== expectedPages || new Set(sitemapUrls).size !== expectedPages) fail(`Sitemap must contain ${expectedPages} unique canonical URLs`);
 if (sitemapUrls.some((url) => url.includes("/studio/"))) fail("Retired studio route found in sitemap");
 
 const robots = await readFile(resolve(dist, "robots.txt"), "utf8");

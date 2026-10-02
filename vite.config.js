@@ -1,11 +1,13 @@
 import { defineConfig } from "vite";
 import { resolve } from "node:path";
 import { languages, navItems, services } from "./src/data/site.js";
+import { renderExpansionCards, renderExpansionPage, renderOfficeOffer } from "./src/data/expansion-pages.js";
+import de from "./src/data/locales/de.json" with { type: "json" };
 
 const base = "/";
 
 const brandMark = (className = "brand-mark") => `
-  <img class="${className}" src="/assets/kwiin-logo.png" alt="" width="768" height="768" aria-hidden="true" decoding="async">`;
+  <span class="${className}" aria-hidden="true"><img src="/assets/kwiin-logo.png" alt="" width="768" height="768" decoding="async"></span>`;
 
 const arrow = `
   <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -92,6 +94,7 @@ function renderFooter() {
         </div>
       </div>
       <div class="shell site-footer__legal">
+        <a href="/terms/" data-i18n="nav.terms">AGB &amp; Buchung</a>
         <p>© <span data-year>2026</span> Barbu Media Switzerland. <span data-i18n="common.rights">Alle Rechte vorbehalten.</span></p>
         <p data-i18n="common.brandLine">Danke, dass Sie sich Zeit für Ihre Gesundheit nehmen.</p>
       </div>
@@ -137,10 +140,9 @@ function renderServiceCard(service, index) {
   return `
     <article class="treatment-card${service.knownFor ? " treatment-card--signature" : ""}" data-service-card data-reactive data-service-id="${service.id}" data-price-context="mobile" data-reveal>
       <div class="treatment-card__atmosphere" aria-hidden="true"><span></span><span></span></div>
-      ${service.knownFor ? `<span class="treatment-card__ribbon" data-i18n="pricing.signature">Signature</span>` : ""}
       <header class="treatment-card__header">
-        <span class="treatment-card__number">${String(index + 1).padStart(2, "0")}</span>
-        <div>
+        <div class="treatment-card__identity"><span class="treatment-card__number">${String(index + 1).padStart(2, "0")}</span>${service.knownFor || service.badgeKey ? `<span class="treatment-card__badge" data-i18n="${service.badgeKey || "pricing.signature"}">${service.badgeKey ? "Bestseller" : "Signature"}</span>` : ""}</div>
+        <div class="treatment-card__heading">
           <p class="eyebrow eyebrow--bare" data-i18n="${service.categoryKey}">${service.category}</p>
           <h2>${service.title}${service.subtitle ? ` <em>${service.subtitle}</em>` : ""}</h2>
         </div>
@@ -150,17 +152,18 @@ function renderServiceCard(service, index) {
         <div class="treatment-card__story">
           <p class="treatment-card__tagline" data-i18n="${service.taglineKey}">${service.tagline}</p>
           <p class="treatment-card__copy" data-i18n="${service.descriptionKey}">${service.description}</p>
-          <span class="treatment-card__edition">KWIIN · LOTUS FLOW · ${String(index + 1).padStart(2, "0")}</span>
+          <span class="treatment-card__edition">KWIIN · ${String(index + 1).padStart(2, "0")}</span>
         </div>
         <div class="treatment-card__commerce">
           <ol class="price-list" aria-label="Preise" data-i18n-aria-label="pricing.listAria">
             ${service.durations.map(({ minutes, price }) => {
-              const shown = price + 45;
-              return `<li data-price-row data-minutes="${minutes}" data-base-price="${price}">
+              const addon = service.addonMinutes?.includes(minutes);
+              const shown = price + (addon ? 0 : 45);
+              return `<li data-price-row data-minutes="${minutes}" data-base-price="${price}"${addon ? ' data-addon="true"' : ""}>
                 <span class="price-list__duration" data-duration-label>${minutes} Min.</span>
                 <span class="price-list__rule" aria-hidden="true"></span>
                 <span class="price-list__amount"><small>CHF</small> <strong data-price-value>${shown}</strong></span>
-                <span class="price-list__breakdown" data-price-breakdown>(plus CHF 45 Anfahrt · bis 15 km)</span>
+                <span class="price-list__breakdown" data-price-breakdown data-i18n="${addon ? "pricing.addon" : "pricing.breakdown"}"${addon ? "" : ` data-i18n-params='{"fee":45,"distance":15}'`}>${addon ? de["pricing.addon"] : "(plus CHF 45 Anfahrt · bis 15 km)"}</span>
               </li>`;
             }).join("")}
           </ol>
@@ -188,7 +191,10 @@ const htmlPartials = {
       .replace("<!-- KWIIN_FOOTER -->", renderFooter())
       .replaceAll("<!-- KWIIN_LANGUAGE_SELECTOR -->", renderHeroLanguageSelector())
       .replaceAll("<!-- KWIIN_SERVICES:all -->", renderServices())
-      .replaceAll("<!-- KWIIN_SERVICES:mobile -->", renderServices());
+      .replaceAll("<!-- KWIIN_SERVICES:mobile -->", renderServices())
+      .replaceAll("<!-- KWIIN_OFFICE -->", renderOfficeOffer())
+      .replaceAll("<!-- KWIIN_EXPANSION -->", renderExpansionCards())
+      .replace(/<!-- KWIIN_PAGE:(international|courses|shop|terms) -->/g, (_, page) => renderExpansionPage(page));
   },
 };
 
@@ -204,6 +210,10 @@ export default defineConfig({
         services: resolve(import.meta.dirname, "services/index.html"),
         about: resolve(import.meta.dirname, "about/index.html"),
         contact: resolve(import.meta.dirname, "contact/index.html"),
+        international: resolve(import.meta.dirname, "international/index.html"),
+        courses: resolve(import.meta.dirname, "courses/index.html"),
+        shop: resolve(import.meta.dirname, "shop/index.html"),
+        terms: resolve(import.meta.dirname, "terms/index.html"),
       },
     },
   },

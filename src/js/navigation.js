@@ -3,6 +3,10 @@ const pageToPath = {
   services: "/services/",
   about: "/about/",
   contact: "/contact/",
+  international: "/international/",
+  courses: "/courses/",
+  shop: "/shop/",
+  terms: "/terms/",
 };
 
 export function initNavigation() {
